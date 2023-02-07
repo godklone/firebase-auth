@@ -4,27 +4,24 @@ import { useNavigationMachine } from '../machines/machine';
 
 export default function NavigatorMachine() {
   const [current, send] = useNavigationMachine()
-  const history = useNavigate();
+  const navigate = useNavigate();
 
+  const objNavigate = {
+    splash: ()=>navigate("/"),
+    signup: ()=>navigate("/signup"),
+    home: ()=>navigate("/home"),
+    profile: ()=>navigate("/profile"),
+  }
   useEffect(() => {
-   
-    switch (current.value) {
-      case 'splash':
-        history('/');
-        break;
-      case 'signup':
-        history('/signup');
-        break;
-      case 'home':
-        // history('/home');
-        break;
-      case 'profile':
-        // history('/profile');
-        break;
-      default:
-        break;
+    console.log(current.value)
+    // console.log(current.value)
+    if(!current.value) {
+      return;
     }
-  }, []);
+    console.log(current.value)
+    objNavigate[current.value]();
+      
+  }, [current.value]);
 
   return null;
 }

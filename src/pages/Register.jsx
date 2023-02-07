@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
@@ -73,28 +74,15 @@ const Register = () => {
         </div>
 
         <div className="flex w-full block flex-col mt-5 gap-4">
-          <p
-            className="text-muted text-right"><Link to="/forgoten-password">Olvide el password</Link></p>
           <button
-            onClick={handleLogin}
+            onClick={handleRegister}
             className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
           >
             Continuar
           </button>
-          {/* <button
-              onClick={handleRegister}
-              className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-            >
-              Registrarse
-            </button> */}
-          <button
-            onClick={handleGoogleSignin}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-          >
-            Ingresar con Google
-          </button>
+   
           <p>
-            Ya tenes una cuenta creada? Ingresar
+            Ya tenes una cuenta creada? <Link to="/login">Ingresar</Link>
           </p>
           <p>
             Al registra una cuenta, estás de acuerdo con nuestros Terminos de Servicios y Políticas de privacidad

@@ -8,6 +8,8 @@ module.exports = {
     extend: {
       width: {
         '128': '32rem',
+        '160': '50rem',
+
       }
     }
   },

@@ -1,24 +1,40 @@
 import { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import PasswordRestore from "../component/PasswordRestore";
+import Alert from "../component/Alert";
+import Modal from "../component/Modal";
+import { validEmail } from "../helpers";
+import useError from "../hooks/useError";
 
 const ForgotPasswd = () => {
   const emailRef = useRef();
-  const [restore, setRestore] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [animate, setAnimate] = useState(false)
+  const [alert, setAlert] = useError();
+
   let [searchParams, setSearchParams] = useSearchParams();
 
   const handleCancel = (e) => {
     e.preventDefault();
-   
-  };
-  const handleEvent = (e) => {
-    e.preventDefault(); 
-    setRestore(true)
   };
 
+  const handleEvent = (e) => {
+    e.preventDefault(); 
+
+    if(!validEmail.test(emailRef.current.value)){
+      setAlert(prevAlert=>({typeAlert:"error", message:"Please enter a valid email"}))
+      return;
+    }
+    setAlert({})
+    setViewModal(!viewModal);
+    setTimeout(() => {
+      setAnimate(true)
+    }, 500)
+  };
+
+
   return (
-    !restore
-      ? (<div
+    <div className={viewModal ? "fijar" : ""}>
+      <div
         className="flex justify-center flex-col py-10"
       >
         <div className="">
@@ -31,29 +47,25 @@ const ForgotPasswd = () => {
         <form
           className="bg-white mt-10 px-5 py-10 rounded-md shadow-md"
         >
+          {alert.message && <Alert typeAlert ={alert.typeAlert} message ={alert.message}/>}
           <div>
             <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
-              // value={email}
               ref={emailRef}
-              // onChange={e => setEmail(e.target.value)}
               placeholder="Email"
               className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
             />
-
           </div>
 
           <div className="flex w-full block flex-col mt-5 gap-4">
-
             <button
               onClick={handleEvent}
               className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
             >
               Recuperar
             </button>
-
             <button
               onClick={handleCancel}
               className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
@@ -62,8 +74,17 @@ const ForgotPasswd = () => {
             </button>
           </div>
         </form>
-      </div>)
-      : <PasswordRestore />
+      </div>
+      {viewModal &&
+        <Modal
+          setViewModal={setViewModal}
+          setAnimate={setAnimate}
+          animate={animate}
+        >
+        </Modal>
+      }
+      {/* <PasswordRestore /> */}
+    </div>
 
   )
 }

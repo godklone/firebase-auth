@@ -1,24 +1,33 @@
-import { useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Alert from "../component/Alert";
 import { useAuth } from "../context/AuthContext";
+import { validEmail } from "../helpers";
+import useError from "../hooks/useError";
+import { useNavigationMachine } from "../machines/machine";
 
 const Signup = () => {
-
+  const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [error, setError] = useState(null);
-  const { login, loginWithGoogle } = useAuth();
-  let [searchParams, setSearchParams] = useSearchParams();
-
-  console.log(searchParams.get("hook"))
+  const { login, loginWithGoogle} = useAuth();
+  const [current, send] = useNavigationMachine()
+  const [alert, setAlert] = useError();
 
   const handleLogin = async e => {
     e.preventDefault();
-    setError("");
+    
+    if(!validEmail.test(emailRef.current.value)){
+      setAlert(prevAlert=>({typeAlert:"error", message:"Please enter a valid email"}))
+      return;
+    }
+
     try {
       await login(emailRef.current.value, passwordRef.current.value);
+      send("home");
+      navigate("/home")
     } catch (error) {
-      setError(error.message);
+      setAlert(prevAlert=>({typeAlert:"error", message:error.message}))
     }
   };
 
@@ -27,15 +36,27 @@ const Signup = () => {
     e.preventDefault();
     try {
       await loginWithGoogle();
-      redirect("/login");
+      navigate("/home");
+ 
+      //determinar si el perfil de la cuenta esta asignada a
+      //si esta mostrar la pagina de 
+  
     } catch (error) {
-      setError(error.message);
+      setAlert(prevAlert=>({typeAlert:"error", message:error.message}))
     }
   };
 
+  const handleRegister = (e) => {
+    e.preventDefault();
+    navigate("register")
+    console.log("register ...")
+  }
+
+
+  
   return (
     <div
-      className="flex justify-center flex-col py-10"
+      className="flex justify-center flex-col py-5"
     >
       <div className="">
         <h2>Bienvenido</h2>
@@ -45,8 +66,9 @@ const Signup = () => {
       </div>
 
       <form
-        className="bg-white mt-10 px-5 py-10 rounded-md shadow-md"
+        className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"
       >
+         {alert.message && <Alert typeAlert ={alert.typeAlert} message ={alert.message}/>}
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -73,7 +95,7 @@ const Signup = () => {
         </div>
         <div className="flex w-full block flex-col mt-5 gap-4">
           <p
-          className="text-muted text-right"><Link to="/forgoten-password">Olvide el password</Link></p>
+            className="text-muted text-right"><Link to="forgoten-password">Olvide el password</Link></p>
           <button
             onClick={handleLogin}
             className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
@@ -99,10 +121,10 @@ const Signup = () => {
             Ingresar con Facebook
           </button>
           <button
-            onClick={handleGoogleSignin}
+            onClick={handleRegister}
             className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
           >
-           Crear una cuenta
+            Crear una cuenta
           </button>
         </div>
       </form>

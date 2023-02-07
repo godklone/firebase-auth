@@ -13,12 +13,18 @@ import {
 import { auth } from "../config/firebase";
 
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+  user: null,
+  isLoading: true,
+});
 
 export const AuthProvider = (props) => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
+  const [profileAssignment, setProfileAssignment] = useState(null);
+  const [webHook, setWebHook] = useState("");
+
 
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -35,7 +41,7 @@ export const AuthProvider = (props) => {
 
   const logout = () => {
     signOut(auth);
-    setUser({})
+    setUser(null)
   }
 
   const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
@@ -43,32 +49,61 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(currentUser)
-      setLoading(false);
+      setIsLoading(false);
     });
     return () => unsubuscribe();
-  }, []);
+  }, [auth._id]);
 
   useEffect(() => {
     if (!user) {
       return;
     }
     setToken(user.accessToken)
+  }, [user])
 
+  useEffect(() => {
+    const verifyLogin = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setIsLoading(false);
+        return;
+      };
+      try {
+        //Verificar contra el backend tooken guardado
+        navigate("/")
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    }
+    verifyLogin();
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    const isProfileAssignment = async (e) => {
+      // hacer fetch
+      setProfileAssignment(false);
+    }
+    isProfileAssignment();
   }, [user])
 
 
-
   const value = useMemo(() => ({
-    loading,
+    isLoading,
     signup,
     login,
     loginWithGoogle,
     logout,
     resetPassword,
-    user, 
-    token
-  }), [auth._id, loading, token]);
+    user,
+    token,
+    profileAssignment,
+    webHook, 
+    setWebHook
+  }), [auth, isLoading, token, profileAssignment, webHook]);
 
   return (<AuthContext.Provider value={value} {...props} />);
 }

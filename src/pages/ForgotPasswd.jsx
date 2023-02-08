@@ -38,8 +38,8 @@ const ForgotPasswd = () => {
         className="flex justify-center flex-col py-10"
       >
         <div className="">
-          <h2>Recuperar Password</h2>
-          <p>
+          <h2 className="text-2xl font-bold mb-6">Recuperar Password</h2>
+          <p className="text-gray-800 text-xl mb-8">
             No te acordas del password?, no te preocupes te vamos a enviar un email con un link para que lo puedas resetear.
           </p>
         </div>

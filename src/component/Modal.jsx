@@ -28,8 +28,8 @@ const Modal = ({
         className="bg-white grid justify-center m-auto w-160 gap-5 my-52 p-10 rounded-md "
       >
         <div className="">
-          <h2> Password Recuperado</h2>
-          <p>
+          <h2 className="text-2xl font-bold mb-6"> Password Recuperado</h2>
+          <p className="text-gray-800 text-xl mb-8">
             Ya te hemos enviado el email. Una vez que completes el proceso de recuperación de clave, puedes volver a ingresar en la app.</p>
         </div>
 

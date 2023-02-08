@@ -60,7 +60,7 @@ const Signup = () => {
     >
       <div className="">
         <h2>Bienvenido</h2>
-        <p>
+        <p className="text-gray-800 text-xl mb-8">
           Club Siempre Beneficios, si tienes una cuenta puedes Ingresar, o puedes crear una nueva cuenta. También puedes acceder con las redes sociales
         </p>
       </div>

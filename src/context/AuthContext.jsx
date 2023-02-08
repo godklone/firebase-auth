@@ -23,6 +23,7 @@ export const AuthProvider = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
   const [profileAssignment, setProfileAssignment] = useState(null);
+  const [ affiliate, setAffiliate] = useState(false);
   const [webHook, setWebHook] = useState("");
 
 
@@ -102,8 +103,10 @@ export const AuthProvider = (props) => {
     token,
     profileAssignment,
     webHook, 
-    setWebHook
-  }), [auth, isLoading, token, profileAssignment, webHook]);
+    setWebHook,
+    affiliate, 
+    setAffiliate
+  }), [auth, isLoading, token, profileAssignment, webHook, affiliate]);
 
   return (<AuthContext.Provider value={value} {...props} />);
 }

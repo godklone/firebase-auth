@@ -8,8 +8,8 @@ const PasswordRestore = () => {
       className="flex justify-center flex-col py-10"
     >
       <div className="">
-        <h2> Password Recuperado</h2>
-        <p>
+        <h2 className="text-2xl font-bold mb-6"> Password Recuperado</h2>
+        <p className="text-gray-800 text-xl mb-8">
           Ya te hemos enviado el email. Una vez que completes el proceso de recuperación de clave, puedes volver a ingresar en la app.</p>
       </div>
 

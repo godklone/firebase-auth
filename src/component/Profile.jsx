@@ -1,12 +1,11 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AssociateCard = () => {
+const Profile = ({title, }) => {
   const navigate = useNavigate();
   const dniRef = useRef();
-  const credentialRef = useRef();
-  const codeRef = useRef();
-
+  const namesRef = useRef();
+  const lastNameRef = useRef();
 
   const handleConfirm = (e) => {
     e.preventDefault();
@@ -18,34 +17,34 @@ const AssociateCard = () => {
     navigate(-1)
     console.log("Cancelar accion")
   }
+
   return (
     <div
       className="flex justify-center flex-col py-10"
     >
-      <h2 className="text-2xl font-bold mb-6">Datos Personales</h2>
-      <p className="text-gray-800 text-xl mb-6"></p>
+      <h2 className="text-2xl font-bold mb-6">{title}</h2>
 
       <form
         className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"
       >
         {alert.message && <Alert typeAlert={alert.typeAlert} message={alert.message} />}
         <div>
-          <label htmlFor="credential">Nro Credencial</label>
+          <label htmlFor="credential">Nombres</label>
           <input
             type="text"
-            id="credential"
-            ref={credentialRef}
-            placeholder="Nro Credencial"
+            id="names"
+            ref={namesRef}
+            placeholder="Nombres"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />
         </div>
 
         <div>
-          <label htmlFor="code">Cod Seg</label>
+          <label htmlFor="lastName">Apellidos</label>
           <input
             type="text"
-            id="code"
-            ref={codeRef}
+            id="lasName"
+            ref={lastNameRef}
             placeholder="Cod Seg"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />
@@ -67,7 +66,7 @@ const AssociateCard = () => {
             onClick={handleConfirm}
             className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
           >
-            Confirmar
+            Continuar
           </button>
           <button
             onClick={handleCancel}
@@ -81,4 +80,4 @@ const AssociateCard = () => {
   )
 }
 
-export default AssociateCard
+export default Profile

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Profile from "../component/Profile";
 
-const AssociateTransitProfile = (props) => {
+const ContinueProfile = (props) => {
   const navigate = useNavigate();
   const dniRef = useRef();
   const namesRef = useRef();
@@ -20,8 +20,8 @@ const AssociateTransitProfile = (props) => {
   }
 
   return (
-    <Profile title={"Perfil en transito"} />
+    <Profile title={"Perfil de la Cuenta"} />
   )
 }
 
-export default AssociateTransitProfile
+export default ContinueProfile

@@ -29,7 +29,7 @@ const Register = () => {
     >
       <div className="">
         <h2>Crear Cuenta</h2>
-        <p>
+        <p className="text-gray-800 text-xl mb-8">
           Vamos a crear una cuenta con un email y clave. Estas serán tus credenciales para ingresar.
         </p>
       </div>
@@ -84,7 +84,7 @@ const Register = () => {
           <p>
             Ya tenes una cuenta creada? <Link to="/login">Ingresar</Link>
           </p>
-          <p>
+          <p className="text-gray-800 text-xl mb-8">
             Al registra una cuenta, estás de acuerdo con nuestros Terminos de Servicios y Políticas de privacidad
           </p>
         </div>

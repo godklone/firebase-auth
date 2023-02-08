@@ -12,7 +12,7 @@ const LastMovement = () => {
     <div
       className="flex justify-center flex-col py-10"
     >
-      <h2>Ultimos Movimientos</h2>
+      <h2 className="text-2xl font-bold mb-6">Ultimos Movimientos</h2>
      
       <div className="flex  mt-5 gap-4">
         <p>Listado aqui</p>

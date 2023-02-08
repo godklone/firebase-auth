@@ -41,7 +41,6 @@ const Splash = () => {
     return ()=>clearTimeout(idTimeOut);
   }, [token])
 
-
   return (
     <div>
       Splash ....

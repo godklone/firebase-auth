@@ -86,6 +86,7 @@ export const AuthProvider = (props) => {
     }
     const isProfileAssignment = async (e) => {
       // hacer fetch
+      
       setProfileAssignment(false);
     }
     isProfileAssignment();

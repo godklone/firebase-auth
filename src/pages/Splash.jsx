@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useNavigationMachine } from "../machines/machine";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Spinner from "../component/Spinner";
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -42,9 +43,7 @@ const Splash = () => {
   }, [token])
 
   return (
-    <div>
-      Splash ....
-    </div>
+   <Spinner />
   )
 }
 

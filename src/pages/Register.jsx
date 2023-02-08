@@ -1,27 +1,73 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Alert from "../component/Alert";
 import { useAuth } from "../context/AuthContext";
+import { validEmail, validPassword } from "../helpers";
+import useError from "../hooks/useError";
+import { useNavigationMachine } from "../machines/machine";
 
 const Register = () => {
-
   const emailRef = useRef();
   const passwordRef = useRef();
   const rePasswordRef = useRef();
+  const navigate = useNavigate();
 
+  const [current, send] = useNavigationMachine()
   const [error, setError] = useState(null);
-
   const { user, token, signup } = useAuth();
+  const [alert, setAlert, resetAlert] = useError();
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError("");
+    resetAlert();
+    if (!validEmail.test(emailRef.current.value)) {
+      setAlert(prevAlert => ({ typeAlert: "error", message: "Please enter a valid email" }))
+      return;
+    }
+
+    if (!validPassword.test(passwordRef.current.value)) {
+      setAlert(prevAlert => ({ typeAlert: "error", message: "el password debe contener letras mayusculas, minusculas y caracteres numericos. La longitud debe tener entre 6 a 15 caracteres. " }))
+      return;
+    }
+
     try {
       await signup(emailRef.current.value, passwordRef.current.value);
+      send("home");
+      navigate("/home")
     } catch (error) {
       setError(error.message);
     }
+    setError("");
   };
 
+  const verifyPasswd = () => {
+    if (!validPassword.test(passwordRef.current.value)) {
+      setAlert(prevAlert => (
+        {
+          typeAlert: "error",
+          message: "La contrasenia debe contener letras mayusculas, minusculas y caracteres numericos. La longitud debe tener entre 6 a 15 caracteres."
+        }))
+      return;
+    }
+  }
+
+  const verifyRePasswd = () => {
+    if (passwordRef !== rePasswordRef) {
+      setAlert(prevAlert => (
+        {
+          typeAlert: "error",
+          message: "Ambos password deben ser iguales"
+        }))
+      return;
+    }
+  }
+
+  const verifyEmail = () => {
+    if (!validEmail.test(emailRef.current.value)) {
+      setAlert(prevAlert => ({ typeAlert: "error", message: "Please enter a valid email" }))
+      return;
+    }
+  }
 
   return (
     <div
@@ -37,6 +83,7 @@ const Register = () => {
       <form
         className="bg-white mt-10 px-5 py-10 rounded-md shadow-md"
       >
+        {alert.message && <Alert typeAlert={alert.typeAlert} message={alert.message} />}
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -44,6 +91,7 @@ const Register = () => {
             id="email"
             // value={email}
             ref={emailRef}
+            onBlur={verifyEmail}
             // onChange={e => setEmail(e.target.value)}
             placeholder="Email"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
@@ -56,19 +104,20 @@ const Register = () => {
             type="password"
             id="password"
             ref={passwordRef}
+            onBlur={verifyPasswd}
             // onChange={e => setPassword(e.target.value)}
             placeholder="Contraseña"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />
         </div>
         <div className="">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="repassword">Verificar Password</label>
           <input
             type="password"
-            id="password"
+            id="repassword"
             ref={rePasswordRef}
-            // onChange={e => setPassword(e.target.value)}
-            placeholder="Contraseña"
+            onBlur={verifyRePasswd}
+            placeholder="Verifica tu Password"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />
         </div>
@@ -80,7 +129,7 @@ const Register = () => {
           >
             Continuar
           </button>
-   
+
           <p>
             Ya tenes una cuenta creada? <Link to="/login">Ingresar</Link>
           </p>

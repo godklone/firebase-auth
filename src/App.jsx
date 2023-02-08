@@ -29,7 +29,6 @@ function App() {
           <Route path="/" >
             <Route index element={<Splash />} />
           </Route>
-
           <Route path="/login" element={<AuthLayout />}>
             <Route index element={<Signup />} />
             <Route path='register' element={<Register />} />

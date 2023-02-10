@@ -7,13 +7,14 @@ import Spinner from "../component/Spinner";
 
 const Splash = () => {
   const navigate = useNavigate();
-  const { token, setWebHook } = useAuth();
+  const { token, setWebHook, logout } = useAuth();
   const [ current, send ] = useNavigationMachine();
   const [ searchParams, ] = useSearchParams();
   const { value: page } = current;
 
   useEffect(()=>{
     const webHook = searchParams.get("webhook");
+    logout()
     if(!webHook ){
       return;
     }

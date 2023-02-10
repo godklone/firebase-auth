@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../config/firebase";
+import { axiosClientLoyalty, config } from "../config/axiosClient";
 
 
 const AuthContext = createContext({
@@ -23,9 +24,8 @@ export const AuthProvider = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
   const [profileAssignment, setProfileAssignment] = useState(null);
-  const [ affiliate, setAffiliate] = useState(false);
+  const [affiliate, setAffiliate] = useState(false);
   const [webHook, setWebHook] = useState("");
-
 
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -42,7 +42,8 @@ export const AuthProvider = (props) => {
 
   const logout = () => {
     signOut(auth);
-    setUser(null)
+    setUser(null);
+    setToken(null);
   }
 
   const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
@@ -55,12 +56,14 @@ export const AuthProvider = (props) => {
     return () => unsubuscribe();
   }, [auth._id]);
 
+
   useEffect(() => {
     if (!user) {
       return;
     }
     setToken(user.accessToken)
   }, [user])
+
 
   useEffect(() => {
     const verifyLogin = async () => {
@@ -85,12 +88,18 @@ export const AuthProvider = (props) => {
       return;
     }
     const isProfileAssignment = async (e) => {
-      // hacer fetch
-      
-      setProfileAssignment(false);
+      try{
+        const { data } = await axiosClientLoyalty("/profile", config(token));
+        console.log(data);
+        setProfileAssignment(true);
+      }catch(error){
+        const {status}= error.response;
+        console.log(error.message);
+        setProfileAssignment(false);
+      }
     }
     isProfileAssignment();
-  }, [user])
+  }, [token])
 
 
   const value = useMemo(() => ({
@@ -103,9 +112,9 @@ export const AuthProvider = (props) => {
     user,
     token,
     profileAssignment,
-    webHook, 
+    webHook,
     setWebHook,
-    affiliate, 
+    affiliate,
     setAffiliate
   }), [auth, isLoading, token, profileAssignment, webHook, affiliate]);
 

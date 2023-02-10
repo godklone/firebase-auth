@@ -49,7 +49,7 @@ const Signup = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     navigate("register")
-    console.log("register ...")
+
   }
 
 

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
 import SideBar from "../component/SideBar"
 
-const AuthLayout = (props) => {
+const MainLayout = (props) => {
   return (
     <>
       <main className="container mx-auto mt-5 p-5 md:mt-10  justify-center flex md:items-center gap-6">
@@ -14,4 +14,4 @@ const AuthLayout = (props) => {
   )
 }
 
-export default AuthLayout
+export default MainLayout

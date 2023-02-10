@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Alert from "../component/Alert";
-import Modal from "../component/Modal";
+import Alert from "../components/Alert";
+import Modal from "../components/Modal";
 import { validEmail } from "../helpers";
 import useError from "../hooks/useError";
 

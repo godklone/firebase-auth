@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Alert from "../component/Alert";
+import Alert from "../components/Alert";
 import { useAuth } from "../context/AuthContext";
 import { validEmail } from "../helpers";
 import useError from "../hooks/useError";

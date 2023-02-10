@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Profile from "../component/Profile";
+import Profile from "../components/Profile";
 
 const ContinueProfile = (props) => {
   const navigate = useNavigate();

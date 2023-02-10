@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useNavigationMachine } from "../machines/machine";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Spinner from "../component/Spinner";
+import Spinner from "../components/Spinner";
 
 const Splash = () => {
   const navigate = useNavigate();

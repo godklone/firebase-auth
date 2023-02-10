@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
-import imageProfile from '../img/profile.png'
+import imageProfile from '../assets/img/profile.png'
 
 const StateAccount = () => {
   const { webHook } = useAuth();

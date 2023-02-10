@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNavigationMachine } from '../machines/machine';
 
+import css from "../assets/styles/components/modal.module.css";
+
 const Modal = ({
   children,
   setViewModal,
@@ -23,7 +25,7 @@ const Modal = ({
   }
 
   return (
-    <div className="modal">
+    <div className={css.modal}>
       <div
         className="bg-white grid justify-center m-auto w-160 gap-5 my-52 p-10 rounded-md "
       >

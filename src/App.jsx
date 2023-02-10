@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import NavigatorMachine from './component/NavigatorMachine';
+import NavigatorMachine from './components/NavigatorMachine';
 
 import Splash from './pages/Splash';
 import Signup from './pages/Signup';

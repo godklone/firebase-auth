@@ -10,24 +10,25 @@ const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, loginWithGoogle} = useAuth();
-  const [current, send] = useNavigationMachine()
+  const { login, loginWithGoogle, profileAssignment } = useAuth();
   const [alert, setAlert] = useError();
+  const [current, send] = useNavigationMachine()
 
   const handleLogin = async e => {
     e.preventDefault();
-    
-    if(!validEmail.test(emailRef.current.value)){
-      setAlert(prevAlert=>({typeAlert:"error", message:"Please enter a valid email"}))
+
+    if (!validEmail.test(emailRef.current.value)) {
+      setAlert(prevAlert => ({ typeAlert: "error", message: "Please enter a valid email" }))
       return;
     }
 
     try {
       await login(emailRef.current.value, passwordRef.current.value);
+
       send("home");
       navigate("/home")
     } catch (error) {
-      setAlert(prevAlert=>({typeAlert:"error", message:error.message}))
+      setAlert(prevAlert => ({ typeAlert: "error", message: error.message }))
     }
   };
 
@@ -36,13 +37,16 @@ const Signup = () => {
     e.preventDefault();
     try {
       await loginWithGoogle();
+      if (!profileAssignment) {
+        console.log("Mostrar popup para informar que el usuario no esta validado");
+        return;
+      }
       navigate("/home");
- 
       //determinar si el perfil de la cuenta esta asignada a
       //si esta mostrar la pagina de 
-  
+
     } catch (error) {
-      setAlert(prevAlert=>({typeAlert:"error", message:error.message}))
+      setAlert(prevAlert => ({ typeAlert: "error", message: error.message }))
     }
   };
 
@@ -53,7 +57,7 @@ const Signup = () => {
   }
 
 
-  
+
   return (
     <div
       className="flex justify-center flex-col py-5"
@@ -68,7 +72,7 @@ const Signup = () => {
       <form
         className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"
       >
-         {alert.message && <Alert typeAlert ={alert.typeAlert} message ={alert.message}/>}
+        {alert.message && <Alert typeAlert={alert.typeAlert} message={alert.message} />}
         <div>
           <label htmlFor="email">Email</label>
           <input

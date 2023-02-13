@@ -5,12 +5,12 @@ const axiosClientLoyalty= axios.create({
     baseURL:`${BASE_URL_LOYALTY}/loyalty/v1`
   })
 
-const config = (token, sucursalId, channel) => ({
+const config = (token, sucursalId = "1013312", channel="android") => ({
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
-    "sucursalId": "1013312",
-    "channel": "android"
+    "sucursalId": sucursalId,
+    "channel": channel
   }
 });
 export {

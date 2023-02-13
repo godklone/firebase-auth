@@ -7,42 +7,44 @@ import Spinner from "../components/Spinner";
 
 const Splash = () => {
   const navigate = useNavigate();
-  const { token, setWebHook, logout } = useAuth();
+  const { token, setWebHook, logout, setSplash, splash, affiliate } = useAuth();
   const [ current, send ] = useNavigationMachine();
   const [ searchParams, ] = useSearchParams();
   const { value: page } = current;
 
   useEffect(()=>{
     const webHook = searchParams.get("webhook");
-    logout()
     if(!webHook ){
+      // hago un logout para quitar el ultimo logueo del navegador actual
+      logout();
       return;
     }
+    setSplash(prev=>true)
     return ()=> setWebHook(webHook)
   } ,[])
 
-  const handleEstate = (e) => {
-    e.preventDefault();
-    send("HOME");
-  }
-  const handleEstate2 = (e) => {
-    e.preventDefault();
-    send("LOGOUT");
-  }
 
   useEffect(() => {
+    if(splash){
+      validate()
+      return;
+    }
+    
     const idTimeOut = setTimeout(() => {
-      if(token){
-        send("HOME")
-        navigate('/home');
-      }else{
-        send("SIGNUP")
-        navigate('login');
-      }
+      validate()
     }, 2500)
     return ()=>clearTimeout(idTimeOut);
-  }, [token])
+  }, [token, affiliate, splash])
 
+const validate = ()=>{
+  if(token && affiliate){
+    send("HOME")
+    navigate('/home');
+  }else{
+    send("SIGNUP")
+    navigate('login');
+  }
+}
   return (
    <Spinner />
   )

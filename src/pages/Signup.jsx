@@ -6,6 +6,7 @@ import { validEmail } from "../helpers";
 import useError from "../hooks/useError";
 import { useNavigationMachine } from "../machines/machine";
 
+import css from "../assets/styles/components/signup.module.scss"
 const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
@@ -24,7 +25,6 @@ const Signup = () => {
 
     try {
       await login(emailRef.current.value, passwordRef.current.value);
-
       send("home");
       navigate("/home")
     } catch (error) {
@@ -60,11 +60,11 @@ const Signup = () => {
 
   return (
     <div
-      className="flex justify-center flex-col py-5"
+      className={css.content}
     >
       <div className="">
-        <h2>Bienvenido</h2>
-        <p className="text-gray-800 text-xl mb-8">
+        <h2 className={css.heading}>Bienvenido</h2>
+        <p className={css.paragraph}>
           Club Siempre Beneficios, si tienes una cuenta puedes Ingresar, o puedes crear una nueva cuenta. También puedes acceder con las redes sociales
         </p>
       </div>
@@ -97,7 +97,7 @@ const Signup = () => {
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />
         </div>
-        <div className="flex w-full block flex-col mt-5 gap-4">
+        <div className={css.contentBtn}>
           <p
             className="text-muted text-right"><Link to="forgoten-password">Olvide el password</Link></p>
           <button
@@ -106,15 +106,10 @@ const Signup = () => {
           >
             Continuar
           </button>
-          {/* <button
-                onClick={handleRegister}
-                className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-              >
-                Registrarse
-              </button> */}
+         
           <button
             onClick={handleGoogleSignin}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
+            className={css.actionBtn}
           >
             Ingresar con Google
           </button>

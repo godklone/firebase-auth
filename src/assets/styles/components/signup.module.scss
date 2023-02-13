@@ -1,0 +1,41 @@
+.content {
+  display: flex;
+  flex-direction:column;
+  padding-top: 5rem;
+  justify-content: center;
+}
+.paragraph{
+  color: gray;
+  font-size:18px;
+  margin-bottom: 2rem;
+
+}
+
+.heading{
+  font-size:32px;
+  color: black;
+  padding-bottom: 2rem;
+}
+
+.actionBtn{
+  background-color:skyblue;
+  padding:1rem 2rem 1rem 2rem ;
+  color:white;
+  font-weight: 700;
+  border: none;
+  border-radius: .5rem;
+  transition: background-color .5s;
+}
+
+.actionBtn:hover{
+  background-color:blue;
+}
+
+.contentBtn{
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top:5rem;
+  width: 100%;
+
+}

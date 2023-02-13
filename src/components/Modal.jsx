@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNavigationMachine } from '../machines/machine';
 
-import css from "../assets/styles/components/modal.module.css";
+import css from "../assets/styles/components/modal.module.scss";
 
 const Modal = ({
   children,

@@ -1,4 +1,4 @@
-import css from "../assets/styles/components/spinner.module.css";
+import css from "../assets/styles/components/spinner.module.scss";
 const Spinner = () => {
   return (
     <div className="flex justify-center h-screen items-center">

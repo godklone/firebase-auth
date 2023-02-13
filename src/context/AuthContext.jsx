@@ -25,6 +25,7 @@ export const AuthProvider = (props) => {
   const [token, setToken] = useState("");
   const [profileAssignment, setProfileAssignment] = useState(null);
   const [affiliate, setAffiliate] = useState(false);
+  const [splash, setSplash] = useState(false)
   const [webHook, setWebHook] = useState("");
 
   const signup = (email, password) => {
@@ -88,13 +89,13 @@ export const AuthProvider = (props) => {
       return;
     }
     const isProfileAssignment = async (e) => {
-      try{
+      try {
         const { data } = await axiosClientLoyalty("/profile", config(token));
         console.log(data);
         setProfileAssignment(true);
-      }catch(error){
-        const {status}= error.response;
-        console.log(error.message);
+      } catch (error) {
+        const { status } = error?.response;
+        console.log(error?.message);
         setProfileAssignment(false);
       }
     }
@@ -115,8 +116,10 @@ export const AuthProvider = (props) => {
     webHook,
     setWebHook,
     affiliate,
-    setAffiliate
-  }), [auth, isLoading, token, profileAssignment, webHook, affiliate]);
+    setAffiliate,
+    splash,
+    setSplash
+  }), [splash, auth, isLoading, token, profileAssignment, webHook, affiliate]);
 
   return (<AuthContext.Provider value={value} {...props} />);
 }

@@ -1,0 +1,21 @@
+// <main className="container mx-auto mt-5 p-5 md:mt-10  justify-center flex md:items-center gap-6">
+
+.container{
+  display:flex;
+  gap:5rem;
+  margin: 0 auto;
+  margin-top: 4rem;
+  padding: 4rem;
+  justify-items: center;
+}
+
+@media (min-width: 768px){
+  .container{
+    display:flex;
+    gap:5rem;
+    margin: 0 auto;
+    margin-top: 8rem;
+    padding: 4rem;
+    align-items: center;
+  }
+}

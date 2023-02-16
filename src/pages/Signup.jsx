@@ -6,7 +6,7 @@ import { validEmail } from "../helpers";
 import useError from "../hooks/useError";
 import { useNavigationMachine } from "../machines/machine";
 
-import css from "../assets/styles/components/signup.module.scss"
+import css from "../assets/styles/pages/signup.module.scss"
 const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();

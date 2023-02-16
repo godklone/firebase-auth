@@ -17,6 +17,7 @@ const Splash = () => {
     if(!webHook ){
       // hago un logout para quitar el ultimo logueo del navegador actual
       logout();
+      navigate('/404');
       return;
     }
     setSplash(prev=>true)

@@ -6,7 +6,7 @@ const MainLayout = (props) => {
     <>
       <main className={css.container}>
         <SideBar />
-        <div className="w-[32rem]">
+        <div className={css.innerContent}>
           <Outlet />
         </div>
       </main>

@@ -1,15 +1,19 @@
 // <main className="container mx-auto mt-5 p-5 md:mt-10  justify-center flex md:items-center gap-6">
 
-.container{
-  display:flex;
-  gap:5rem;
-  margin-top: 4rem;
-  padding: 4rem;
+.container {
+  display: flex;
+  gap: 5rem;
   justify-content: center;
+
 }
 
-@media (min-width: 768px){
-  .container{
+.innerContent {
+  width: 35rem;
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .container {
     align-items: center;
   }
 }

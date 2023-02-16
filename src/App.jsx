@@ -6,11 +6,12 @@ import Splash from './pages/Splash';
 import MainLayout from './layout/MainLayout';
 import PublicRoutes from './pages/PublicRoutes';
 import PrivateRoutes from './pages/PrivateRoutes';
+import NotFound from './pages/NotFound';
 
 function App() {
-  const { splash } = useAuth();
+  const { splash, webHook } = useAuth();
   // que deberia hacer si no existeste un webHook hacia la pagina
-  console.log("splash", splash)
+  console.log("webhook", webHook)
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -22,8 +23,9 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path="/login/*" element={<PublicRoutes />} />
               <Route path="/home/*" element={<PrivateRoutes />} />
-              <Route path="*" element={<Navigate to="/login" />} />
             </Route>
+
+            <Route path="*" element={<NotFound />} />
 
           </Route>
         </Routes>

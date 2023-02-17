@@ -11,9 +11,7 @@ const NotFound = () => {
         width="300px"
         height="200px"
       />
-      <p style={{ textAlign: "center" }}>
-        <Link to="/">Salir del sitio </Link>
-      </p>
+      <p>Lo siento, la página que estás buscando no existe.</p>
     </div>
   )
 }

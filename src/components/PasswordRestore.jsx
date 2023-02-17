@@ -1,5 +1,12 @@
+import { useEffect } from "react";
 
 const PasswordRestore = () => {
+
+  useEffect(() => {
+    // chequear el estado del restore email
+    
+  }, [])
+  
   const handleEvent = (event) => {
     event.preventDefault();
   }

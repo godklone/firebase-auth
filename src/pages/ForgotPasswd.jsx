@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import { validEmail } from "../helpers";
@@ -10,16 +10,16 @@ const ForgotPasswd = () => {
   const [viewModal, setViewModal] = useState(false);
   const [animate, setAnimate] = useState(false)
   const [alert, setAlert] = useError();
-
+  const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
 
   const handleCancel = (e) => {
     e.preventDefault();
+    navigate(-1);
   };
 
-  const handleEvent = (e) => {
+  const handleRestoreEmail = (e) => {
     e.preventDefault(); 
-
     if(!validEmail.test(emailRef.current.value)){
       setAlert(prevAlert=>({typeAlert:"error", message:"Please enter a valid email"}))
       return;
@@ -61,7 +61,7 @@ const ForgotPasswd = () => {
 
           <div className="flex w-full block flex-col mt-5 gap-4">
             <button
-              onClick={handleEvent}
+              onClick={handleRestoreEmail}
               className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
             >
               Recuperar

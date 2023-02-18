@@ -1,0 +1,20 @@
+@import '../shared/general.scss';
+.sidebar {
+  background: linear-gradient(
+    0deg,
+    rgba(200, 198, 198, 0.5186449579831933) 0%,
+    rgba(0, 0, 0, 0.23573179271708689) 100%
+  );
+  width: 100%;
+  height: auto;
+  min-height: 9.375rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    margin: 0;
+    color: $gray;
+  }
+}

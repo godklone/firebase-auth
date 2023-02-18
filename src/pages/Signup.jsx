@@ -1,136 +1,122 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Alert from "../components/Alert";
-import { useAuth } from "../context/AuthContext";
-import { validEmail } from "../helpers";
-import useError from "../hooks/useError";
-import { useNavigationMachine } from "../machines/machine";
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigationMachine } from '../machines/machine';
+import { validEmail } from '../helpers';
+import Alert from '../components/Alert';
+import css from '../assets/styles/pages/signup.module.scss';
+import useError from '../hooks/useError';
 
-import css from "../assets/styles/pages/signup.module.scss"
 const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login, loginWithGoogle, profileAssignment } = useAuth();
   const [alert, setAlert] = useError();
-  const [current, send] = useNavigationMachine()
+  const [current, send] = useNavigationMachine();
 
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validEmail.test(emailRef.current.value)) {
-      setAlert(prevAlert => ({ typeAlert: "error", message: "Please enter a valid email" }))
+      setAlert((prevAlert) => ({
+        typeAlert: 'error',
+        message: 'Please enter a valid email',
+      }));
       return;
     }
 
     try {
       await login(emailRef.current.value, passwordRef.current.value);
-      send("home");
-      navigate("/home")
+      send('home');
+      navigate('/home');
     } catch (error) {
-      setAlert(prevAlert => ({ typeAlert: "error", message: error.message }))
+      setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
     }
   };
-
 
   const handleGoogleSignin = async (e) => {
     e.preventDefault();
     try {
       await loginWithGoogle();
       if (!profileAssignment) {
-        console.log("Mostrar popup para informar que el usuario no esta validado");
+        console.log(
+          'Mostrar popup para informar que el usuario no esta validado'
+        );
         return;
       }
-      navigate("/home");
+      navigate('/home');
       //determinar si el perfil de la cuenta esta asignada a
-      //si esta mostrar la pagina de 
-
+      //si esta mostrar la pagina de
     } catch (error) {
-      setAlert(prevAlert => ({ typeAlert: "error", message: error.message }))
+      setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
     }
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
-    navigate("register")
-
-  }
-
-
+    navigate('register');
+  };
 
   return (
-    <div
-      className={css.content}
-    >
-      <div className="">
-        <h2 className={css.heading}>Bienvenido</h2>
-        <p className={css.paragraph}>
-          Club Siempre Beneficios, si tienes una cuenta puedes Ingresar, o puedes crear una nueva cuenta. También puedes acceder con las redes sociales
-        </p>
-      </div>
+    <div className={css.content__signup}>
+      <h4 className={css.heading}>Bienvenido</h4>
 
-      <form
-        className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"
-      >
-        {alert.message && <Alert typeAlert={alert.typeAlert} message={alert.message} />}
-        <div>
-          <label htmlFor="email">Email</label>
+      <p className={css.paragraph}>
+        Club Siempre Beneficios, si tienes una cuenta puedes Ingresar, o puedes
+        crear una nueva cuenta. También puedes acceder con las redes sociales
+      </p>
+
+      <form autoComplete='off'>
+        {alert.message && (
+          <Alert typeAlert={alert.typeAlert} message={alert.message} />
+        )}
+        <div className='textfield'>
           <input
-            type="email"
-            id="email"
+            type='email'
+            id='email'
             // value={email}
             ref={emailRef}
             // onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
-            className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+            placeholder='Email'
           />
-
+          <label htmlFor='email'>Email</label>
         </div>
-        <div className="">
-          <label htmlFor="password">Password</label>
+        <div className='textfield'>
           <input
-            type="password"
-            id="password"
+            type='password'
+            id='password'
             ref={passwordRef}
             // onChange={e => setPassword(e.target.value)}
-            placeholder="Contraseña"
-            className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+            placeholder='Contraseña'
           />
+          <label htmlFor='password'>Password</label>
         </div>
+
+        <p className={css.forgoten_password}>
+          <Link to='forgoten-password'>Olvide el password</Link>
+        </p>
+
         <div className={css.contentBtn}>
-          <p
-            className="text-muted text-right"><Link to="forgoten-password">Olvide el password</Link></p>
-          <button
-            onClick={handleLogin}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-          >
+          <button onClick={handleLogin} className='btn__primary'>
             Continuar
           </button>
-         
-          <button
-            onClick={handleGoogleSignin}
-            className={css.actionBtn}
-          >
+
+          <button onClick={handleGoogleSignin} className='btn__google'>
             Ingresar con Google
           </button>
-          <button
-            onClick={handleGoogleSignin}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-          >
+
+          <button onClick={handleGoogleSignin} className='btn__facebook'>
             Ingresar con Facebook
           </button>
-          <button
-            onClick={handleRegister}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-          >
+
+          <button onClick={handleRegister} className='btn__secondary'>
             Crear una cuenta
           </button>
         </div>
       </form>
     </div>
+  );
+};
 
-
-  )
-}
-
-export default Signup
+export default Signup;

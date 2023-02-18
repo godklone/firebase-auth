@@ -1,42 +1,45 @@
-.content {
-  display: flex;
-  flex-direction:column;
-  padding-top: 5rem;
-  justify-content: center;
-  background: yellow;
-}
-.paragraph{
-  color: gray;
-  font-size:18px;
-  margin-bottom: 2rem;
+@import '../shared/general.scss';
 
-}
+.content__signup {
+  padding: 0.9375rem;
 
-.heading{
-  font-size:32px;
-  color: black;
-  padding-bottom: 2rem;
-}
+  @media (min-width: $tablet) {
+    padding: 1.5625rem;
+  }
 
-.actionBtn{
-  background-color:skyblue;
-  padding:1rem 2rem 1rem 2rem ;
-  color:white;
-  font-weight: 700;
-  border: none;
-  border-radius: .5rem;
-  transition: background-color .5s;
-}
+  .heading {
+    margin: 0 0 1.5rem;
+    font-weight: 500;
+    color: lighten($black, 30%);
+  }
 
-.actionBtn:hover{
-  background-color:blue;
-}
+  .paragraph {
+    color: lighten($black, 40%);
+    font-size: 0.875rem;
+    margin-top: 0;
+  }
 
-.contentBtn{
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  margin-top:5rem;
-  width: 100%;
+  .forgoten_password {
+    color: $gray;
 
+    a:hover {
+      color: $secondary;
+    }
+  }
+
+  .contentBtn {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      margin: 0.5rem 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }

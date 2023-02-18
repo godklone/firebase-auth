@@ -1,0 +1,50 @@
+@mixin btn {
+  cursor: pointer;
+  font-size: 0.9375rem;
+  padding: 0.625rem 1.25rem;
+  border: 0 solid;
+  border-radius: 0.25rem;
+}
+.btn {
+  @include btn;
+
+  &__primary {
+    @include btn;
+
+    background-color: $primary;
+    color: $white;
+
+    &:hover {
+      background-color: darken($primary, 10%);
+    }
+  }
+
+  &__secondary {
+    @include btn;
+
+    background-color: $secondary;
+    color: $white;
+
+    &:hover {
+      background-color: darken($secondary, 10%);
+    }
+  }
+
+  &__google {
+    background-color: $google;
+    @include btn;
+    color: $white;
+    &:hover {
+      background-color: darken($google, 10%);
+    }
+  }
+
+  &__facebook {
+    background-color: $facebook;
+    @include btn;
+    color: $white;
+    &:hover {
+      background-color: darken($facebook, 10%);
+    }
+  }
+}

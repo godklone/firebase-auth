@@ -1,0 +1,58 @@
+$color_1: $gray;
+$color_2: $secondary;
+$background-color_1: $white;
+$border-color_1: $secondary;
+$f: 1rem;
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  .textfield {
+    position: relative;
+    margin: $f 0 0;
+
+    label {
+      background-color: $background-color_1;
+      color: $color_1;
+      font-size: $f;
+      left: 0;
+      margin: 0 0.5rem;
+      padding: 0 0.3rem;
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      transform-origin: left top;
+      transform: translateY(-50%);
+      transition: 0.1s ease-out;
+    }
+
+    input {
+      font-size: $f;
+      outline: none;
+      border: 0.0625rem solid $color_1;
+      border-radius: 0.25rem;
+      padding: calc($f - 0.25rem) 0.625rem;
+      color: $color_1;
+      transition: 0.1s ease-out;
+      width: -webkit-fill-available;
+
+      &:focus {
+        border-color: $color_2;
+        color: inherit;
+      }
+      &:focus + label {
+        color: $color_2;
+        top: 0;
+        transform: translateY(-50%) scale(0.9);
+      }
+      &:not(:focus)::placeholder {
+        color: transparent;
+      }
+      &:not(:placeholder-shown) + label {
+        top: 0;
+        transform: translateY(-50%) scale(0.9);
+      }
+    }
+  }
+}

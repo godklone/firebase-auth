@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import {  useAuth } from './context/AuthContext';
 import NavigatorMachine from './components/NavigatorMachine';
 
 import Splash from './pages/Splash';
@@ -9,11 +9,11 @@ import PrivateRoutes from './pages/PrivateRoutes';
 import NotFound from './pages/NotFound';
 
 function App() {
-  const { splash, webHook } = useAuth();
+ 
+
   // que deberia hacer si no existeste un webHook hacia la pagina
-  console.log("webhook", webHook)
   return (
-    <AuthProvider>
+
       <BrowserRouter>
         {/* <NavigatorMachine /> */}
         <Routes>
@@ -30,7 +30,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter >
-    </AuthProvider>
+
   );
 }
 

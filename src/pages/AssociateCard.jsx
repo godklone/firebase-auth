@@ -23,7 +23,7 @@ const AssociateCard = () => {
       className="flex justify-center flex-col py-10"
     >
       <h2 className="text-2xl font-bold mb-6">Datos Personales</h2>
-      <p className="text-gray-800 text-xl mb-6"></p>
+      {/* <p className="text-gray-800 text-xl mb-6"></p> */}
 
       <form
         className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"

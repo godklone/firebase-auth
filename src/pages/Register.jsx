@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
 import { useAuth } from "../context/AuthContext";
@@ -6,16 +6,59 @@ import { validEmail, validPassword } from "../helpers";
 import useError from "../hooks/useError";
 import { useNavigationMachine } from "../machines/machine";
 
+import Swal from "sweetalert2";
+import withReactContent from 'sweetalert2-react-content'
+
+const ReactSwal = withReactContent(Swal);
+
+
+
 const Register = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const rePasswordRef = useRef();
   const navigate = useNavigate();
 
+  const swalDefaultConfig = {
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCloseButton: true,
+    showDenyButton: false,
+    showCancelButton: false,
+    confirmButtonText: 'Continuar',
+    denyButtonText: `Don't save`,
+  }
+
   const [current, send] = useNavigationMachine()
-  const [error, setError] = useState(null);
-  const { user, token, signup } = useAuth();
+  const [swallModal, setSwallModal] = useState(null);
+  const { signup, profileAssignment } = useAuth();
   const [alert, setAlert, resetAlert] = useError();
+
+  const showSwal = (newConfig = null) => {
+    const config = newConfig ? { ...swalDefaultConfig, ...newConfig } : swalDefaultConfig
+    ReactSwal.fire(config)
+      .then((result) => {
+
+        // {
+        //   "isConfirmed": false,
+        //   "isDenied": false,
+        //   "isDismissed": true,
+        //   "dismiss": "close"
+        // }
+
+        /* Read more about isConfirmed, isDenied below */
+        if (["close", "backdrop"].includes(result.dismiss) || result.isConfirmed) {
+          Swal.close()
+          navigate("/home");
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })
+
+  }
+
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -31,14 +74,21 @@ const Register = () => {
     }
 
     try {
-      await signup(emailRef.current.value, passwordRef.current.value);
+      const result = await signup(emailRef.current.value, passwordRef.current.value);
+      console.log(result)
       send("home");
-      navigate("/home")
-    } catch (error) {
-      setError(error.message);
+      // navigate("/home")
+    } catch (err) {
+      setSwallModal(err.message);
     }
-    setError("");
+    // setError("");
   };
+
+  useEffect(() => {
+    if (!profileAssignment) return;
+    //Mostrar mensaje para completar el registro
+    showSwal({title:"Revisa tu correo y valida tu cuenta.", icon: 'success',})
+  }, [profileAssignment])
 
   const verifyPasswd = () => {
     if (!validPassword.test(passwordRef.current.value)) {
@@ -89,10 +139,8 @@ const Register = () => {
           <input
             type="email"
             id="email"
-            // value={email}
             ref={emailRef}
             onBlur={verifyEmail}
-            // onChange={e => setEmail(e.target.value)}
             placeholder="Email"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />
@@ -105,7 +153,6 @@ const Register = () => {
             id="password"
             ref={passwordRef}
             onBlur={verifyPasswd}
-            // onChange={e => setPassword(e.target.value)}
             placeholder="Contraseña"
             className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
           />

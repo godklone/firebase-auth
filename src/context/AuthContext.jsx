@@ -23,7 +23,7 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
-  const [profileAssignment, setProfileAssignment] = useState(null);
+  const [profileAssignment, setProfileAssignment] = useState(0);
   const [affiliate, setAffiliate] = useState(false);
   const [splash, setSplash] = useState(false)
   const [webHook, setWebHook] = useState("");
@@ -88,15 +88,14 @@ export const AuthProvider = (props) => {
     if (!user) {
       return;
     }
+
     const isProfileAssignment = async (e) => {
       try {
         const { data } = await axiosClientLoyalty("/profile", config(token));
-        console.log(data);
-        setProfileAssignment(true);
+        setProfileAssignment(200);
       } catch (error) {
         const { status } = error?.response;
-        console.log(error?.message);
-        setProfileAssignment(false);
+        setProfileAssignment(status);
       }
     }
     isProfileAssignment();

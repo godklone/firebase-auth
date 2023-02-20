@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
+import { useAuth } from "../context/AuthContext";
 import { validEmail } from "../helpers";
 import useError from "../hooks/useError";
 
@@ -11,24 +12,34 @@ const ForgotPasswd = () => {
   const [animate, setAnimate] = useState(false)
   const [alert, setAlert] = useError();
   const navigate = useNavigate();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const {  resetPassword } = useAuth();
+  // let [searchParams, setSearchParams] = useSearchParams();
 
   const handleCancel = (e) => {
     e.preventDefault();
     navigate(-1);
   };
 
-  const handleRestoreEmail = (e) => {
+  const handleRestoreEmail = async (e) => {
     e.preventDefault(); 
     if(!validEmail.test(emailRef.current.value)){
       setAlert(prevAlert=>({typeAlert:"error", message:"Please enter a valid email"}))
       return;
     }
-    setAlert({})
-    setViewModal(!viewModal);
-    setTimeout(() => {
-      setAnimate(true)
-    }, 500)
+    try {
+      setAlert({})
+      
+      await resetPassword(emailRef.current.value);
+      setAlert(prevAlert=>({typeAlert:"success", message:"Checa tu bandeja de entrada y sigue las instrucciones"}))
+      setViewModal(!viewModal);
+      setTimeout(() => {
+        setAnimate(true)
+      }, 500)
+    } catch {
+      setAlert(prevAlert=>({typeAlert:"error", message:"Fallo al restaurar tu password"}))
+
+    }
+  
   };
 
 

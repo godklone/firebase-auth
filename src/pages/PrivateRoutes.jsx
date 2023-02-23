@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
  
   return (
     <Routes>
-      <Route index element={profileAssignment===200 ? <StateAccount /> : <CredentialAssign />} />
+      <Route index element={ profileAssignment === 200 ? <StateAccount /> : <CredentialAssign />} />
 
       <Route path="state-account">
         <Route path="personal-data" element={<PersonalData />} />
@@ -42,7 +42,7 @@ const PrivateRoutes = () => {
         />
         <Route path="state-account/last-movement" element={<LastMovement />} />
       </Route>
-              /************************************************************************/
+      /************************************************************************/
     </Routes>
   )
 }

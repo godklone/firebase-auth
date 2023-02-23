@@ -6,6 +6,7 @@ import { validEmail } from '../helpers';
 import Alert from '../components/Alert';
 import css from '../assets/styles/pages/signup.module.scss';
 import useError from '../hooks/useError';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -25,10 +26,19 @@ const Signup = () => {
       }));
       return;
     }
-
     try {
-      await login(emailRef.current.value, passwordRef.current.value);
+      
+      const newLogin = await login(emailRef.current.value, passwordRef.current.value);
       send('home');
+      await Swal.fire({
+        title: "Revisa tu correo y valida tu cuenta.",
+        text: "Body del mensaje emergente",
+        icon: 'warning',
+        showConfirmButton: true,
+        showCloseButton: true,
+        confirmButtonText: 'Continuar...'
+      });
+     
       navigate('/home');
     } catch (error) {
       setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));

@@ -7,47 +7,38 @@ import Spinner from "../components/Spinner";
 
 const Splash = () => {
   const navigate = useNavigate();
-  const { token, setWebHook, logout, setSplash, splash, affiliate } = useAuth();
-  const [ current, send ] = useNavigationMachine();
-  const [ searchParams, ] = useSearchParams();
+  const { token, setWebHook, logout, affiliate } = useAuth();
+  const [current, send] = useNavigationMachine();
+  const [searchParams,] = useSearchParams();
   const { value: page } = current;
 
-  useEffect(()=>{
-    const webHook = searchParams.get("webhook");
-    if(!webHook ){
-      // hago un logout para quitar el ultimo logueo del navegador actual
-      logout();
-      navigate('/404');
-      return;
-    }
-    setSplash(prev=>true)
-    return ()=> setWebHook(webHook)
-  } ,[])
-
-
   useEffect(() => {
-    if(splash){
-      validate()
-      return;
-    }
-    
+    const webhook = searchParams.get("webhook");
     const idTimeOut = setTimeout(() => {
-      validate()
+      validate(webhook)
     }, 2500)
-    return ()=>clearTimeout(idTimeOut);
-  }, [token, affiliate, splash])
+    return () => clearTimeout(idTimeOut);
+  }, [])
 
-const validate = ()=>{
-  if(token && affiliate){
-    send("HOME")
-    navigate('/home');
-  }else{
-    send("SIGNUP")
-    navigate('login');
+  const validate = (webhook) => {
+    if (!webhook) {
+      send("404");
+      logout();      
+      navigate('/404');
+    }
+
+    setWebHook(webhook)
+    if (token && affiliate) {
+      send("HOME")
+      navigate('/home');
+    } else {
+      send("SIGNUP")
+      navigate('login');
+    }
   }
-}
+
   return (
-   <Spinner />
+    <Spinner />
   )
 }
 

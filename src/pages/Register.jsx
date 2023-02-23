@@ -1,16 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Alert from "../components/Alert";
 import { useAuth } from "../context/AuthContext";
-import { validEmail, validPassword } from "../helpers";
+import { swalDefaultConfig, validEmail, validPassword } from "../helpers";
 import useError from "../hooks/useError";
 import { useNavigationMachine } from "../machines/machine";
-
-import Swal from "sweetalert2";
-import withReactContent from 'sweetalert2-react-content'
-
-const ReactSwal = withReactContent(Swal);
-
 
 
 const Register = () => {
@@ -19,46 +14,34 @@ const Register = () => {
   const rePasswordRef = useRef();
   const navigate = useNavigate();
 
-  const swalDefaultConfig = {
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCloseButton: true,
-    showDenyButton: false,
-    showCancelButton: false,
-    confirmButtonText: 'Continuar',
-    denyButtonText: `Don't save`,
-  }
-
   const [current, send] = useNavigationMachine()
-  const [swallModal, setSwallModal] = useState(null);
+
   const { signup, profileAssignment } = useAuth();
   const [alert, setAlert, resetAlert] = useError();
 
-  const showSwal = (newConfig = null) => {
-    const config = newConfig ? { ...swalDefaultConfig, ...newConfig } : swalDefaultConfig
-    ReactSwal.fire(config)
-      .then((result) => {
+  // const showSwal = async (newCfg) => {
 
-        // {
-        //   "isConfirmed": false,
-        //   "isDenied": false,
-        //   "isDismissed": true,
-        //   "dismiss": "close"
-        // }
+  //   const cfg = newCfg ? { ...swalDefaultConfig, ...newCfg } : swalDefaultConfig;
+  //   console.log("cfg", cfg);
+  //   ReactSwal.fire(cfg)
+  //     .then((result) => {
+  //       // {
+  //       //   "isConfirmed": false,
+  //       //   "isDenied": false,
+  //       //   "isDismissed": true,
+  //       //   "dismiss": "close"
+  //       // }
 
-        /* Read more about isConfirmed, isDenied below */
-        if (["close", "backdrop"].includes(result.dismiss) || result.isConfirmed) {
-          Swal.close()
-          navigate("/home");
-        } else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
-        }
-      })
+  //       /* Read more about isConfirmed, isDenied below */
+  //       if (["close", "backdrop"].includes(result.dismiss) || result.isConfirmed) {
+  //         ReactSwal.close()
+  //         navigate("/home")
+  //       } else if (result.isDenied) {
+  //         ReactSwal.fire('Changes are not saved', '', 'info')
+  //       }
+  //     })
 
-  }
-
-
+  // }
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -75,20 +58,49 @@ const Register = () => {
 
     try {
       const result = await signup(emailRef.current.value, passwordRef.current.value);
-      console.log(result)
+      await Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        showConfirmButton: false,
+        timer: 2000,
+        showCloseButton: true,
+      });
+      await Swal.fire({
+        title: "Revisa tu correo y valida tu cuenta.",
+        text: "Body del mensaje emergente",
+        icon: 'warning',
+        showConfirmButton: true,
+        showCloseButton: true,
+        confirmButtonText: 'Continuar...'
+      });
+
       send("home");
-      // navigate("/home")
+      navigate("/home")
     } catch (err) {
-      setSwallModal(err.message);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text: err.message,
+        confirmButtonText: 'Entendido'
+      });
+
     }
     // setError("");
+
   };
 
-  useEffect(() => {
-    if (!profileAssignment) return;
-    //Mostrar mensaje para completar el registro
-    showSwal({title:"Revisa tu correo y valida tu cuenta.", icon: 'success',})
-  }, [profileAssignment])
+  // useEffect(() => {
+  //   if (!profileAssignment) return;
+  //   //Mostrar mensaje para completar el registro
+  //   const newCfg = {
+  //     title: "Revisa tu correo y valida tu cuenta.",
+  //     text: "Body del mensaje emergente",
+  //     icon: 'success',
+  //     confirmButtonText: 'Continuar...'
+  //   };
+
+  //   showSwal(newCfg)
+  // }, [profileAssignment])
 
   const verifyPasswd = () => {
     if (!validPassword.test(passwordRef.current.value)) {

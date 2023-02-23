@@ -12,11 +12,17 @@ import {
 
 import { auth } from "../config/firebase";
 import { axiosClientLoyalty, config } from "../config/axiosClient";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 
 const AuthContext = createContext({
   user: null,
   isLoading: true,
+  token: null,
+  affiliate:null,
+  webHook:null,
+  setAuth: () => {},
+  clearAuth: () => {},
 });
 
 export const AuthProvider = (props) => {
@@ -25,8 +31,19 @@ export const AuthProvider = (props) => {
   const [token, setToken] = useState("");
   const [profileAssignment, setProfileAssignment] = useState(0);
   const [affiliate, setAffiliate] = useState(false);
-  const [splash, setSplash] = useState(false)
-  const [webHook, setWebHook] = useState("");
+
+  const [webHook, setWebHook] = useState(null);
+  const navigate = useNavigate();
+
+  const setAuth = (user, token) => {
+    setUser(user);
+    setToken(token);
+  };
+
+  const clearAuth = () => {
+    setUser(null);
+    setToken(null);
+  };
 
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -55,7 +72,7 @@ export const AuthProvider = (props) => {
       setIsLoading(false);
     });
     return () => unsubuscribe();
-  }, [auth._id]);
+  }, [auth ]);
 
 
   useEffect(() => {
@@ -102,6 +119,7 @@ export const AuthProvider = (props) => {
   }, [token])
 
 
+
   const value = useMemo(() => ({
     isLoading,
     signup,
@@ -116,9 +134,8 @@ export const AuthProvider = (props) => {
     setWebHook,
     affiliate,
     setAffiliate,
-    splash,
-    setSplash
-  }), [splash, auth, isLoading, token, profileAssignment, webHook, affiliate]);
+    
+  }), [auth, isLoading, token, profileAssignment, webHook, affiliate]);
 
   return (<AuthContext.Provider value={value} {...props} />);
 }

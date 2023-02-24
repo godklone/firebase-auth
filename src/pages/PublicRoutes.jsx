@@ -7,8 +7,6 @@ import Signup from "./Signup"
 
 const PublicRoutes = () => {
   const { webHook } = useAuth();
-
-console.log(webHook)
   return (
     <Routes >
       {

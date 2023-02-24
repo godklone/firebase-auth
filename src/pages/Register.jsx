@@ -19,30 +19,6 @@ const Register = () => {
   const { signup, profileAssignment } = useAuth();
   const [alert, setAlert, resetAlert] = useError();
 
-  // const showSwal = async (newCfg) => {
-
-  //   const cfg = newCfg ? { ...swalDefaultConfig, ...newCfg } : swalDefaultConfig;
-  //   console.log("cfg", cfg);
-  //   ReactSwal.fire(cfg)
-  //     .then((result) => {
-  //       // {
-  //       //   "isConfirmed": false,
-  //       //   "isDenied": false,
-  //       //   "isDismissed": true,
-  //       //   "dismiss": "close"
-  //       // }
-
-  //       /* Read more about isConfirmed, isDenied below */
-  //       if (["close", "backdrop"].includes(result.dismiss) || result.isConfirmed) {
-  //         ReactSwal.close()
-  //         navigate("/home")
-  //       } else if (result.isDenied) {
-  //         ReactSwal.fire('Changes are not saved', '', 'info')
-  //       }
-  //     })
-
-  // }
-
   const handleRegister = async (e) => {
     e.preventDefault();
     resetAlert();
@@ -63,7 +39,6 @@ const Register = () => {
         title: 'Registro exitoso',
         showConfirmButton: false,
         timer: 2000,
-        showCloseButton: true,
       });
       await Swal.fire({
         title: "Revisa tu correo y valida tu cuenta.",

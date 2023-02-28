@@ -103,19 +103,18 @@ export const AuthProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!user | !webHook) {
+    if (!user ) {
       return;
     }
-
     profileDataLoader(user);
   }, [user])
 
   const profileDataLoader = async (user) => {
-    if (!user  || !webHook) {
+    if (!user ) {
       return;
     }
+    const token = await getToken(user);
 
-    const token = await getToken(user)
     try {
       const { data } = await axiosClientLoyalty("/profile", config(token))
       const mappedData = mapProfileData(data);

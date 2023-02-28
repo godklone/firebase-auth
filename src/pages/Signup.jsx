@@ -86,9 +86,7 @@ const Signup = () => {
       </p>
 
       <form autoComplete='off'>
-        {alert.message && (
-          <Alert typeAlert={alert.typeAlert} message={alert.message} />
-        )}
+        
         <div className='textfield'>
           <input
             type='email'
@@ -110,6 +108,9 @@ const Signup = () => {
           />
           <label htmlFor='password'>Password</label>
         </div>
+        {alert.message && (
+          <Alert typeAlert={alert.typeAlert} message={alert.message} />
+        )}
 
         <p className={css.forgoten_password}>
           <Link to='forgoten-password'>Olvide el password</Link>

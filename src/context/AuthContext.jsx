@@ -59,7 +59,7 @@ export const AuthProvider = (props) => {
   const logout = () => {
     signOut(auth);
     setUser(null);
-    setProfileAssignment(null)
+    // setProfileAssignment(null)
     setAffiliate(false)
     setFidelizationData(null)
   }
@@ -71,7 +71,6 @@ export const AuthProvider = (props) => {
     const token = await user.getIdToken();
     return token;
   };
-
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -122,10 +121,10 @@ export const AuthProvider = (props) => {
       setAffiliate(prevValue => true)
       setProfileAssignment(200);
     } catch (error) {
-      const { status } = error?.response;
-      setProfileAssignment(status);
+      // setProfileAssignment(error?.response.status || 209);
     }
   }
+
   const getPhotoUrl = () => {
     return user.photoURL || "src/assets/img/profile.png";
   }

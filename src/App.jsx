@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import NavigatorMachine from './components/NavigatorMachine';
 
@@ -11,7 +11,6 @@ import NotFound from './pages/NotFound';
 function App() {
 
   return (
-
     <BrowserRouter>
       <AuthProvider>
         <Routes>
@@ -22,13 +21,12 @@ function App() {
               <Route path="/login/*" element={<PublicRoutes />} />
               <Route path="/home/*" element={<PrivateRoutes />} />
             </Route>
-
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<Navigate to="/404" />} />
+            <Route path="/404" element={<NotFound />} />
           </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter >
-
 
   );
 }

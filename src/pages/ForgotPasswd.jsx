@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import { useAuth } from "../context/AuthContext";
@@ -30,16 +31,27 @@ const ForgotPasswd = () => {
       setAlert({})
       
       await resetPassword(emailRef.current.value);
-      setAlert(prevAlert=>({typeAlert:"success", message:"Checa tu bandeja de entrada y sigue las instrucciones"}))
-      setViewModal(!viewModal);
-      setTimeout(() => {
-        setAnimate(true)
-      }, 500)
-    } catch {
-      setAlert(prevAlert=>({typeAlert:"error", message:"Fallo al restaurar tu password"}))
-
+      await Swal.fire({
+        title: "Correo enviado de forma exitosa.",
+        text: "Revisa tu correo y sigue las instrucciones para completar el proceso.",
+        icon: 'success',
+        showConfirmButton: true,
+        showCloseButton: true,
+        confirmButtonText: 'Continuar...'
+      });
+      
+      // send("login");
+      navigate("/login")
+    
+    } catch (err){
+      await Swal.fire({
+        icon: 'error',
+        title: 'Se produjo un error an intentar restaurar tu password',
+        text: err.message,
+        confirmButtonText: 'Entendido'
+      });
     }
-  
+
   };
 
 

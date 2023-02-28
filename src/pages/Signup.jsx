@@ -12,9 +12,16 @@ const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, loginWithGoogle, profileAssignment } = useAuth();
+  const { login, loginWithGoogle, profileAssignment, affiliate, user } = useAuth();
   const [alert, setAlert] = useError();
   const [current, send] = useNavigationMachine();
+  console.log(affiliate, profileAssignment, user)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/home');
+    }
+  }, [user])
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,19 +34,20 @@ const Signup = () => {
       return;
     }
     try {
-      
-      const newLogin = await login(emailRef.current.value, passwordRef.current.value);
-      send('home');
-      await Swal.fire({
-        title: "Revisa tu correo y valida tu cuenta.",
-        text: "Body del mensaje emergente",
-        icon: 'warning',
-        showConfirmButton: true,
-        showCloseButton: true,
-        confirmButtonText: 'Continuar...'
-      });
-     
-      navigate('/home');
+
+      await login(emailRef.current.value, passwordRef.current.value);
+      // send('home');
+      // await  Swal.fire({
+      //   title: "Revisa tu correo y valida tu cuenta.",
+      //   text: "Body del mensaje emergente",
+      //   icon: 'warning',
+      //   showConfirmButton: true,
+      //   showCloseButton: true,
+      //   confirmButtonText: 'Continuar...'
+      // });
+      console.log(affiliate)
+
+
     } catch (error) {
       setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
     }

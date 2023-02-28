@@ -12,37 +12,35 @@ import {
 
 import { auth } from "../config/firebase";
 import { axiosClientLoyalty, config } from "../config/axiosClient";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { mapProfileData } from "../utils/MapProfileData";
 
 const AuthContext = createContext({
   user: null,
   isLoading: true,
-  token: null,
-  affiliate:null,
-  webHook:null,
-  setAuth: () => {},
-  clearAuth: () => {},
+  affiliate: null,
+  webHook: null,
+  setAuth: () => { },
+  clearAuth: () => { },
 });
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [token, setToken] = useState("");
+
   const [profileAssignment, setProfileAssignment] = useState(0);
   const [affiliate, setAffiliate] = useState(false);
+  const [fidelizationData, setFidelizationData] = useState(null);
 
   const [webHook, setWebHook] = useState(null);
   const navigate = useNavigate();
 
-  const setAuth = (user, token) => {
+  const setAuth = () => {
     setUser(user);
-    setToken(token);
   };
 
   const clearAuth = () => {
     setUser(null);
-    setToken(null);
   };
 
   const signup = (email, password) => {
@@ -61,26 +59,28 @@ export const AuthProvider = (props) => {
   const logout = () => {
     signOut(auth);
     setUser(null);
-    setToken(null);
+    setProfileAssignment(null)
+    setAffiliate(false)
+    setFidelizationData(null)
   }
 
   const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
 
+  const getToken = async (user) => {
+    if (!user) return null;
+    const token = await user.getIdToken();
+    return token;
+  };
+
+
   useEffect(() => {
-    const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(prevUser => currentUser);
       setIsLoading(false);
+      await profileDataLoader(currentUser);
     });
     return () => unsubuscribe();
-  }, [auth ]);
-
-
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-    setToken(user.accessToken)
-  }, [user])
+  }, [auth]);
 
 
   useEffect(() => {
@@ -92,7 +92,8 @@ export const AuthProvider = (props) => {
       };
       try {
         //Verificar contra el backend tooken guardado
-        navigate("/")
+        // navigate("/")
+        true;
       } catch (error) {
         console.log(error);
       }
@@ -102,23 +103,31 @@ export const AuthProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!user) {
+    if (!user | !webHook) {
       return;
     }
 
-    const isProfileAssignment = async (e) => {
-      try {
-        const { data } = await axiosClientLoyalty("/profile", config(token));
-        setProfileAssignment(200);
-      } catch (error) {
-        const { status } = error?.response;
-        setProfileAssignment(status);
-      }
+    profileDataLoader(user);
+  }, [user])
+
+  const profileDataLoader = async (user) => {
+    if (!user) return;
+
+    const token = await getToken(user)
+    try {
+      const { data } = await axiosClientLoyalty("/profile", config(token))
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
+      setAffiliate(prevValue => true)
+      setProfileAssignment(200);
+    } catch (error) {
+      const { status } = error?.response;
+      setProfileAssignment(status);
     }
-    isProfileAssignment();
-  }, [token])
-
-
+  }
+  const getPhotoUrl = () => {
+    return user.photoURL || "src/assets/img/profile.png";
+  }
 
   const value = useMemo(() => ({
     isLoading,
@@ -128,15 +137,13 @@ export const AuthProvider = (props) => {
     logout,
     resetPassword,
     user,
-    token,
     profileAssignment,
+    fidelizationData,
     webHook,
     setWebHook,
     affiliate,
-    setAffiliate,
-    
-  }), [auth, isLoading, token, profileAssignment, webHook, affiliate]);
-
+    getPhotoUrl
+  }), [auth, isLoading, profileAssignment, webHook, affiliate, fidelizationData]);
   return (<AuthContext.Provider value={value} {...props} />);
 }
 

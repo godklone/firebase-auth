@@ -10,18 +10,18 @@ import PersonalData from "./PersonalData";
 import StateAccount from "./StateAccount";
 
 const PrivateRoutes = () => {
-  const { user, isLoading, profileAssignment, affiliate, token } = useAuth();
+  const { user, isLoading, profileAssignment, affiliate, fidelizationData } = useAuth();
   const navigate = useNavigate();
-  useEffect(()=>{
+  useEffect(() => {
     if (!user) {
       navigate("/");
     }
-  },
-  [])
- 
+  }, [])
+
+
   return (
     <Routes>
-      <Route index element={ profileAssignment === 200 ? <StateAccount /> : <CredentialAssign />} />
+      <Route index element={ fidelizationData ? <StateAccount /> : <CredentialAssign />} />
 
       <Route path="state-account">
         <Route path="personal-data" element={<PersonalData />} />

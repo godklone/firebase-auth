@@ -4,20 +4,20 @@ import { useAuth } from "../context/AuthContext";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  const { setAffiliate } = useAuth();
+  // const { setAffiliate } = useAuth();
   const dniRef = useRef();
   const credentialRef = useRef();
   const codeRef = useRef();
 
   const handleConfirm = (e) => {
     e.preventDefault();
-    console.log("Confirmando datos")
-    navigate("continue-profile")
+    console.log("Confirmando datos");
+    navigate("continue-profile");
   }
 
   const handleCancel = (e) => {
     e.preventDefault();
-    navigate(-1)
+    navigate(-1);
     console.log("Cancelar accion")
   }
 
@@ -25,7 +25,7 @@ const AssociateCardData = () => {
     e.preventDefault();
     //cambiar el state de un perdil de cuenta en transito para diferenciar 
     //de nuevo usuario y existente
-    setAffiliate(true);
+    // setAffiliate(true);
     navigate("associate-transit-data");
   }
   return (

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
-
+import css from '../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
   const { fidelizationData, webHook, getPhotoUrl } = useAuth();
@@ -26,7 +26,7 @@ const StateAccount = () => {
 
   return (
     <div
-      className="flex justify-center flex-col py-10"
+      className={css.content__account}
     >
       <div className="flex justify-end mb-4">
         <a
@@ -36,37 +36,37 @@ const StateAccount = () => {
         </a>
       </div>
 
-      <div className="flex gap-3 items-center">
+      <div className={css.avatar}>
         <img
+          
           src={getPhotoUrl()}
           alt="imagen del profile"
-          width="100px"
-          height="100px"
         />
-        <label>
+
+        <h6>
           {fullName}
-        </label>
+        </h6>
       </div>
 
-      <div className="flex mt-5 gap-4  flex-col">
-        <div className="border-b-2 border-gray-300 flex justify-between">
+      <div className={css.points}>
+        <div className={css.acumulate}>
           <p className="px-4">Puntos acumulados</p>
           <p className="px-4">{accumulatedPoints}</p>
         </div>
-        <div className="border-b-2 border-gray-300 flex justify-between">
+        <div className={css.acumulate}>
           <p className="px-4">Puntos por vencer <br /><span>{expirationDate}</span></p>
           <p className="px-4">{expirationPoints}</p>
         </div>
 
       </div>
 
-      <div className="flex flex-col mt-5 bg-gray-500 text-white gap-2 rounded-md p-4 items-center">
+      <div className={css.credential}>
         <p className="font-bold text-xl">Credencial Siempre Beneficios</p>
         <p className="font-bold text-xl">{credencial.number}</p>
         <p className="font-bold text-lg">Código seguridad: {credencial.code}</p>
       </div>
 
-      <div className="flex w-full block flex-col mt-5 gap-4">
+      <div className={css.groupBtn}>
         <button
           onClick={handlePersonalData}
           className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"

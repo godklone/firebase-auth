@@ -111,7 +111,9 @@ export const AuthProvider = (props) => {
   }, [user])
 
   const profileDataLoader = async (user) => {
-    if (!user) return;
+    if (!user  || !webHook) {
+      return;
+    }
 
     const token = await getToken(user)
     try {

@@ -6,7 +6,7 @@ import { validEmail } from '../helpers';
 import Alert from '../components/Alert';
 import css from '../assets/styles/pages/signup.module.scss';
 import useError from '../hooks/useError';
-import Swal from 'sweetalert2';
+
 
 const Signup = () => {
   const navigate = useNavigate();

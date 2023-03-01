@@ -43,9 +43,16 @@
     }
 
     .content {
-      width: 100%;
-      padding-right: 1rem;
+      align-items: center;
+      display: flex;
+      height: auto;
       padding-left: 1rem;
+      padding-right: 1rem;
+      width: 100%;
+
+      @media (min-width: $laptop) {
+        height: 37.5rem;
+      }
     }
 
     @media (min-width: $laptop) {

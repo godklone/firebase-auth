@@ -4,24 +4,24 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigationMachine } from '../machines/machine';
 import { validEmail } from '../helpers';
 import Alert from '../components/Alert';
-import css from '../assets/styles/pages/signup.module.scss';
+import css from '../assets/styles/pages/loginFlow.module.scss';
 import useError from '../hooks/useError';
-
 
 const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, loginWithGoogle, profileAssignment, affiliate, user } = useAuth();
+  const { login, loginWithGoogle, profileAssignment, affiliate, user } =
+    useAuth();
   const [alert, setAlert] = useError();
   const [current, send] = useNavigationMachine();
-  console.log(affiliate, profileAssignment, user)
+  console.log(affiliate, profileAssignment, user);
 
   useEffect(() => {
     if (user) {
       navigate('/home');
     }
-  }, [user])
+  }, [user]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,7 +34,6 @@ const Signup = () => {
       return;
     }
     try {
-
       await login(emailRef.current.value, passwordRef.current.value);
       // send('home');
       // await  Swal.fire({
@@ -45,9 +44,7 @@ const Signup = () => {
       //   showCloseButton: true,
       //   confirmButtonText: 'Continuar...'
       // });
-      console.log(affiliate)
-
-
+      console.log(affiliate);
     } catch (error) {
       setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
     }
@@ -78,15 +75,14 @@ const Signup = () => {
 
   return (
     <div className={css.content__signup}>
-      <h4 className={css.heading}>Bienvenido</h4>
+      <h4 className='heading'>Bienvenido</h4>
 
-      <p className={css.paragraph}>
+      <p className='paragraph'>
         Club Siempre Beneficios, si tienes una cuenta puedes Ingresar, o puedes
         crear una nueva cuenta. También puedes acceder con las redes sociales
       </p>
 
       <form autoComplete='off'>
-        
         <div className='textfield'>
           <input
             type='email'

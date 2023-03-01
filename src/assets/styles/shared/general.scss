@@ -5,3 +5,11 @@
 @import 'button';
 
 $shadow: 0 0.625rem 2.125rem -0.9375rem rgba(0, 0, 0, 0.24);
+
+.content__general {
+  padding: 0.9375rem;
+
+  @media (min-width: $tablet) {
+    padding: 1.5625rem;
+  }
+}

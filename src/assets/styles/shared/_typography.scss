@@ -44,3 +44,15 @@ h6,
 .h6 {
   font-size: 1rem;
 }
+
+.heading {
+  margin: 0 0 1.5rem;
+  font-weight: 500;
+  color: lighten($black, 30%);
+}
+
+.paragraph {
+  color: lighten($black, 40%);
+  font-size: 0.875rem;
+  margin-top: 0;
+}

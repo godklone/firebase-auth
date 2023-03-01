@@ -1,0 +1,40 @@
+@import '../shared/general.scss';
+
+.content__forgot__passwd,
+.content__register,
+.content__signup {
+  @extend .content__general;
+
+  .forgoten_password {
+    color: $gray;
+
+    a:hover {
+      color: $secondary;
+    }
+  }
+
+  .login {
+    color: lighten($black, 40%);
+
+    &:hover {
+      color: $secondary;
+    }
+  }
+
+  .contentBtn {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+
+    button {
+      margin: 0.5rem 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

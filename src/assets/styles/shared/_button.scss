@@ -1,10 +1,12 @@
 @mixin btn {
+  border-radius: 0.25rem;
+  border: 0 solid;
   cursor: pointer;
   font-size: 0.9375rem;
+  font-weight: 500;
   padding: 0.625rem 1.25rem;
-  border: 0 solid;
-  border-radius: 0.25rem;
 }
+
 .btn {
   @include btn;
 
@@ -27,6 +29,18 @@
 
     &:hover {
       background-color: darken($secondary, 10%);
+    }
+  }
+
+  &__tertiary {
+    @include btn;
+
+    background-color: $white;
+    border: 0.0625rem solid $gray;
+    color: $black;
+
+    &:hover {
+      background-color: lighten($black, 90%);
     }
   }
 

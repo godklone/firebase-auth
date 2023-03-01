@@ -1,19 +1,20 @@
-import { useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import Swal from "sweetalert2";
-import Alert from "../components/Alert";
-import Modal from "../components/Modal";
-import { useAuth } from "../context/AuthContext";
-import { validEmail } from "../helpers";
-import useError from "../hooks/useError";
+import { useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import Alert from '../components/Alert';
+import Modal from '../components/Modal';
+import { useAuth } from '../context/AuthContext';
+import { validEmail } from '../helpers';
+import useError from '../hooks/useError';
+import css from '../assets/styles/pages/loginFlow.module.scss';
 
 const ForgotPasswd = () => {
   const emailRef = useRef();
   const [viewModal, setViewModal] = useState(false);
-  const [animate, setAnimate] = useState(false)
+  const [animate, setAnimate] = useState(false);
   const [alert, setAlert] = useError();
   const navigate = useNavigate();
-  const {  resetPassword } = useAuth();
+  const { resetPassword } = useAuth();
   // let [searchParams, setSearchParams] = useSearchParams();
 
   const handleCancel = (e) => {
@@ -22,94 +23,78 @@ const ForgotPasswd = () => {
   };
 
   const handleRestoreEmail = async (e) => {
-    e.preventDefault(); 
-    if(!validEmail.test(emailRef.current.value)){
-      setAlert(prevAlert=>({typeAlert:"error", message:"Please enter a valid email"}))
+    e.preventDefault();
+    if (!validEmail.test(emailRef.current.value)) {
+      setAlert((prevAlert) => ({
+        typeAlert: 'error',
+        message: 'Please enter a valid email',
+      }));
       return;
     }
     try {
-      setAlert({})
-      
+      setAlert({});
+
       await resetPassword(emailRef.current.value);
       await Swal.fire({
-        title: "Correo enviado de forma exitosa.",
-        text: "Revisa tu correo y sigue las instrucciones para completar el proceso.",
+        title: 'Correo enviado de forma exitosa.',
+        text: 'Revisa tu correo y sigue las instrucciones para completar el proceso.',
         icon: 'success',
         showConfirmButton: true,
         showCloseButton: true,
-        confirmButtonText: 'Continuar...'
+        confirmButtonText: 'Continuar...',
       });
-      
+
       // send("login");
-      navigate("/login")
-    
-    } catch (err){
+      navigate('/login');
+    } catch (err) {
       await Swal.fire({
         icon: 'error',
         title: 'Se produjo un error an intentar restaurar tu password',
         text: err.message,
-        confirmButtonText: 'Entendido'
+        confirmButtonText: 'Entendido',
       });
     }
-
   };
 
-
   return (
-    <div className={viewModal ? "fijar" : ""}>
-      <div
-        className="flex justify-center flex-col py-10"
-      >
-        <div className="">
-          <h2 className="text-2xl font-bold mb-6">Recuperar Password</h2>
-          <p className="text-gray-800 text-xl mb-8">
-            No te acordas del password?, no te preocupes te vamos a enviar un email con un link para que lo puedas resetear.
-          </p>
-        </div>
+    <div className={viewModal ? 'fijar' : ''}>
+      <div className={css.content__forgot__passwd}>
+        <h4 className='heading'>Recuperar Password</h4>
+        <p className='paragraph'>
+          No te acordas del password?, no te preocupes te vamos a enviar un
+          email con un link para que lo puedas resetear.
+        </p>
 
-        <form
-          className="bg-white mt-10 px-5 py-10 rounded-md shadow-md"
-        >
-          {alert.message && <Alert typeAlert ={alert.typeAlert} message ={alert.message}/>}
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              ref={emailRef}
-              placeholder="Email"
-              className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
-            />
+        <form autoComplete='off'>
+          {alert.message && (
+            <Alert typeAlert={alert.typeAlert} message={alert.message} />
+          )}
+          <div className='textfield'>
+            <input type='email' id='email' ref={emailRef} placeholder='Email' />
+            <label htmlFor='email'>Email</label>
           </div>
 
-          <div className="flex w-full block flex-col mt-5 gap-4">
-            <button
-              onClick={handleRestoreEmail}
-              className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-            >
+          <div className={css.contentBtn}>
+            <button onClick={handleRestoreEmail} className='btn__primary'>
               Recuperar
             </button>
-            <button
-              onClick={handleCancel}
-              className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
-            >
+            <button onClick={handleCancel} className='btn__tertiary'>
               Cancelar
             </button>
           </div>
         </form>
       </div>
-      {viewModal &&
+
+      {viewModal && (
         <Modal
           setViewModal={setViewModal}
           setAnimate={setAnimate}
           animate={animate}
-        >
-        </Modal>
-      }
+        ></Modal>
+      )}
       {/* <PasswordRestore /> */}
     </div>
+  );
+};
 
-  )
-}
-
-export default ForgotPasswd
+export default ForgotPasswd;

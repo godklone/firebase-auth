@@ -11,16 +11,16 @@ const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, loginWithGoogle, profileAssignment, affiliate, user } =
-    useAuth();
+  const { signIn, loginWithGoogle, profileAssignment, user } =useAuth();
   const [alert, setAlert] = useError();
   const [current, send] = useNavigationMachine();
-  console.log(affiliate, profileAssignment, user);
-
+  
   useEffect(() => {
+    console.log("Usuario logueado", user);
     if (user) {
       navigate('/home');
     }
+    // return ()=>navigate('/home');
   }, [user]);
 
   const handleLogin = async (e) => {
@@ -34,7 +34,7 @@ const Signup = () => {
       return;
     }
     try {
-      await login(emailRef.current.value, passwordRef.current.value);
+      const resp = await signIn(emailRef.current.value, passwordRef.current.value);
       // send('home');
       // await  Swal.fire({
       //   title: "Revisa tu correo y valida tu cuenta.",
@@ -44,7 +44,8 @@ const Signup = () => {
       //   showCloseButton: true,
       //   confirmButtonText: 'Continuar...'
       // });
-      console.log(affiliate);
+      // console.log(resp);
+      // navigate('/home');
     } catch (error) {
       setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
     }
@@ -87,9 +88,7 @@ const Signup = () => {
           <input
             type='email'
             id='email'
-            // value={email}
             ref={emailRef}
-            // onChange={e => setEmail(e.target.value)}
             placeholder='Email'
           />
           <label htmlFor='email'>Email</label>
@@ -99,7 +98,6 @@ const Signup = () => {
             type='password'
             id='password'
             ref={passwordRef}
-            // onChange={e => setPassword(e.target.value)}
             placeholder='Contraseña'
           />
           <label htmlFor='password'>Password</label>

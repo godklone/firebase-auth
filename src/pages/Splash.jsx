@@ -20,18 +20,18 @@ const Splash = () => {
     return () => clearTimeout(idTimeOut);
   }, [])
 
-  useEffect(() => {
-    const webhook = searchParams.get("webhook");
-    const idTimeOut = setTimeout(() => {
-      validate(webhook)
-    }, 2000)
-    return () => clearTimeout(idTimeOut);
-  }, [affiliate])
+  // useEffect(() => {
+  //   const webhook = searchParams.get("webhook");
+  //   const idTimeOut = setTimeout(() => {
+  //     validate(webhook)
+  //   }, 2000)
+  //   return () => clearTimeout(idTimeOut);
+  // }, [affiliate])
 
-  const validate = (webhook) => {
+  const validate = async (webhook) => {
     if (!webhook) {
       // send("404");
-      logout();      
+      await logout();      
       navigate('/404');
     }
 

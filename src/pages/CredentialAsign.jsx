@@ -4,17 +4,16 @@ import css from '../assets/styles/pages/credentialAsign.module.scss';
 
 const CredentialAssign = () => {
   const navigate = useNavigate();
-  const { setAffiliate } = useAuth();
+  const { user } = useAuth();
 
   const handleAfiliate = (e) => {
     e.preventDefault();
-    setAffiliate(false);
+    // setAffiliate(false);
     navigate('profile/associate-transit-data');
   };
 
   const handleCardAssign = (e) => {
     e.preventDefault();
-    console.log('associate-data');
     navigate('profile');
   };
   return (

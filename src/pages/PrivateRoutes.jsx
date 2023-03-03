@@ -3,7 +3,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import AssociateCardData from "./AssociateCardData";
 import AssociateTransitProfile from "./AssociateTransitProfile";
-import ContinueProfile from "./ContinueProfile";
+import UpdateProfile from "./UpdateProfile";
 import CredentialAssign from "./CredentialAsign";
 import LastMovement from "./LastMovement";
 import PersonalData from "./PersonalData";
@@ -34,8 +34,8 @@ const PrivateRoutes = () => {
         <Route path="associate-data/associate-transit-data"
           element={<AssociateTransitProfile affiliate={affiliate} />}
         />
-        <Route path="associate-data/continue-profile"
-          element={<ContinueProfile />}
+        <Route path="associate-data/update-profile"
+          element={<UpdateProfile />}
         />
         <Route path="associate-transit-data"
           element={<AssociateTransitProfile affiliate={affiliate} />}

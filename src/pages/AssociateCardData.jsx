@@ -1,18 +1,102 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { validNumber, validDniNumber } from "../helpers";
+import css from '../assets/styles/pages/profile.module.scss'
+import Alert from "../components/Alert";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  // const { setAffiliate } = useAuth();
+  const { profileDataUpdate } = useAuth();
   const dniRef = useRef();
   const credentialRef = useRef();
   const codeRef = useRef();
+  const [errors, setErrors] = useState({});
 
-  const handleConfirm = (e) => {
+  const minDniLen = import.meta.env.VITE_MIN_DNI_LEN || 7;
+  const maxDniLen = import.meta.env.VITE_MIN_DNI_LEN || 8;
+
+
+  const validate = {
+    dni: () => { },
+    code: () => { },
+    credential: () => { },
+  }
+  
+  const handleConfirm = async (e) => {
     e.preventDefault();
-    console.log("Confirmando datos");
-    navigate("continue-profile");
+    const newErrors = {};
+    const [dni, credential, code] = [
+      dniRef.current.value.trim(),
+      credentialRef.current.value.trim(),
+      codeRef.current.value.trim()
+    ]
+
+    if ([dni, credential, code].every(el => el === "")) {
+      newErrors.renderError = true;
+      setErrors(newErrors);
+      return;
+    }
+
+    const toValidate = { ...[dni, credential, code] }
+    console.log(toValidate)
+
+    if (dni.length <= minDniLen && dni.length >= maxDniLen) {
+      newErrors.dni = 'El Valor para el numero del DNI no es valido.';
+    }
+
+    if ([dniRef.current.value, credentialRef, codeRef].every(el => el === "")) {
+      newErrors.renderError = true;
+      return;
+    }
+
+    if (!dniRef.current.value.length >= minDniLen || dniRef.current.value <= maxDniLen) {
+      newErrors.dni = 'El Valor para el numero del dni no es valido.';
+    }
+    if (!credentialRef.current.value.length >= 5) {
+      newErrors.names = 'El Numero de credential no es valido';
+    }
+    if (!codeRef.current.value.length !== 3) {
+      newErrors.lastName = 'El codigo de segurida debe ser de 3 digitos';
+    }
+
+
+
+    // try {
+    //   const profile = {
+    //     transit: false,
+    //     dni: replaceDots(dniRef.current.value),
+    //     credential: credentialRef.current.value,
+    //     code: codeRef.current.value
+    //   };
+
+    //   const resp = await profileDataUpdate(profile)
+    //   console.log(resp)
+    // } catch (error) {
+    //   console.log(error)
+    // }
+
+    // navigate("update-profile");
+  }
+
+  const validateNumber = {
+    dni: (value) => validDniNumber(value, dniRef),
+    credential: (value) => validNumber(value, credentialRef),
+    code: (value) => validNumber(value, codeRef),
+  }
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    const { [id]: removedId, ...newErrors } = errors;
+    const valid = validateNumber[id](value)
+    console.log(id, value)
+    if (!valid) {
+      newErrors[id] = "error"
+      console.log(newErrors)
+    } else {
+
+    }
+    setErrors(newErrors)
   }
 
   const handleCancel = (e) => {
@@ -29,70 +113,81 @@ const AssociateCardData = () => {
     navigate("associate-transit-data");
   }
   return (
-    <div
-      className="flex justify-center flex-col py-10"
-    >
-      <h2 className="text-2xl font-bold mb-6">Perfil de la cuenta</h2>
-      <p className="text-gray-800 text-xl mb-6 leading-normal ">
-        Debes completar los datos de tu tarjeta Siempre Beneficios, con el número de credencial y código de seguridad. También puedes usar tu DNI.
-        En caso que seas un actual afiliado al plan de Beneficios Siempre, y no cuentas con tu credencial o tu DNI no corresponde a un perfil activo, puedes crear una perfil temporal, y luego presentandote en una sucursal puedes unificar los dos perfiles para recuperar todos los puntos
+    <div className='content__general'>
+      <h4 className='heading'>Vincular Perfil de la cuenta</h4>
+      <p className="paragraph">
+        Debes completar los datos de tu tarjeta Siempre Beneficios, con el número de credencial y código de seguridad.
+        También puedes usar tu DNI.
+        En caso que seas un actual afiliado al plan de Beneficios Siempre, y no cuentas con tu credencial o tu DNI no corresponde a un perfil activo,
+        puedes crear una perfil temporal, y luego presentandote en una sucursal puedes unificar los dos perfiles para recuperar todos los puntos.
       </p>
 
       <form
-        className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"
+        className=""
       >
-        {alert.message && <Alert typeAlert={alert.typeAlert} message={alert.message} />}
-        <div className="flex gap-4 mb-4">
-          <div className="w-3/4">
-            <label htmlFor="credential">Nro Credencial</label>
+
+        <div className="">
+          <div className='textfield'>
             <input
               type="text"
               id="credential"
               ref={credentialRef}
               placeholder="Nro Credencial"
-              className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+              onChange={handleInputChange}
+              className=""
+              maxlength="20" 
             />
+            <label htmlFor="credential">Nro Credencial</label>
           </div>
 
-          <div className="w-1/4">
-            <label htmlFor="code">Cod Seg</label>
+          <div className='textfield'>
             <input
               type="text"
               id="code"
               ref={codeRef}
               placeholder="Cod Seg"
-              className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+              onChange={handleInputChange}
+              className=""
+              maxlength="3" 
             />
+            <label htmlFor="code">Cod Seg</label>
+          </div>
+          <div className='textfield'>
+            <input
+              type="text"
+              id="dni"
+              ref={dniRef}
+              placeholder="DNI"
+              onChange={handleInputChange}
+              className=""
+              maxlength="11" 
+            />
+            <label htmlFor="dni">DNI</label>
           </div>
         </div>
-        <div>
-          <label htmlFor="dni">DNI</label>
-          <input
-            type="text"
-            id="dni"
-            ref={dniRef}
-            placeholder="DNI"
-            className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+        {errors?.renderError &&
+          <Alert
+            typeAlert="danger"
+            message="Puedes afiliar con tu numero de Credencial o tu DNI."
           />
-        </div>
+        }
 
-
-        <div className="flex w-full block flex-col mt-5 gap-4">
+        <div className={css.contentBtn}>
           <button
             onClick={handleConfirm}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
+            className="btn__primary"
           >
             Continuar
           </button>
           <button
             onClick={handleTransitProfile}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
+            className="btn__primary"
           >
             Crear un perfil en transito
           </button>
           <button
             onClick={handleCancel}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
+            className="btn__primary"
           >
             Cancelar
           </button>

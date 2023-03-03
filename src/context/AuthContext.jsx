@@ -29,7 +29,7 @@ export const AuthProvider = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [profileAssignment, setProfileAssignment] = useState(0);
-  const [affiliate, setAffiliate] = useState(false);
+  const [affiliate, setAffiliate] = useState(null);
   const [fidelizationData, setFidelizationData] = useState(null);
 
   const [webHook, setWebHook] = useState(null);
@@ -43,12 +43,33 @@ export const AuthProvider = (props) => {
     setUser(null);
   };
 
-  const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email, password) => {
+    try {
+      const resp = await createUserWithEmailAndPassword(auth, email, password);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
   };
 
-  const login = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
+  const signIn = async (email, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      setFidelizationData(null);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
   };
 
   const loginWithGoogle = () => {
@@ -56,15 +77,14 @@ export const AuthProvider = (props) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const logout = () => {
-    signOut(auth);
-    setUser(null);
-    // setProfileAssignment(null)
-    setAffiliate(false)
-    setFidelizationData(null)
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(email);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
   }
-
-  const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
 
   const getToken = async (user) => {
     if (!user) return null;
@@ -82,38 +102,11 @@ export const AuthProvider = (props) => {
   }, [auth]);
 
 
-  useEffect(() => {
-    const verifyLogin = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setIsLoading(false);
-        return;
-      };
-      try {
-        //Verificar contra el backend tooken guardado
-        // navigate("/")
-        true;
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    }
-    verifyLogin();
-  }, []);
-
-  useEffect(() => {
-    if (!user ) {
-      return;
-    }
-    profileDataLoader(user);
-  }, [user])
-
   const profileDataLoader = async (user) => {
-    if (!user ) {
+    if (user === null) {
       return;
     }
     const token = await getToken(user);
-
     try {
       const { data } = await axiosClientLoyalty("/profile", config(token))
       const mappedData = mapProfileData(data);
@@ -125,6 +118,35 @@ export const AuthProvider = (props) => {
     }
   }
 
+  const profileDataCreate = async (newProfile) => {
+    if (user === null) {
+      return;
+    }
+    const token = await getToken(user);
+    try {
+      const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
+      console.log(data)
+      // const mappedData = mapProfileData(data);
+      // setFidelizationData(prevData => mappedData);
+    } catch (error) {
+      // setProfileAssignment(error?.response.status || 209);
+    }
+  }
+
+  const profileDataUpdate = async (newProfile) => {
+    if (user === null) {
+      return;
+    }
+    const token = await getToken(user);
+    try {
+      const { data } = await axiosClientLoyalty.patch('/profile', newProfile, config(token))
+      console.log(data)
+      // const mappedData = mapProfileData(data);
+      // setFidelizationData(prevData => mappedData);
+    } catch (error) {
+      // setProfileAssignment(error?.response.status || 209);
+    }
+  }
   const getPhotoUrl = () => {
     return user.photoURL || "src/assets/img/profile.png";
   }
@@ -132,7 +154,7 @@ export const AuthProvider = (props) => {
   const value = useMemo(() => ({
     isLoading,
     signup,
-    login,
+    signIn,
     loginWithGoogle,
     logout,
     resetPassword,
@@ -142,8 +164,10 @@ export const AuthProvider = (props) => {
     webHook,
     setWebHook,
     affiliate,
-    getPhotoUrl
-  }), [auth, isLoading, profileAssignment, webHook, affiliate, fidelizationData]);
+    getPhotoUrl,
+    profileDataCreate,
+    profileDataUpdate
+  }), [user, isLoading, profileAssignment, webHook, affiliate, fidelizationData]);
   return (<AuthContext.Provider value={value} {...props} />);
 }
 

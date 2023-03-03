@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Alert from '../components/Alert';
 import { useAuth } from '../context/AuthContext';
-import { swalDefaultConfig, validEmail, validPassword } from '../helpers';
+import {  validEmail, validPassword } from '../helpers';
 import useError from '../hooks/useError';
 import { useNavigationMachine } from '../machines/machine';
 import css from '../assets/styles/pages/loginFlow.module.scss';
@@ -16,7 +16,7 @@ const Register = () => {
 
   const [current, send] = useNavigationMachine();
 
-  const { signup, profileAssignment } = useAuth();
+  const { signup } = useAuth();
   const [alert, setAlert, resetAlert] = useError();
 
   const handleRegister = async (e) => {
@@ -72,18 +72,6 @@ const Register = () => {
     // setError("");
   };
 
-  // useEffect(() => {
-  //   if (!profileAssignment) return;
-  //   //Mostrar mensaje para completar el registro
-  //   const newCfg = {
-  //     title: "Revisa tu correo y valida tu cuenta.",
-  //     text: "Body del mensaje emergente",
-  //     icon: 'success',
-  //     confirmButtonText: 'Continuar...'
-  //   };
-
-  //   showSwal(newCfg)
-  // }, [profileAssignment])
 
   const verifyPasswd = () => {
     if (!validPassword.test(passwordRef.current.value)) {
@@ -94,6 +82,7 @@ const Register = () => {
       }));
       return;
     }
+  
   };
 
   const verifyRePasswd = () => {
@@ -104,6 +93,7 @@ const Register = () => {
       }));
       return;
     }
+
   };
 
   const verifyEmail = () => {
@@ -126,9 +116,7 @@ const Register = () => {
       </p>
 
       <form autoComplete='off'>
-        {alert.message && (
-          <Alert typeAlert={alert.typeAlert} message={alert.message} />
-        )}
+       
         <div className='textfield'>
           <input
             type='email'
@@ -159,7 +147,9 @@ const Register = () => {
           />
           <label htmlFor='repassword'>Verificar Password</label>
         </div>
-
+        {alert.message && (
+          <Alert typeAlert={alert.typeAlert} message={alert.message} />
+        )}
         <div className={css.contentBtn}>
           <button onClick={handleRegister} className='btn__primary'>
             Continuar

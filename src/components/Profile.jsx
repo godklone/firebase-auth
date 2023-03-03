@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Profile = ({title, }) => {
+const Profile = ({title, enableField, handleConfirmApi,valueFields, transitFlag }) => {
   const navigate = useNavigate();
   const dniRef = useRef();
   const namesRef = useRef();

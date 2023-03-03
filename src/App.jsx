@@ -18,11 +18,11 @@ function App() {
             <Route index element={<Splash />} />
 
             <Route element={<MainLayout />}>
-              <Route path="/login/*" element={<PublicRoutes />} />
-              <Route path="/home/*" element={<PrivateRoutes />} />
+              <Route path="login/*" element={<PublicRoutes />} />
+              <Route path="home/*" element={<PrivateRoutes />} />
             </Route>
             <Route path="*" element={<Navigate to="/404" />} />
-            <Route path="/404" element={<NotFound />} />
+            <Route path="404" element={<NotFound />} />
           </Route>
         </Routes>
       </AuthProvider>

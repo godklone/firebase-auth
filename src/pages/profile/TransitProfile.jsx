@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import css from '../assets/styles/pages/profile.module.scss';
-import Alert from "../components/Alert";
-import { useAuth } from "../context/AuthContext";
-import { debounce, replaceDots, validDniNumber, validWord } from "../helpers";
+import css from '../../assets/styles/pages/profile.module.scss';
+import Alert from "../../components/Alert";
+import { useAuth } from "../../context/AuthContext";
+import { debounce, replaceDots, validDniNumber, validWord } from "../../helpers";
 
-const AssociateTransitProfile = (props) => {
+const TransitProfile = (props) => {
   const navigate = useNavigate();
-  const { profileDataCreate, profileAssignment } = useAuth();
+  const { profileDataCreate, profileAssignment , transitProfile} = useAuth();
   const dniRef = useRef();
   const nameRef = useRef();
   const lastNameRef = useRef();
@@ -116,11 +116,12 @@ const AssociateTransitProfile = (props) => {
     // <Profile title={"Perfil en transito"} />
     <div className={css.content__profile}>
       <h4 className='heading'>Perfil de la cuenta.</h4>
+      { transitProfile?.newClient &&
 
-      <p className='paragraph'>
-        Vamos a crear un nuevo perfil en fidelización y quedara asociado con tu email.
-      </p>
-
+        <p className='paragraph'>
+          Vamos a crear un nuevo perfil en fidelización y quedara asociado con tu email.
+        </p>
+      }
       <form autoComplete='off'>
         <div className='textfield'>
           <input
@@ -177,4 +178,4 @@ const AssociateTransitProfile = (props) => {
   )
 }
 
-export default AssociateTransitProfile
+export default TransitProfile

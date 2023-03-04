@@ -1,4 +1,6 @@
-
+function removeEmptyValues(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
+}
 
 const validEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 
@@ -47,6 +49,7 @@ export {
   validNumber,
   validDniNumber,
   replaceDots,
-  debounce
+  debounce,
+  removeEmptyValues
 
 }

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Alert from '../components/Alert';
-import { useAuth } from '../context/AuthContext';
-import {  validEmail, validPassword } from '../helpers';
-import useError from '../hooks/useError';
-import { useNavigationMachine } from '../machines/machine';
-import css from '../assets/styles/pages/loginFlow.module.scss';
+import Alert from '../../components/Alert';
+import { useAuth } from '../../context/AuthContext';
+import {  validEmail, validPassword } from '../../helpers';
+import useError from '../../hooks/useError';
+import { useNavigationMachine } from '../../machines/machine';
+import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 const Register = () => {
   const emailRef = useRef();

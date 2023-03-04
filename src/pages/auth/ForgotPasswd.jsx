@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Alert from '../components/Alert';
-import Modal from '../components/Modal';
-import { useAuth } from '../context/AuthContext';
-import { validEmail } from '../helpers';
-import useError from '../hooks/useError';
-import css from '../assets/styles/pages/loginFlow.module.scss';
+import Alert from '../../components/Alert';
+import Modal from '../../components/Modal';
+import { useAuth } from '../../context/AuthContext';
+import { validEmail } from '../../helpers';
+import useError from '../../hooks/useError';
+
+import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 const ForgotPasswd = () => {
   const emailRef = useRef();
@@ -90,7 +91,7 @@ const ForgotPasswd = () => {
           setViewModal={setViewModal}
           setAnimate={setAnimate}
           animate={animate}
-        ></Modal>
+        />
       )}
       {/* <PasswordRestore /> */}
     </div>

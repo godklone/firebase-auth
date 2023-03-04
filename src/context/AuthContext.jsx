@@ -31,6 +31,7 @@ export const AuthProvider = (props) => {
   const [profileAssignment, setProfileAssignment] = useState(0);
   const [affiliate, setAffiliate] = useState(null);
   const [fidelizationData, setFidelizationData] = useState(null);
+  const [transitProfile, setTransitProfile] = useState(null);
 
   const [webHook, setWebHook] = useState(null);
   const navigate = useNavigate();
@@ -122,12 +123,12 @@ export const AuthProvider = (props) => {
     if (user === null) {
       return;
     }
-    const token = await getToken(user);
     try {
+      const token = await getToken(user);
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
       console.log(data)
-      // const mappedData = mapProfileData(data);
-      // setFidelizationData(prevData => mappedData);
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
     } catch (error) {
       // setProfileAssignment(error?.response.status || 209);
     }
@@ -137,10 +138,10 @@ export const AuthProvider = (props) => {
     if (user === null) {
       return;
     }
-    const token = await getToken(user);
     try {
-      const { data } = await axiosClientLoyalty.patch('/profile', newProfile, config(token))
-      console.log(data)
+      const token = await getToken(user);
+      setTransitProfile(newProfile);
+      // const { data } = await axiosClientLoyalty.patch('/profile/bind', newProfile, config(token))
       // const mappedData = mapProfileData(data);
       // setFidelizationData(prevData => mappedData);
     } catch (error) {
@@ -166,8 +167,10 @@ export const AuthProvider = (props) => {
     affiliate,
     getPhotoUrl,
     profileDataCreate,
-    profileDataUpdate
-  }), [user, isLoading, profileAssignment, webHook, affiliate, fidelizationData]);
+    profileDataUpdate,
+    transitProfile, 
+    setTransitProfile
+  }), [user, isLoading, profileAssignment, webHook, affiliate, fidelizationData, transitProfile]);
   return (<AuthContext.Provider value={value} {...props} />);
 }
 

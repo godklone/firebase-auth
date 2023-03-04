@@ -20,23 +20,13 @@ const Splash = () => {
     return () => clearTimeout(idTimeOut);
   }, [])
 
-  // useEffect(() => {
-  //   const webhook = searchParams.get("webhook");
-  //   const idTimeOut = setTimeout(() => {
-  //     validate(webhook)
-  //   }, 2000)
-  //   return () => clearTimeout(idTimeOut);
-  // }, [affiliate])
-
   const validate = async (webhook) => {
     if (!webhook) {
       // send("404");
       await logout();      
       navigate('/404');
     }
-
     setWebHook(webhook)
-
     if (user ) {
       // send("HOME")
       navigate('/home');

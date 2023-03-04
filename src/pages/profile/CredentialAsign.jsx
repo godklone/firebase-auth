@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import css from '../assets/styles/pages/credentialAsign.module.scss';
+import { useAuth } from '../../context/AuthContext';
+import css from '../../assets/styles/pages/credentialAsign.module.scss';
 
 const CredentialAssign = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, setTransitProfile } = useAuth();
 
   const handleAfiliate = (e) => {
     e.preventDefault();
-    // setAffiliate(false);
+ 
+    setTransitProfile(prevValue=>({...prevValue, newClient:true}))
     navigate('profile/associate-transit-data');
   };
 

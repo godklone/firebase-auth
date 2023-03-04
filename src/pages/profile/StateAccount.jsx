@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../context/AuthContext";
-import css from '../assets/styles/pages/stateAccount.module.scss';
+import { useAuth } from "../../context/AuthContext";
+import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
   const { fidelizationData, webHook, getPhotoUrl } = useAuth();

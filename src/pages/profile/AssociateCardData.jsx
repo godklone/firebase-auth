@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { validNumber, validDniNumber } from "../helpers";
-import css from '../assets/styles/pages/profile.module.scss'
-import Alert from "../components/Alert";
+
+import { useAuth } from "../../context/AuthContext";
+import { validNumber, validDniNumber, replaceDots, removeEmptyValues } from "../../helpers";
+import css from '../../assets/styles/pages/profile.module.scss'
+import Alert from "../../components/Alert";
+import Swal from "sweetalert2";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  const { profileDataUpdate } = useAuth();
+  const { profileDataUpdate, setTransitProfile } = useAuth();
   const dniRef = useRef();
   const credentialRef = useRef();
   const codeRef = useRef();
@@ -22,61 +24,84 @@ const AssociateCardData = () => {
     code: () => { },
     credential: () => { },
   }
-  
-  const handleConfirm = async (e) => {
-    e.preventDefault();
-    const newErrors = {};
-    const [dni, credential, code] = [
-      dniRef.current.value.trim(),
-      credentialRef.current.value.trim(),
-      codeRef.current.value.trim()
-    ]
 
-    if ([dni, credential, code].every(el => el === "")) {
+  const profileObj = () => ({
+    dni: dniRef.current.value.trim(),
+    credential: credentialRef.current.value.trim(),
+    code: codeRef.current.value.trim(),
+  });
+
+  const dataIsValid = () => {
+    const newErrors = {};
+    const currentProfile = profileObj();
+    if (Object.values(currentProfile).every(el => el === "")) {
       newErrors.renderError = true;
       setErrors(newErrors);
       return;
     }
 
-    const toValidate = { ...[dni, credential, code] }
-    console.log(toValidate)
+    const validAttribToBind = removeEmptyValues(currentProfile);
 
-    if (dni.length <= minDniLen && dni.length >= maxDniLen) {
-      newErrors.dni = 'El Valor para el numero del DNI no es valido.';
+    if (Object.keys(validAttribToBind).length === 1 && 'code' in validAttribToBind) {
+      console.log("only code")
+      newErrors.code = 'Para realizar la asociacion debe estar presente el numero de credencial';
+      return false;
     }
 
-    if ([dniRef.current.value, credentialRef, codeRef].every(el => el === "")) {
-      newErrors.renderError = true;
+    if (currentProfile?.dni && (currentProfile.dni.length <= minDniLen || currentProfile.dni.length >= maxDniLen)) {
+      console.log("error si esta el Dni")
+      newErrors.dni = 'El Valor para el numero del DNI no es valido.';
+      return false;
+    }
+
+    if (currentProfile?.credential && currentProfile.credential.length < 5) {
+      console.log("error si esta la credencial:")
+      newErrors.names = 'El Numero de credential no es valido';
+      return false;
+    }
+
+    if (currentProfile?.code && currentProfile.code.length !== 3) {
+      newErrors.lastName = 'El codigo de segurida debe ser de 3 digitos';
+      return false;
+    }
+    return true;
+  }
+
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    if (!dataIsValid()) {
+      console.log("datos invalidos")
       return;
     }
 
-    if (!dniRef.current.value.length >= minDniLen || dniRef.current.value <= maxDniLen) {
-      newErrors.dni = 'El Valor para el numero del dni no es valido.';
+    try {
+      const newProfile = {
+        transit: false,
+        dni: replaceDots(dniRef.current.value),
+        credential: credentialRef.current.value,
+        code: codeRef.current.value
+      };
+
+      // const resp = debounce(await profileDataUpdate(newProfile), 150)
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'Actualizacion exitosa.',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate("associate-data/update-profile");
+    } catch (error) {
+      await Swal.fire({
+        title: 'Ha ocurrido un error.',
+        text: 'Body del mensaje emergente',
+        icon: 'danger',
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
-    if (!credentialRef.current.value.length >= 5) {
-      newErrors.names = 'El Numero de credential no es valido';
-    }
-    if (!codeRef.current.value.length !== 3) {
-      newErrors.lastName = 'El codigo de segurida debe ser de 3 digitos';
-    }
 
-
-
-    // try {
-    //   const profile = {
-    //     transit: false,
-    //     dni: replaceDots(dniRef.current.value),
-    //     credential: credentialRef.current.value,
-    //     code: codeRef.current.value
-    //   };
-
-    //   const resp = await profileDataUpdate(profile)
-    //   console.log(resp)
-    // } catch (error) {
-    //   console.log(error)
-    // }
-
-    // navigate("update-profile");
   }
 
   const validateNumber = {
@@ -89,12 +114,9 @@ const AssociateCardData = () => {
     const { id, value } = e.target;
     const { [id]: removedId, ...newErrors } = errors;
     const valid = validateNumber[id](value)
-    console.log(id, value)
+
     if (!valid) {
       newErrors[id] = "error"
-      console.log(newErrors)
-    } else {
-
     }
     setErrors(newErrors)
   }
@@ -102,16 +124,22 @@ const AssociateCardData = () => {
   const handleCancel = (e) => {
     e.preventDefault();
     navigate(-1);
-    console.log("Cancelar accion")
   }
 
   const handleTransitProfile = (e) => {
     e.preventDefault();
-    //cambiar el state de un perdil de cuenta en transito para diferenciar 
-    //de nuevo usuario y existente
-    // setAffiliate(true);
+  
+    const transitProfile = {
+      transit: true,
+      dni: replaceDots(dniRef.current.value),
+      credential: credentialRef.current.value,
+      code: codeRef.current.value
+    };
+
+    setTransitProfile(transitProfile)
     navigate("associate-transit-data");
   }
+
   return (
     <div className='content__general'>
       <h4 className='heading'>Vincular Perfil de la cuenta</h4>
@@ -122,9 +150,7 @@ const AssociateCardData = () => {
         puedes crear una perfil temporal, y luego presentandote en una sucursal puedes unificar los dos perfiles para recuperar todos los puntos.
       </p>
 
-      <form
-        className=""
-      >
+      <form autoComplete='off'>
 
         <div className="">
           <div className='textfield'>
@@ -135,7 +161,7 @@ const AssociateCardData = () => {
               placeholder="Nro Credencial"
               onChange={handleInputChange}
               className=""
-              maxlength="20" 
+              maxLength="20"
             />
             <label htmlFor="credential">Nro Credencial</label>
           </div>
@@ -148,7 +174,7 @@ const AssociateCardData = () => {
               placeholder="Cod Seg"
               onChange={handleInputChange}
               className=""
-              maxlength="3" 
+              maxLength="3"
             />
             <label htmlFor="code">Cod Seg</label>
           </div>
@@ -160,7 +186,7 @@ const AssociateCardData = () => {
               placeholder="DNI"
               onChange={handleInputChange}
               className=""
-              maxlength="11" 
+              maxLength="11"
             />
             <label htmlFor="dni">DNI</label>
           </div>

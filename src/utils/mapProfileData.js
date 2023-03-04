@@ -1,10 +1,11 @@
 export const mapProfileData = (userData) => {
-  const { name, surename, fidelization } = userData.data;
+  const { name, surename,identification, fidelization } = userData.data;
   let mappedData = {};
   try {
     mappedData = {
       name,
       surename,
+      identification,
       fullName: `${name} ${surename}`,
       fidelization: {
         accumulatedPoints: fidelization?.accumulated_points,

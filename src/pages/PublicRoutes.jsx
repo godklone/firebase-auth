@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ForgotPasswd from './ForgotPasswd';
-import Register from './Register';
-import Signup from './Signup';
+import ForgotPasswd from './auth/ForgotPasswd';
+import Register from './auth/Register';
+import Signup from './auth/Signup';
 
 const PublicRoutes = () => {
   const { webHook } = useAuth();

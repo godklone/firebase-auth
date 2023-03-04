@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigationMachine } from '../machines/machine';
-import { validEmail } from '../helpers';
-import Alert from '../components/Alert';
-import css from '../assets/styles/pages/loginFlow.module.scss';
-import useError from '../hooks/useError';
+import { useNavigationMachine } from '../../machines/machine';
+import { validEmail } from '../../helpers';
+import Alert from '../../components/Alert';
+import css from '../../assets/styles/pages/loginFlow.module.scss';
+import useError from '../../hooks/useError';
 
 const Signup = () => {
   const navigate = useNavigate();

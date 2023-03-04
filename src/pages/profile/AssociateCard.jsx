@@ -26,7 +26,7 @@ const AssociateCard = () => {
       {/* <p className="text-gray-800 text-xl mb-6"></p> */}
 
       <form
-        className="bg-white mt-5 px-5 py-5 rounded-md shadow-md"
+        className=""
       >
         {alert.message && <Alert typeAlert={alert.typeAlert} message={alert.message} />}
         <div>

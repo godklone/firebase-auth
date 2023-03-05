@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Alert from '../../components/Alert';
 import { useAuth } from '../../context/AuthContext';
-import {  validEmail, validPassword } from '../../helpers';
+import { validEmail, validPassword } from '../../helpers';
 import useError from '../../hooks/useError';
 import { useNavigationMachine } from '../../machines/machine';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
+import {  getFirebaseErrorMessage } from '../../utils/mapFirebaseError';
 
 const Register = () => {
   const emailRef = useRef();
@@ -40,10 +41,11 @@ const Register = () => {
     }
 
     try {
-      const result = await signup(
+      await signup(
         emailRef.current.value,
         passwordRef.current.value
       );
+
       await Swal.fire({
         icon: 'success',
         title: 'Registro exitoso',
@@ -61,15 +63,15 @@ const Register = () => {
 
       send('home');
       navigate('/home');
-    } catch (err) {
+    } catch (error) {
+
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text: err.message,
+        text: getFirebaseErrorMessage(error.code),
         confirmButtonText: 'Entendido',
       });
     }
-    // setError("");
   };
 
 
@@ -82,7 +84,7 @@ const Register = () => {
       }));
       return;
     }
-  
+
   };
 
   const verifyRePasswd = () => {
@@ -116,7 +118,7 @@ const Register = () => {
       </p>
 
       <form autoComplete='off'>
-       
+
         <div className='textfield'>
           <input
             type='email'

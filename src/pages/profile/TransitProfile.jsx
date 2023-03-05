@@ -41,7 +41,7 @@ const TransitProfile = (props) => {
       newErrors.lastName = 'El Apellido no debe estar vacio';
     }
 
-    if (Object.keys(newErrors).length > 0) {
+    if (Object.keys(newErrors).length > 0 && (transitProfile===null || transitProfile?.newClient)) {
       newErrors.renderError = true;
       setErrors(newErrors);
       return;
@@ -113,15 +113,15 @@ const TransitProfile = (props) => {
 
 
   return (
-    // <Profile title={"Perfil en transito"} />
+
     <div className={css.content__profile}>
       <h4 className='heading'>Perfil de la cuenta.</h4>
       { transitProfile?.newClient &&
-
         <p className='paragraph'>
           Vamos a crear un nuevo perfil en fidelización y quedara asociado con tu email.
         </p>
       }
+
       <form autoComplete='off'>
         <div className='textfield'>
           <input

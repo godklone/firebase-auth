@@ -35,17 +35,7 @@ const Signup = () => {
     }
     try {
       const resp = await signIn(emailRef.current.value, passwordRef.current.value);
-      // send('home');
-      // await  Swal.fire({
-      //   title: "Revisa tu correo y valida tu cuenta.",
-      //   text: "Body del mensaje emergente",
-      //   icon: 'warning',
-      //   showConfirmButton: true,
-      //   showCloseButton: true,
-      //   confirmButtonText: 'Continuar...'
-      // });
-      // console.log(resp);
-      // navigate('/home');
+     console.log(resp)
     } catch (error) {
       setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
     }

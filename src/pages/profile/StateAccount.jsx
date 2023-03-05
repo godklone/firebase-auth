@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
-  const { fidelizationData, webHook, getPhotoUrl } = useAuth();
+  const { fidelizationData, webHook, getPhotoUrl, logout } = useAuth();
   const navigate = useNavigate();
 
   const { fullName,
@@ -28,12 +28,20 @@ const StateAccount = () => {
     <div
       className={css.content__account}
     >
-      <div className="flex justify-end mb-4">
+      <div className="">
         <a
-          className="bg-blue-600 py-2 px-4 text-white rounded-md font-bold"
+          className=""
           href={webHook} >
           Continuar al sitio Principal
         </a>
+
+        {/* <a
+          className=""
+          href="#"
+          onClick={logout}
+          >
+          Logout
+        </a> */}
       </div>
 
       <div className={css.avatar}>

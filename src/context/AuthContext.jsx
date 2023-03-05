@@ -45,19 +45,17 @@ export const AuthProvider = (props) => {
   };
 
   const signup = async (email, password) => {
-    try {
-      const resp = await createUserWithEmailAndPassword(auth, email, password);
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
+    return  await createUserWithEmailAndPassword(auth, email, password);
+      //verificar
   };
 
   const signIn = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+
       return { success: true };
     } catch (error) {
+
       return { success: false, error: error.message };
     }
   };

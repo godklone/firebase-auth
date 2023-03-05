@@ -16,7 +16,7 @@ const AssociateCardData = () => {
   const [errors, setErrors] = useState({});
 
   const minDniLen = import.meta.env.VITE_MIN_DNI_LEN || 7;
-  const maxDniLen = import.meta.env.VITE_MIN_DNI_LEN || 8;
+  const maxDniLen = import.meta.env.VITE_MAX_DNI_LEN || 8;
 
 
   const validate = {
@@ -26,7 +26,7 @@ const AssociateCardData = () => {
   }
 
   const profileObj = () => ({
-    dni: dniRef.current.value.trim(),
+    dni:  replaceDots(dniRef.current.value.trim()),
     credential: credentialRef.current.value.trim(),
     code: codeRef.current.value.trim(),
   });
@@ -48,7 +48,7 @@ const AssociateCardData = () => {
       return false;
     }
 
-    if (currentProfile?.dni && (currentProfile.dni.length <= minDniLen || currentProfile.dni.length >= maxDniLen)) {
+    if (currentProfile?.dni && (currentProfile.dni.length < minDniLen || currentProfile.dni.length > maxDniLen)) {
       console.log("error si esta el Dni")
       newErrors.dni = 'El Valor para el numero del DNI no es valido.';
       return false;
@@ -60,10 +60,10 @@ const AssociateCardData = () => {
       return false;
     }
 
-    if (currentProfile?.code && currentProfile.code.length !== 3) {
-      newErrors.lastName = 'El codigo de segurida debe ser de 3 digitos';
-      return false;
-    }
+    // if (currentProfile?.code ) {
+    //   newErrors.lastName = 'El codigo de segurida debe ser de 3 digitos';
+    //   return false;
+    // }
     return true;
   }
 
@@ -75,14 +75,15 @@ const AssociateCardData = () => {
     }
 
     try {
-      const newProfile = {
-        transit: false,
-        dni: replaceDots(dniRef.current.value),
+      const bindProfile = {
+        //transit: false,
+        //identificacion: replaceDots(dniRef.current.value),
         credential: credentialRef.current.value,
         code: codeRef.current.value
       };
 
-      // const resp = debounce(await profileDataUpdate(newProfile), 150)
+      const resp =await profileDataUpdate(bindProfile);
+      
 
       await Swal.fire({
         icon: 'success',
@@ -93,12 +94,13 @@ const AssociateCardData = () => {
 
       navigate("associate-data/update-profile");
     } catch (error) {
+      console.log(error)
       await Swal.fire({
         title: 'Ha ocurrido un error.',
-        text: 'Body del mensaje emergente',
-        icon: 'danger',
+        text: error.message,
+        icon: 'error',
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2200,
       });
     }
 

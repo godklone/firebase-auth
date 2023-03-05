@@ -6,6 +6,7 @@ import { validEmail } from '../../helpers';
 import Alert from '../../components/Alert';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
 import useError from '../../hooks/useError';
+import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -34,10 +35,9 @@ const Signup = () => {
       return;
     }
     try {
-      const resp = await signIn(emailRef.current.value, passwordRef.current.value);
-     console.log(resp)
+      await signIn(emailRef.current.value, passwordRef.current.value);
     } catch (error) {
-      setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
+      setAlert((prevAlert) => ({ typeAlert: 'error', message:  getFirebaseAuthError(error.code) }));
     }
   };
 
@@ -55,7 +55,7 @@ const Signup = () => {
       //determinar si el perfil de la cuenta esta asignada a
       //si esta mostrar la pagina de
     } catch (error) {
-      setAlert((prevAlert) => ({ typeAlert: 'error', message: error.message }));
+      setAlert((prevAlert) => ({ typeAlert: 'error', message: getFirebaseAuthError(error.code) }));
     }
   };
 
@@ -109,9 +109,9 @@ const Signup = () => {
             Ingresar con Google
           </button>
 
-          <button onClick={handleGoogleSignin} className='btn__facebook'>
+          {/* <button onClick={handleGoogleSignin} className='btn__facebook'>
             Ingresar con Facebook
-          </button>
+          </button> */}
 
           <button onClick={handleRegister} className='btn__secondary'>
             Crear una cuenta

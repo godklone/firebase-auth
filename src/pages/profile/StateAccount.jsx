@@ -23,6 +23,11 @@ const StateAccount = () => {
     e.preventDefault();
     navigate("state-account/personal-data")
   }
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await logout();
+    navigate(`/?webhook=${webHook}`)
+  }
 
   return (
     <div
@@ -34,19 +39,18 @@ const StateAccount = () => {
           href={webHook} >
           Continuar al sitio Principal
         </a>
-
-        {/* <a
+        <button
           className=""
-          href="#"
-          onClick={logout}
-          >
+          onClick={handleLogout}
+        >
           Logout
-        </a> */}
+        </button>
+
       </div>
 
       <div className={css.avatar}>
         <img
-          
+
           src={getPhotoUrl()}
           alt="imagen del profile"
         />
@@ -75,7 +79,7 @@ const StateAccount = () => {
       </div>
 
       <div className={css.groupBtn}>
-        <button
+        {/* <button
           onClick={handlePersonalData}
           className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
         >
@@ -87,7 +91,7 @@ const StateAccount = () => {
           className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
         >
           Ultimos Movimientos
-        </button>
+        </button> */}
       </div>
     </div>
   )

@@ -17,6 +17,7 @@ const CredentialAssign = () => {
     e.preventDefault();
     navigate('profile');
   };
+  
   return (
     <div className='content__general'>
       <h4 className='heading'>

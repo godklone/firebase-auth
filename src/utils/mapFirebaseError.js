@@ -1,14 +1,16 @@
-const firebaseErrorsMap = {
-  "auth/email-already-in-use": "El correo ya se encuentra en uso",
-  "auth/invalid-email": "El correo no es válido",
-  "auth/weak-password": "La contraseña es débil",
-  "auth/user-not-found": "El usuario no existe",
-  "auth/wrong-password": "La contraseña es incorrecta"
+const getFirebaseAuthError = (errorCode) => {
+  const errorMap = {
+    "auth/email-already-in-use": "El correo ya está en uso.",
+    "auth/invalid-email": "El correo no es válido.",
+    "auth/weak-password": "La contraseña es muy débil.",
+    "auth/user-disabled": "El usuario se encuentra deshabilitado.",
+    "auth/user-not-found": "El usuario no existe.",
+    "auth/wrong-password": "Contraseña incorrecta.",
+    default: "Ocurrió un error al procesar la solicitud.",
+  };
+  return errorMap[errorCode] || errorMap.default;
 };
 
-const getFirebaseErrorMessage = (errorCode) => {
-  return firebaseErrorsMap[errorCode] || "Ocurrió un error al procesar la solicitud";
-};
 export {
-  getFirebaseErrorMessage
+  getFirebaseAuthError
 } 

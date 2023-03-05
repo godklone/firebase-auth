@@ -8,6 +8,7 @@ import { validEmail } from '../../helpers';
 import useError from '../../hooks/useError';
 
 import css from '../../assets/styles/pages/loginFlow.module.scss';
+import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 
 const ForgotPasswd = () => {
   const emailRef = useRef();
@@ -16,7 +17,6 @@ const ForgotPasswd = () => {
   const [alert, setAlert] = useError();
   const navigate = useNavigate();
   const { resetPassword } = useAuth();
-  // let [searchParams, setSearchParams] = useSearchParams();
 
   const handleCancel = (e) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ const ForgotPasswd = () => {
       await Swal.fire({
         icon: 'error',
         title: 'Se produjo un error an intentar restaurar tu password',
-        text: err.message,
+        text: getFirebaseAuthError(err.code),
         confirmButtonText: 'Entendido',
       });
     }

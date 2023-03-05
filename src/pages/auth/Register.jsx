@@ -7,7 +7,7 @@ import { validEmail, validPassword } from '../../helpers';
 import useError from '../../hooks/useError';
 import { useNavigationMachine } from '../../machines/machine';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
-import {  getFirebaseErrorMessage } from '../../utils/mapFirebaseError';
+import {  getFirebaseAuthError } from '../../utils/mapFirebaseError';
 
 const Register = () => {
   const emailRef = useRef();
@@ -68,7 +68,7 @@ const Register = () => {
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text: getFirebaseErrorMessage(error.code),
+        text:   getFirebaseAuthError(error.code),
         confirmButtonText: 'Entendido',
       });
     }

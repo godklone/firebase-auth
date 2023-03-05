@@ -27,7 +27,7 @@ const AuthContext = createContext({
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [loadingProfile, setLoadingProfile] = useState(true);
   const [profileAssignment, setProfileAssignment] = useState(0);
   const [affiliate, setAffiliate] = useState(null);
   const [fidelizationData, setFidelizationData] = useState(null);
@@ -45,44 +45,27 @@ export const AuthProvider = (props) => {
   };
 
   const signup = async (email, password) => {
-    return  await createUserWithEmailAndPassword(auth, email, password);
-      //verificar
+    return await createUserWithEmailAndPassword(auth, email, password);
+    //verificar
   };
 
   const signIn = async (email, password) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-
-      return { success: true };
-    } catch (error) {
-
-      return { success: false, error: error.message };
-    }
+    return await signInWithEmailAndPassword(auth, email, password);
   };
 
   const logout = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-      setFidelizationData(null);
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
-  };
+    await signOut(auth);
+    setUser(null);
+    setFidelizationData(null);
+  }
 
-  const loginWithGoogle = () => {
+  const loginWithGoogle = async () => {
     const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider);
+    return await signInWithPopup(auth, googleProvider);
   };
 
   const resetPassword = async (email) => {
-    try {
-      await sendPasswordResetEmail(email);
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
+    return await sendPasswordResetEmail(email);
   }
 
   const getToken = async (user) => {
@@ -100,6 +83,12 @@ export const AuthProvider = (props) => {
     return () => unsubuscribe();
   }, [auth]);
 
+  // useEffect(() => {
+  //   console.log(auth.user)
+  //   profileDataLoader(auth.user);
+    
+  // }, [auth.user]);
+
 
   const profileDataLoader = async (user) => {
     if (user === null) {
@@ -107,6 +96,7 @@ export const AuthProvider = (props) => {
     }
     const token = await getToken(user);
     try {
+      setLoadingProfile(true);
       const { data } = await axiosClientLoyalty("/profile", config(token))
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
@@ -114,6 +104,9 @@ export const AuthProvider = (props) => {
       setProfileAssignment(200);
     } catch (error) {
       // setProfileAssignment(error?.response.status || 209);
+    }
+    finally{
+      setLoadingProfile(false);
     }
   }
 
@@ -126,23 +119,27 @@ export const AuthProvider = (props) => {
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
       console.log(data)
       const mappedData = mapProfileData(data);
+      console.log(mappedData)
       setFidelizationData(prevData => mappedData);
     } catch (error) {
+      throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
   }
 
-  const profileDataUpdate = async (newProfile) => {
+  const profileDataUpdate = async (bindProfile) => {
     if (user === null) {
       return;
     }
     try {
       const token = await getToken(user);
-      setTransitProfile(newProfile);
-      // const { data } = await axiosClientLoyalty.patch('/profile/bind', newProfile, config(token))
-      // const mappedData = mapProfileData(data);
-      // setFidelizationData(prevData => mappedData);
+      setTransitProfile(bindProfile);
+      const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
+
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
     } catch (error) {
+      throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
   }
@@ -166,8 +163,10 @@ export const AuthProvider = (props) => {
     getPhotoUrl,
     profileDataCreate,
     profileDataUpdate,
-    transitProfile, 
-    setTransitProfile
+    transitProfile,
+    setTransitProfile,
+    loadingProfile
+
   }), [user, isLoading, profileAssignment, webHook, affiliate, fidelizationData, transitProfile]);
   return (<AuthContext.Provider value={value} {...props} />);
 }

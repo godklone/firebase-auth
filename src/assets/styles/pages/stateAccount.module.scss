@@ -1,6 +1,10 @@
 @import '../shared/general.scss';
 
 .content__account {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  width: 100%;
   padding: 0.9375rem;
 
   @media (min-width: $tablet) {
@@ -19,6 +23,7 @@
       border-radius: 50%;
       border: 4px solid #666;
     }
+
     h6 {
       padding: 0;
       margin: 0;
@@ -27,17 +32,25 @@
 
   .points {
     display: flex;
-    margin-top: 2rem;
-    gap: 2rem;
+    padding: 0;
+    margin: 0;
+    margin-top: 1rem;
+    gap: .5rem;
     flex-direction: column;
 
     .acumulate {
       display: flex;
       justify-content: space-between;
       border-bottom: 2px solid #ccc;
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
     }
-  
+
   }
+
   .credential {
     display: flex;
     flex-direction: column;
@@ -46,13 +59,23 @@
     border-bottom: 2px solid #ccc;
     background-color: #666;
     border-radius: 1rem;
+    gap: 10px;
+    padding: 1rem;
+
+    p {
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+
     // "flex flex-col mt-5 bg-gray-500 text-white gap-2 rounded-md p-4 items-center"
   }
-  .groupBtn{
+
+  .groupBtn {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap:1rem;
+    gap: 1rem;
     // "flex w-full block flex-col mt-5 gap-4"
   }
 

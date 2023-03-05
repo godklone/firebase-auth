@@ -139,6 +139,7 @@ export const AuthProvider = (props) => {
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
+      console.log(error)
       throw error;
       // setProfileAssignment(error?.response.status || 209);
     }

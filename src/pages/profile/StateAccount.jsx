@@ -33,7 +33,7 @@ const StateAccount = () => {
     <div
       className={css.content__account}
     >
-      <div className="">
+      <div className={css.btnHeader}>
         <a
           className=""
           href={webHook} >

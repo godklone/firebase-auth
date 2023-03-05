@@ -75,12 +75,11 @@ const AssociateCardData = () => {
     }
 
     try {
-      const bindProfile = {
-        //transit: false,
-        //identificacion: replaceDots(dniRef.current.value),
+      const bindProfile = removeEmptyValues({
+        identificacion: replaceDots(dniRef.current.value),
         credential: credentialRef.current.value,
         code: codeRef.current.value
-      };
+      });
 
       const resp =await profileDataUpdate(bindProfile);
       

@@ -49,7 +49,7 @@ const TransitProfile = (props) => {
 
     try {
       const profile = {
-        transit: false,
+        transit: transitProfile.transit,
         identification: replaceDots(dniRef.current.value),
         name: nameRef.current.value,
         surename: lastNameRef.current.value
@@ -67,10 +67,11 @@ const TransitProfile = (props) => {
 
       navigate('/home');
     } catch (error) {
+      console.log(error)
       await Swal.fire({
         title: 'Ha ocurrido un error.',
         text: 'Body del mensaje emergente',
-        icon: 'danger',
+        icon: 'error',
         showConfirmButton: false,
         timer: 2000,
       });

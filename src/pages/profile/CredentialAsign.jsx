@@ -8,8 +8,11 @@ const CredentialAssign = () => {
 
   const handleAfiliate = (e) => {
     e.preventDefault();
- 
-    setTransitProfile(prevValue=>({...prevValue, newClient:true}))
+    const addCfg = {
+      newClient:true, 
+      transit:false
+    }
+    setTransitProfile(prevValue=>({...prevValue, ...addCfg }))
     navigate('profile/associate-transit-data');
   };
 
@@ -17,7 +20,7 @@ const CredentialAssign = () => {
     e.preventDefault();
     navigate('profile');
   };
-  
+
   return (
     <div className='content__general'>
       <h4 className='heading'>

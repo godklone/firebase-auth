@@ -47,7 +47,7 @@ const AssociateCard = () => {
             id="code"
             ref={codeRef}
             placeholder="Cod Seg"
-            className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+            className=""
           />
         </div>
         <div>
@@ -57,21 +57,21 @@ const AssociateCard = () => {
             id="dni"
             ref={dniRef}
             placeholder="DNI"
-            className="rounded-md border mt-2 p-2 w-full placeholder-gray-400"
+            className=""
           />
         </div>
         
 
-        <div className="flex w-full block flex-col mt-5 gap-4">
+        <div className="">
           <button
             onClick={handleConfirm}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
+            className=""
           >
             Confirmar
           </button>
           <button
             onClick={handleCancel}
-            className="bg-sky-600 py-2 px-4 hover:bg-sky-700 transition-colors rounded-md text-white font-bold"
+            className=""
           >
             Cancelar
           </button>

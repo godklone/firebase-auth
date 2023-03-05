@@ -7,6 +7,7 @@ import Alert from '../../components/Alert';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
 import useError from '../../hooks/useError';
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -37,7 +38,12 @@ const Signup = () => {
     try {
       await signIn(emailRef.current.value, passwordRef.current.value);
     } catch (error) {
-      setAlert((prevAlert) => ({ typeAlert: 'error', message:  getFirebaseAuthError(error.code) }));
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text:   getFirebaseAuthError(error.code),
+        confirmButtonText: 'Entendido',
+      });
     }
   };
 
@@ -52,10 +58,13 @@ const Signup = () => {
         return;
       }
       navigate('/home');
-      //determinar si el perfil de la cuenta esta asignada a
-      //si esta mostrar la pagina de
     } catch (error) {
-      setAlert((prevAlert) => ({ typeAlert: 'error', message: getFirebaseAuthError(error.code) }));
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text:   getFirebaseAuthError(error.code),
+        confirmButtonText: 'Entendido',
+      });
     }
   };
 

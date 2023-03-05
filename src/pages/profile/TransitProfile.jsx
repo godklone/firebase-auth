@@ -8,7 +8,7 @@ import { debounce, replaceDots, validDniNumber, validWord } from "../../helpers"
 
 const TransitProfile = (props) => {
   const navigate = useNavigate();
-  const { profileDataCreate, profileAssignment , transitProfile} = useAuth();
+  const { profileDataCreate, profileAssignment, transitProfile } = useAuth();
   const dniRef = useRef();
   const nameRef = useRef();
   const lastNameRef = useRef();
@@ -41,7 +41,7 @@ const TransitProfile = (props) => {
       newErrors.lastName = 'El Apellido no debe estar vacio';
     }
 
-    if (Object.keys(newErrors).length > 0 && (transitProfile===null || transitProfile?.newClient)) {
+    if (Object.keys(newErrors).length > 0 && (transitProfile === null || transitProfile?.newClient)) {
       newErrors.renderError = true;
       setErrors(newErrors);
       return;
@@ -56,7 +56,7 @@ const TransitProfile = (props) => {
       };
 
       // const resp = debounce(await profileDataCreate(profile), 150)
-      const resp = await profileDataCreate(profile);
+      await profileDataCreate(profile);
 
       await Swal.fire({
         icon: 'success',
@@ -64,19 +64,15 @@ const TransitProfile = (props) => {
         showConfirmButton: false,
         timer: 2000,
       });
-
       navigate('/home');
     } catch (error) {
-      console.log(error)
       await Swal.fire({
         title: 'Ha ocurrido un error.',
-        text: 'Body del mensaje emergente',
+        text: error,
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
       });
-
-      console.log(error)
     }
   }
 
@@ -117,7 +113,7 @@ const TransitProfile = (props) => {
 
     <div className={css.content__profile}>
       <h4 className='heading'>Perfil de la cuenta.</h4>
-      { transitProfile?.newClient &&
+      {transitProfile?.newClient &&
         <p className='paragraph'>
           Vamos a crear un nuevo perfil en fidelización y quedara asociado con tu email.
         </p>

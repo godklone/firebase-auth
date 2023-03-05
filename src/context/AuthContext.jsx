@@ -98,11 +98,15 @@ export const AuthProvider = (props) => {
     try {
       setLoadingProfile(true);
       const { data } = await axiosClientLoyalty("/profile", config(token))
+      if(data.status==="Error"){
+        throw data.message
+      }
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
       setAffiliate(prevValue => true)
       setProfileAssignment(200);
     } catch (error) {
+      throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
     finally{
@@ -117,7 +121,9 @@ export const AuthProvider = (props) => {
     try {
       const token = await getToken(user);
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
-      console.log(data)
+      if(data.status==="Error"){
+        throw data.message
+      }
       const mappedData = mapProfileData(data);
       console.log(mappedData)
       setFidelizationData(prevData => mappedData);
@@ -135,11 +141,12 @@ export const AuthProvider = (props) => {
       const token = await getToken(user);
       setTransitProfile(bindProfile);
       const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
-
+      if(data.status==="Error"){
+        throw data.message
+      }
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
-      console.log(error)
       throw error;
       // setProfileAssignment(error?.response.status || 209);
     }

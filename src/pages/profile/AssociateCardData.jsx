@@ -18,13 +18,6 @@ const AssociateCardData = () => {
   const minDniLen = import.meta.env.VITE_MIN_DNI_LEN || 7;
   const maxDniLen = import.meta.env.VITE_MAX_DNI_LEN || 8;
 
-
-  const validate = {
-    dni: () => { },
-    code: () => { },
-    credential: () => { },
-  }
-
   const profileObj = () => ({
     dni:  replaceDots(dniRef.current.value.trim()),
     credential: credentialRef.current.value.trim(),
@@ -81,9 +74,7 @@ const AssociateCardData = () => {
         code: codeRef.current.value
       });
 
-      const resp =await profileDataUpdate(bindProfile);
-      
-
+      await profileDataUpdate(bindProfile);
       await Swal.fire({
         icon: 'success',
         title: 'Actualizacion exitosa.',
@@ -96,13 +87,12 @@ const AssociateCardData = () => {
       console.log(error)
       await Swal.fire({
         title: 'Ha ocurrido un error.',
-        text: error.message,
+        text: error,
         icon: 'error',
         showConfirmButton: false,
         timer: 2200,
       });
     }
-
   }
 
   const validateNumber = {
@@ -152,7 +142,6 @@ const AssociateCardData = () => {
       </p>
 
       <form autoComplete='off'>
-
         <div className="">
           <div className='textfield'>
             <input

@@ -9,13 +9,23 @@ import Spinner from "../components/Spinner";
 const MainLayout = (props) => {
   const { webHook } = useAuth();
   const navigate = useNavigate();
-  const { loadingSpinner } = useLoyalty();
+  const {setLoadingSpinner, loadingSpinner } = useLoyalty();
   useEffect(() => {
     if (!webHook) {
       navigate("404")
     }
+   
   }, [])
 
+  useEffect(() => {
+    if(loadingSpinner){
+      setTimeout(() => {
+        setLoadingSpinner(prevValue=>false);
+      }, 500);
+
+    }
+  }, [loadingSpinner])
+  
   if (loadingSpinner) {
     return <Spinner />
   }

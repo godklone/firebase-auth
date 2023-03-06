@@ -97,7 +97,6 @@ const Register = () => {
       return;
     }
     setIsDisabled(prevValue=>false);
-
   };
 
   const verifyEmail = () => {

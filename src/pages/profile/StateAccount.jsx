@@ -27,7 +27,7 @@ const StateAccount = () => {
   }
   const handleLogout = async (e) => {
     e.preventDefault();
-    // setLoadingSpinner(true)
+    setLoadingSpinner(true)
     await logout();
     navigate(`/?webhook=${webHook}`)
    

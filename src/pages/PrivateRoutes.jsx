@@ -9,19 +9,29 @@ import UpdateProfile from "./profile/UpdateProfile";
 import LastMovement from "./profile/LastMovement";
 import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
+import { useLoyalty } from "../context/LoyaltyContext";
+import Spinner from "../components/Spinner";
+
 
 const PrivateRoutes = () => {
-  const { user, isLoading, profileAssignment, affiliate, fidelizationData } = useAuth();
+  const { user, isLoading } = useAuth();
+  const { loadingProfile, fidelizationData } = useLoyalty();
   const navigate = useNavigate();
+  const affiliate = "";
+
   useEffect(() => {
     if (!user) {
       navigate("/");
     }
   }, [])
 
+  if (loadingProfile) {
+    return <Spinner />
+  }
 
   return (
     <Routes>
+
       <Route index element={fidelizationData ? <StateAccount /> : <CredentialAssign />} />
 
       <Route path="state-account">

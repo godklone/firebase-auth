@@ -6,10 +6,12 @@ import { validNumber, validDniNumber, replaceDots, removeEmptyValues } from "../
 import css from '../../assets/styles/pages/profile.module.scss'
 import Alert from "../../components/Alert";
 import Swal from "sweetalert2";
+import { useLoyalty } from "../../context/LoyaltyContext";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  const { profileDataUpdate, setTransitProfile } = useAuth();
+  // const { profileDataUpdate, setTransitProfile } = useAuth();
+  const { profileDataUpdate, setTransitProfile } = useLoyalty();
   const dniRef = useRef();
   const credentialRef = useRef();
   const codeRef = useRef();

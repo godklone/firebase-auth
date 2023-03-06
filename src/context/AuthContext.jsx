@@ -77,17 +77,12 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(prevUser => currentUser);
-      setIsLoading(false);
-      await profileDataLoader(currentUser);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     });
     return () => unsubuscribe();
   }, [auth]);
-
-  // useEffect(() => {
-  //   console.log(auth.user)
-  //   profileDataLoader(auth.user);
-    
-  // }, [auth.user]);
 
 
   const profileDataLoader = async (user) => {
@@ -151,6 +146,7 @@ export const AuthProvider = (props) => {
       // setProfileAssignment(error?.response.status || 209);
     }
   }
+
   const getPhotoUrl = () => {
     return user.photoURL || "src/assets/img/profile.png";
   }
@@ -163,19 +159,25 @@ export const AuthProvider = (props) => {
     logout,
     resetPassword,
     user,
-    profileAssignment,
-    fidelizationData,
     webHook,
     setWebHook,
     affiliate,
     getPhotoUrl,
-    profileDataCreate,
-    profileDataUpdate,
-    transitProfile,
-    setTransitProfile,
-    loadingProfile
+    // profileAssignment,
+    // fidelizationData,
+    // profileDataCreate,
+    // profileDataUpdate,
+    // transitProfile,
+    // setTransitProfile,
+    // loadingProfile,
+    getToken
 
-  }), [user, isLoading, profileAssignment, webHook, affiliate, fidelizationData, transitProfile]);
+  }), [
+    user, 
+    isLoading, 
+    webHook, 
+    // profileAssignment,  affiliate, fidelizationData, transitProfile
+  ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }
 

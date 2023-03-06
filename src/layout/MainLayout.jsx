@@ -10,7 +10,7 @@ const MainLayout = (props) => {
   const { webHook } = useAuth();
   const navigate = useNavigate();
   const {setLoadingSpinner, loadingSpinner } = useLoyalty();
-  
+  const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
   
   useEffect(() => {
     if (!webHook) {
@@ -22,7 +22,7 @@ const MainLayout = (props) => {
     if(loadingSpinner){
       setTimeout(() => {
         setLoadingSpinner(prevValue=>false);
-      }, 1000);
+      }, spinnerTimer);
       
     }
   }, [loadingSpinner])

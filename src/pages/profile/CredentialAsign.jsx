@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import css from '../../assets/styles/pages/credentialAsign.module.scss';
+import { useLoyalty } from '../../context/LoyaltyContext';
 
 const CredentialAssign = () => {
   const navigate = useNavigate();
-  const { user, setTransitProfile } = useAuth();
+  const {  setTransitProfile } = useLoyalty();
 
   const handleAfiliate = (e) => {
     e.preventDefault();

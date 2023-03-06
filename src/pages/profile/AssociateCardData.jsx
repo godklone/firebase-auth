@@ -10,7 +10,6 @@ import { useLoyalty } from "../../context/LoyaltyContext";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  // const { profileDataUpdate, setTransitProfile } = useAuth();
   const { profileDataUpdate, setTransitProfile } = useLoyalty();
   const dniRef = useRef();
   const credentialRef = useRef();

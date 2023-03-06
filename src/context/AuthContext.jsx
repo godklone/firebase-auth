@@ -35,7 +35,7 @@ export const AuthProvider = (props) => {
 
   const [webHook, setWebHook] = useState(null);
   const navigate = useNavigate();
-
+  const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
   const setAuth = () => {
     setUser(user);
   };
@@ -78,7 +78,7 @@ export const AuthProvider = (props) => {
       setUser(prevUser => currentUser);
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, spinnerTimer);
     });
     return () => unsubuscribe();
   }, [auth]);

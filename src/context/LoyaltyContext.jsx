@@ -98,7 +98,8 @@ export const LoyaltyProvider = (props) => {
     profileDataUpdate,
     loadingSpinner,
     setLoadingSpinner,
-    setFidelizationData
+    setFidelizationData,
+    setTransitProfile,
   }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);

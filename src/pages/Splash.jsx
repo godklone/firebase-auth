@@ -36,22 +36,6 @@ const Splash = () => {
     await logout();
   }
 
-  // const validate = async (webhook) => {
-  //   if (!webhook) {
-  //     // send("404");
-  //     await logout();
-  //     navigate('/404');
-  //   }
-  //   setWebHook(webhook)
-  //   if (user) {
-  //     // send("HOME")
-  //     navigate('/home');
-  //   } else {
-  //     // send("SIGNUP")
-  //     navigate('/login');
-  //   }
-  // }
-
   return (
     <Spinner />
   )

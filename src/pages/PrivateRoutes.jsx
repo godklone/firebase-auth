@@ -15,7 +15,7 @@ import Spinner from "../components/Spinner";
 
 const PrivateRoutes = () => {
   const { user, isLoading } = useAuth();
-  const { loadingProfile, fidelizationData } = useLoyalty();
+  const { fidelizationData } = useLoyalty();
   const navigate = useNavigate();
   const affiliate = "";
 
@@ -25,9 +25,7 @@ const PrivateRoutes = () => {
     }
   }, [])
 
-  if (loadingProfile) {
-    return <Spinner />
-  }
+
 
   return (
     <Routes>

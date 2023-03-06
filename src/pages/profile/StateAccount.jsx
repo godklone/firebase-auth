@@ -5,7 +5,7 @@ import { useLoyalty } from "../../context/LoyaltyContext";
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout } = useAuth();
-  const { fidelizationData } = useLoyalty();
+  const { fidelizationData, setLoadingSpinner } = useLoyalty();
   const navigate = useNavigate();
 
   const { fullName,
@@ -27,8 +27,10 @@ const StateAccount = () => {
   }
   const handleLogout = async (e) => {
     e.preventDefault();
+    // setLoadingSpinner(true)
     await logout();
     navigate(`/?webhook=${webHook}`)
+   
   }
 
   return (

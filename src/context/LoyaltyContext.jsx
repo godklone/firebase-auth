@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext";
 const LoyaltyContext = createContext();
 
 export const LoyaltyProvider = (props) => {
-
+  const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
   const [transitProfile, setTransitProfile] = useState(null);
@@ -18,6 +18,7 @@ export const LoyaltyProvider = (props) => {
     }
     setLoadingProfile(true);
     profileDataLoader(user);
+    
   }, [user])
 
   
@@ -27,8 +28,8 @@ export const LoyaltyProvider = (props) => {
     }
     const token = await getToken(user);
     try {
+      setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty("/profile", config(token))
-      setLoadingProfile(false);
       if(data.status==="Error"){
         throw data.message
       }
@@ -40,6 +41,7 @@ export const LoyaltyProvider = (props) => {
     }
     finally{
       setLoadingProfile(false);
+      setLoadingSpinner(false);
     }
   }
 
@@ -49,6 +51,7 @@ export const LoyaltyProvider = (props) => {
     }
     try {
       const token = await getToken(user);
+      setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
       if(data.status==="Error"){
         throw data.message
@@ -58,6 +61,8 @@ export const LoyaltyProvider = (props) => {
     } catch (error) {
       throw error;
       // setProfileAssignment(error?.response.status || 209);
+    }finally{
+      setLoadingSpinner(false);
     }
   }
 
@@ -68,6 +73,7 @@ export const LoyaltyProvider = (props) => {
     try {
       const token = await getToken(user);
       setTransitProfile(bindProfile);
+      setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
       if(data.status==="Error"){
         throw data.message
@@ -78,9 +84,11 @@ export const LoyaltyProvider = (props) => {
       throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
+    finally{
+      setLoadingSpinner(false);
+    }
   }
   
-
   const value = useMemo(() => ({
     loadingProfile,
     transitProfile, 
@@ -88,7 +96,9 @@ export const LoyaltyProvider = (props) => {
     profileDataLoader,
     profileDataCreate,
     profileDataUpdate,
-  }), [loadingProfile, transitProfile, fidelizationData]);
+    loadingSpinner,
+    setLoadingSpinner
+  }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);
 }

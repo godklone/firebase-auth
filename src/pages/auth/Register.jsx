@@ -7,9 +7,10 @@ import { validEmail, validPassword } from '../../helpers';
 import useError from '../../hooks/useError';
 import { useNavigationMachine } from '../../machines/machine';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
-import {  getFirebaseAuthError } from '../../utils/mapFirebaseError';
+import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 
 const Register = () => {
+  const [isDisabled, setIsDisabled] = useState(true);
   const emailRef = useRef();
   const passwordRef = useRef();
   const rePasswordRef = useRef();
@@ -68,7 +69,7 @@ const Register = () => {
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text:   getFirebaseAuthError(error.code),
+        text: getFirebaseAuthError(error.code),
         confirmButtonText: 'Entendido',
       });
     }
@@ -88,13 +89,14 @@ const Register = () => {
   };
 
   const verifyRePasswd = () => {
-    if (passwordRef !== rePasswordRef) {
+    if (passwordRef.current.value !== rePasswordRef.current.value ) {
       setAlert((prevAlert) => ({
         typeAlert: 'error',
         message: 'Ambos password deben ser iguales',
       }));
       return;
     }
+    setIsDisabled(prevValue=>false);
 
   };
 
@@ -106,6 +108,7 @@ const Register = () => {
       }));
       return;
     }
+    setIsDisabled(prevValue=>false);
   };
 
   return (
@@ -134,7 +137,6 @@ const Register = () => {
             type='password'
             id='password'
             ref={passwordRef}
-            onBlur={verifyPasswd}
             placeholder='Contraseña'
           />
           <label htmlFor='password'>Password</label>
@@ -153,7 +155,11 @@ const Register = () => {
           <Alert typeAlert={alert.typeAlert} message={alert.message} />
         )}
         <div className={css.contentBtn}>
-          <button onClick={handleRegister} className='btn__primary'>
+          <button
+            onClick={handleRegister}
+            className={`btn__primary ${isDisabled ? css.buttonDisabled : ""}`}
+            disabled={isDisabled}
+          >
             Continuar
           </button>
 

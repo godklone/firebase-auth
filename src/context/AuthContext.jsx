@@ -79,7 +79,7 @@ export const AuthProvider = (props) => {
       setUser(prevUser => currentUser);
       setTimeout(() => {
         setIsLoading(false);
-      }, 500);
+      }, 1000);
     });
     return () => unsubuscribe();
   }, [auth]);

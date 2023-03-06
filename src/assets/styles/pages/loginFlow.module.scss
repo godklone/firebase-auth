@@ -28,7 +28,6 @@
 
     button {
       margin: 0.5rem 0;
-
       &:first-child {
         margin-top: 0;
       }
@@ -37,4 +36,9 @@
       }
     }
   }
+  .buttonDisabled{
+    padding: 10px 30px;
+    cursor: not-allowed;
+  }
+
 }

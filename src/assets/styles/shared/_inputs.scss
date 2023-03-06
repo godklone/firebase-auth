@@ -16,6 +16,8 @@ form {
       background-color: $background-color_1;
       color: $color_1;
       font-size: $f;
+      line-height: initial;
+      border-radius: 0.625rem;
       left: 0;
       margin: 0 0.5rem;
       padding: 0 0.3rem;

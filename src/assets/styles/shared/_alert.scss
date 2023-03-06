@@ -1,0 +1,16 @@
+@import '../shared/colors';
+
+.alert {
+  &__error,
+  &__danger,
+  &__success,
+  &__warning,
+  &__fatal {
+    font-size: 0.9375rem;
+    color: $warning;
+  }
+
+  &__success {
+    color: $primary;
+  }
+}

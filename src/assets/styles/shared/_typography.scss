@@ -56,3 +56,10 @@ h6,
   font-size: 0.875rem;
   margin-top: 0;
 }
+
+.paragraph_sm {
+  @extend .paragraph;
+
+  font-size: 0.75rem;
+  margin-bottom: 0;
+}

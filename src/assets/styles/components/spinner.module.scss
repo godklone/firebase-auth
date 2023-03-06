@@ -1,4 +1,6 @@
-.content{
+@import '../shared/colors';
+
+.content {
   display: flex;
   height: 100vh;
   justify-content: center;
@@ -19,7 +21,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #b90909;
+  background: $warning;
   animation: ldsGrid 1.2s linear infinite;
 }
 .ldsGrid div:nth-child(1) {
@@ -68,7 +70,8 @@
   animation-delay: -1.6s;
 }
 @keyframes ldsGrid {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

@@ -79,7 +79,7 @@ const ForgotPasswd = () => {
             <button onClick={handleRestoreEmail} className='btn__primary'>
               Recuperar
             </button>
-            <button onClick={handleCancel} className='btn__tertiary'>
+            <button onClick={handleCancel} className='btn__warning'>
               Cancelar
             </button>
           </div>

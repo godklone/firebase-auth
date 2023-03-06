@@ -9,6 +9,9 @@
 
 .btn {
   @include btn;
+  &__disabled{
+    cursor: not-allowed;
+  }
 
   &__primary {
     @include btn;

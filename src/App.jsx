@@ -1,16 +1,15 @@
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { LoyaltyProvider } from './context/LoyaltyContext';
 // import NavigatorMachine from './components/NavigatorMachine';
 
 import Splash from './pages/Splash';
+import NotFound from './pages/NotFound';
 import MainLayout from './layout/MainLayout';
 import PublicRoutes from './pages/PublicRoutes';
 import PrivateRoutes from './pages/PrivateRoutes';
-import NotFound from './pages/NotFound';
-import { LoyaltyProvider } from './context/LoyaltyContext';
 
 function App() {
-
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -29,9 +28,6 @@ function App() {
         </LoyaltyProvider>
       </AuthProvider>
     </BrowserRouter >
-
   );
 }
-
-
 export default App;

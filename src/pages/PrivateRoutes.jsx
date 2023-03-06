@@ -1,20 +1,20 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import CredentialAssign from "./profile/CredentialAsign";
+import { useLoyalty } from "../context/LoyaltyContext";
 
+import CredentialAssign from "./profile/CredentialAsign";
 import AssociateCardData from "./profile/AssociateCardData";
 import TransitProfile from "./profile/TransitProfile";
 import UpdateProfile from "./profile/UpdateProfile";
 import LastMovement from "./profile/LastMovement";
 import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
-import { useLoyalty } from "../context/LoyaltyContext";
-import Spinner from "../components/Spinner";
+
 
 
 const PrivateRoutes = () => {
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
   const { fidelizationData } = useLoyalty();
   const navigate = useNavigate();
   const affiliate = "";
@@ -25,13 +25,9 @@ const PrivateRoutes = () => {
     }
   }, [])
 
-
-
   return (
     <Routes>
-
       <Route index element={fidelizationData ? <StateAccount /> : <CredentialAssign />} />
-
       <Route path="state-account">
         <Route path="personal-data" element={<PersonalData />} />
         <Route path="last-movement" element={<LastMovement />} />

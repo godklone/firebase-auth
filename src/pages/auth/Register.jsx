@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Alert from '../../components/Alert';
+import { Link, useNavigate } from 'react-router-dom';
+import {  useRef, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { validEmail, validPassword } from '../../helpers';
 import useError from '../../hooks/useError';
-import { useNavigationMachine } from '../../machines/machine';
-import css from '../../assets/styles/pages/loginFlow.module.scss';
+import Alert from '../../components/Alert';
+import { validEmail, validPassword } from '../../helpers';
+// import { useNavigationMachine } from '../../machines/machine';
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
+import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 const Register = () => {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -16,7 +16,7 @@ const Register = () => {
   const rePasswordRef = useRef();
   const navigate = useNavigate();
 
-  const [current, send] = useNavigationMachine();
+  // const [current, send] = useNavigationMachine();
 
   const { signup } = useAuth();
   const [alert, setAlert, resetAlert] = useError();
@@ -62,7 +62,7 @@ const Register = () => {
         confirmButtonText: 'Continuar...',
       });
 
-      send('home');
+      // send('home');
       navigate('/home');
     } catch (error) {
 
@@ -156,7 +156,7 @@ const Register = () => {
         <div className={css.contentBtn}>
           <button
             onClick={handleRegister}
-            className={`btn__primary ${isDisabled ? css.buttonDisabled : ""}`}
+            className={`btn__primary ${isDisabled ? "btn__disabled" : ""}`}
             disabled={isDisabled}
           >
             Continuar

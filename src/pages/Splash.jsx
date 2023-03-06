@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { useNavigationMachine } from "../machines/machine";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -11,7 +11,6 @@ const Splash = () => {
   // const [current, send] = useNavigationMachine();
   const [searchParams,] = useSearchParams();
 
-
   useEffect(() => {
     const webhook = searchParams.get("webhook");
     if (!webhook) {
@@ -19,7 +18,6 @@ const Splash = () => {
       navigate('/404');
     }
     setWebHook(webhook);
-
   }, [])
 
   useEffect(() => {

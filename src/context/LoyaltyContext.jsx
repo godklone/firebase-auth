@@ -16,8 +16,8 @@ export const LoyaltyProvider = (props) => {
     if (user===null ) {
       return;
     }
-    setLoadingProfile(true);
     profileDataLoader(user);
+    setLoadingProfile(true);
     
   }, [user])
 
@@ -36,7 +36,7 @@ export const LoyaltyProvider = (props) => {
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
-      throw error;
+      // throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
     finally{
@@ -97,7 +97,8 @@ export const LoyaltyProvider = (props) => {
     profileDataCreate,
     profileDataUpdate,
     loadingSpinner,
-    setLoadingSpinner
+    setLoadingSpinner,
+    setFidelizationData
   }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);

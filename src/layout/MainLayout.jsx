@@ -10,19 +10,20 @@ const MainLayout = (props) => {
   const { webHook } = useAuth();
   const navigate = useNavigate();
   const {setLoadingSpinner, loadingSpinner } = useLoyalty();
+  
+  
   useEffect(() => {
     if (!webHook) {
       navigate("404")
     }
-   
   }, [])
-
+  
   useEffect(() => {
     if(loadingSpinner){
       setTimeout(() => {
         setLoadingSpinner(prevValue=>false);
-      }, 500);
-
+      }, 1000);
+      
     }
   }, [loadingSpinner])
   

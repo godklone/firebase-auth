@@ -56,7 +56,6 @@ export const AuthProvider = (props) => {
   const logout = async () => {
     await signOut(auth);
     setUser(null);
-    setFidelizationData(null);
   }
 
   const loginWithGoogle = async () => {

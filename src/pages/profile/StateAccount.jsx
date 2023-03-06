@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import css from '../../assets/styles/pages/stateAccount.module.scss';
 import { useLoyalty } from "../../context/LoyaltyContext";
+
+import { BiLogOut } from 'react-icons/bi';
+import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout } = useAuth();

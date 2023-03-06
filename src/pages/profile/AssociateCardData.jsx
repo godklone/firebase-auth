@@ -37,19 +37,16 @@ const AssociateCardData = () => {
     const validAttribToBind = removeEmptyValues(currentProfile);
 
     if (Object.keys(validAttribToBind).length === 1 && 'code' in validAttribToBind) {
-      console.log("only code")
       newErrors.code = 'Para realizar la asociacion debe estar presente el numero de credencial';
       return false;
     }
 
     if (currentProfile?.dni && (currentProfile.dni.length < minDniLen || currentProfile.dni.length > maxDniLen)) {
-      console.log("error si esta el Dni")
       newErrors.dni = 'El Valor para el numero del DNI no es valido.';
       return false;
     }
 
     if (currentProfile?.credential && currentProfile.credential.length < 5) {
-      console.log("error si esta la credencial:")
       newErrors.names = 'El Numero de credential no es valido';
       return false;
     }
@@ -64,7 +61,6 @@ const AssociateCardData = () => {
   const handleConfirm = async (e) => {
     e.preventDefault();
     if (!dataIsValid()) {
-      console.log("datos invalidos")
       return;
     }
 
@@ -85,7 +81,6 @@ const AssociateCardData = () => {
 
       navigate("associate-data/update-profile");
     } catch (error) {
-      console.log(error)
       await Swal.fire({
         title: 'Ha ocurrido un error.',
         text: error,

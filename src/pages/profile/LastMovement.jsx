@@ -4,7 +4,6 @@ const LastMovement = () => {
   const navigate = useNavigate()
   const handleBack =(e)=>{
     e.preventDefault();
-    console.log("regresar a state account")
     navigate(-1);
   }
   

@@ -11,13 +11,13 @@ const PersonalData = () => {
 
   const handleConfirm = (e) => {
     e.preventDefault();
-    console.log("Confirmando datos")
+
   }
 
   const handleCancel = (e) => {
     e.preventDefault();
     navigate(-1)
-    console.log("Cancelar accion")
+
   }
   return (
     <div

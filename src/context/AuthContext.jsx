@@ -119,7 +119,6 @@ export const AuthProvider = (props) => {
         throw data.message
       }
       const mappedData = mapProfileData(data);
-      console.log(mappedData)
       setFidelizationData(prevData => mappedData);
     } catch (error) {
       throw error;

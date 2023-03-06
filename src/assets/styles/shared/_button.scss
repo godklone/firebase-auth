@@ -1,18 +1,37 @@
 @mixin btn {
+  align-items: center;
   border-radius: 0.25rem;
   border: 0 solid;
   cursor: pointer;
+  display: flex;
   font-size: 0.9375rem;
+  line-height: 0.9375rem;
   font-weight: 500;
+  justify-content: center;
   padding: 0.625rem 1.25rem;
+  box-shadow: inset 0.125rem 0.125rem 0 rgb(0 0 0 / 5%);
+}
+
+$buttons: 'primary', 'secondary', 'tertiary', 'warning';
+
+@each $button in $buttons {
+  .btn__#{$button} {
+    @include btn;
+
+    &_rounded {
+      @extend .btn__#{$button};
+      border-radius: 50%;
+      padding: 0;
+      width: 2.1875rem;
+      height: 2.1875rem;
+    }
+  }
 }
 
 .btn {
   @include btn;
 
   &__primary {
-    @include btn;
-
     background-color: $primary;
     color: $white;
 
@@ -22,8 +41,6 @@
   }
 
   &__secondary {
-    @include btn;
-
     background-color: $secondary;
     color: $white;
 
@@ -33,14 +50,24 @@
   }
 
   &__tertiary {
-    @include btn;
-
-    background-color: $white;
+    background: linear-gradient(180deg, $tertiary, $white);
     border: 0.0625rem solid $gray;
     color: $black;
 
     &:hover {
       background-color: lighten($black, 90%);
+    }
+  }
+
+  &__warning {
+    background-color: $warning-light;
+    border: 0.0625rem solid $warning-light;
+
+    color: $white;
+
+    &:hover {
+      background-color: $warning;
+      border-color: $warning;
     }
   }
 
@@ -60,5 +87,15 @@
     &:hover {
       background-color: darken($facebook, 10%);
     }
+  }
+}
+
+.btn_logout {
+  @extend .btn__warning_rounded;
+
+  font-size: 1.25rem;
+
+  svg {
+    margin-left: -0.1875rem;
   }
 }

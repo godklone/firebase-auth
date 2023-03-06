@@ -1,6 +1,6 @@
 @import '../shared/general.scss';
 
-.contentBtn{
+.contentBtn {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -8,25 +8,8 @@
 }
 .content__profile {
   @extend .content__general;
-  
-  // .contentBtn {
-  //   display: flex;
-  //   flex-direction: column;
-  //   margin-top: 1rem;
 
-  //   button {
-  //     margin: 0.5rem 0;
-
-  //     &:first-child {
-  //       margin-top: 0;
-  //     }
-  //     &:last-child {
-  //       margin-bottom: 0;
-  //     }
-  //   }
-  // }
-  .errorField{
-    // border: solid 0.3em;
+  .errorField {
     border-color: crimson;
   }
 
@@ -35,7 +18,7 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 2rem;
-    
+
     button {
       margin: 0.5rem 0;
 
@@ -47,5 +30,4 @@
       }
     }
   }
-
 }

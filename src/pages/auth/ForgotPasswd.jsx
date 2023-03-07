@@ -34,7 +34,6 @@ const ForgotPasswd = () => {
     }
     try {
       setAlert({});
-
       await resetPassword(emailRef.current.value);
       await Swal.fire({
         title: 'Correo enviado de forma exitosa.',
@@ -67,13 +66,13 @@ const ForgotPasswd = () => {
         </p>
 
         <form autoComplete='off'>
-          {alert.message && (
-            <Alert typeAlert={alert.typeAlert} message={alert.message} />
-          )}
           <div className='textfield'>
             <input type='email' id='email' ref={emailRef} placeholder='Email' />
             <label htmlFor='email'>Email</label>
           </div>
+          {alert.message && (
+            <Alert typeAlert={alert.typeAlert} message={alert.message} />
+          )}
 
           <div className={css.contentBtn}>
             <button onClick={handleRestoreEmail} className='btn__primary'>

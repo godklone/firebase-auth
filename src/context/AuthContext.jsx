@@ -11,9 +11,6 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../config/firebase";
-import { axiosClientLoyalty, config } from "../config/axiosClient";
-import { useNavigate } from "react-router-dom";
-import { mapProfileData } from "../utils/MapProfileData";
 
 const AuthContext = createContext({
   user: null,
@@ -26,10 +23,9 @@ const AuthContext = createContext({
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const [webHook, setWebHook] = useState(null);
-  // const navigate = useNavigate();
   const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
+
   const setAuth = () => {
     setUser(user);
   };
@@ -58,7 +54,12 @@ export const AuthProvider = (props) => {
   };
 
   const resetPassword = async (email) => {
-    return await sendPasswordResetEmail(email);
+    try {
+      return await sendPasswordResetEmail(email);
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const getToken = async (user) => {
@@ -96,9 +97,9 @@ export const AuthProvider = (props) => {
     getToken
 
   }), [
-    user, 
-    isLoading, 
-    webHook, 
+    user,
+    isLoading,
+    webHook,
   ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }

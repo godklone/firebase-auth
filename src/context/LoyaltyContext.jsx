@@ -10,7 +10,7 @@ export const LoyaltyProvider = (props) => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
   const [transitProfile, setTransitProfile] = useState(null);
-  const { webHook, user, getToken, isLoading} = useAuth();
+  const {user, getToken} = useAuth();
 
   useEffect(() => {
     if (user===null ) {

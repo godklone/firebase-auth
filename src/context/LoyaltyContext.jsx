@@ -51,7 +51,7 @@ export const LoyaltyProvider = (props) => {
     }
     try {
       const token = await getToken(user);
-      setLoadingSpinner(true);
+      // setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
       if(data.status==="Error"){
         throw data.message

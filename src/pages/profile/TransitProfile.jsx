@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useLoyalty } from "../../context/LoyaltyContext";
 
 import css from '../../assets/styles/pages/profile.module.scss';
 import Alert from "../../components/Alert";
@@ -9,7 +9,7 @@ import { replaceDots, validDniNumber, validWord } from "../../helpers";
 
 const TransitProfile = (props) => {
   const navigate = useNavigate();
-  const { profileDataCreate, transitProfile } = useAuth();
+  const { profileDataCreate, transitProfile } = useLoyalty();
   const dniRef = useRef();
   const nameRef = useRef();
   const lastNameRef = useRef();

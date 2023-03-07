@@ -54,12 +54,7 @@ export const AuthProvider = (props) => {
   };
 
   const resetPassword = async (email) => {
-    try {
-      return await sendPasswordResetEmail(email);
-
-    } catch (error) {
-      console.log(error)
-    }
+      return await sendPasswordResetEmail(auth, email);
   }
 
   const getToken = async (user) => {

@@ -43,7 +43,6 @@ const ForgotPasswd = () => {
         showCloseButton: true,
         confirmButtonText: 'Continuar...',
       });
-
       // send("login");
       navigate('/login');
     } catch (err) {

@@ -1,23 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { useLoyalty } from "../../context/LoyaltyContext";
+
 import css from '../../assets/styles/pages/profile.module.scss';
-import Alert from '../../components/Alert';
-import { useAuth } from '../../context/AuthContext';
-import {
-  debounce,
-  replaceDots,
-  validDniNumber,
-  validWord,
-} from '../../helpers';
+import Alert from "../../components/Alert";
+import { replaceDots, validDniNumber, validWord } from "../../helpers";
 
 const TransitProfile = (props) => {
   const navigate = useNavigate();
-  const { profileDataCreate, profileAssignment, transitProfile } = useAuth();
+  const { profileDataCreate, transitProfile } = useLoyalty();
   const dniRef = useRef();
   const nameRef = useRef();
   const lastNameRef = useRef();
   const [errors, setErrors] = useState({});
+
   const minDniLen = import.meta.env.VITE_MIN_DNI_LEN || 7;
   const maxDniLen = import.meta.env.VITE_MIN_DNI_LEN || 8;
 
@@ -62,7 +59,7 @@ const TransitProfile = (props) => {
         name: nameRef.current.value,
         surename: lastNameRef.current.value,
       };
-
+//volver a probar el debounce
       // const resp = debounce(await profileDataCreate(profile), 150)
       await profileDataCreate(profile);
 
@@ -96,12 +93,10 @@ const TransitProfile = (props) => {
     const valid = validate[id](value);
 
     if (!valid) {
-      newErrors[id] = 'error';
-      console.log(newErrors);
-    } else {
-    }
-    setErrors(newErrors);
-  };
+      newErrors[id] = "error"
+    } 
+    setErrors(newErrors)
+  }
 
   const handleCancel = (e) => {
     e.preventDefault();
@@ -169,7 +164,10 @@ const TransitProfile = (props) => {
         )}
 
         <div className={css.contentBtn}>
-          <button onClick={handleConfirm} className='btn__primary'>
+          <button 
+            onClick={handleConfirm} 
+            className={`btn__primary ${errors?.renderError? "btn__disabled":""}`}
+            >
             Continuar
           </button>
           <button onClick={handleCancel} className='btn__warning'>

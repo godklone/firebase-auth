@@ -1,93 +1,114 @@
 import { createContext, useMemo, useContext, useState, useEffect } from "react";
-
-
 import { axiosClientLoyalty, config } from "../config/axiosClient";
-
 import { mapProfileData } from "../utils/MapProfileData";
+import { useAuth } from "./AuthContext";
 
-
+const LoyaltyContext = createContext();
 
 export const LoyaltyProvider = (props) => {
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [profileAssignment, setProfileAssignment] = useState(0);
-  const [affiliate, setAffiliate] = useState(null);
+  const [loadingSpinner, setLoadingSpinner] = useState(false)
+  const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
-
+  const [transitProfile, setTransitProfile] = useState(null);
+  const { webHook, user, getToken, isLoading} = useAuth();
 
   useEffect(() => {
     if (user===null ) {
       return;
     }
     profileDataLoader(user);
+    setLoadingProfile(true);
+    
   }, [user])
 
+  
   const profileDataLoader = async (user) => {
-    if (user===null) {
+    if (user === null) {
       return;
     }
     const token = await getToken(user);
     try {
+      setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty("/profile", config(token))
+      if(data.status==="Error"){
+        throw data.message
+      }
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
-      setAffiliate(prevValue => true)
-      setProfileAssignment(200);
     } catch (error) {
+      // throw error;
       // setProfileAssignment(error?.response.status || 209);
+    }
+    finally{
+      setLoadingProfile(false);
+      setLoadingSpinner(false);
     }
   }
 
   const profileDataCreate = async (newProfile) => {
-    if (user===null ) {
+    if (user === null) {
       return;
     }
-    const token = await getToken(user);
     try {
-      const {data} =await axiosClientLoyalty.post('/profile',newProfile, config(token))
-      console.log(data)
-      // const mappedData = mapProfileData(data);
-      // setFidelizationData(prevData => mappedData);
+      const token = await getToken(user);
+      // setLoadingSpinner(true);
+      const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
+      if(data.status==="Error"){
+        throw data.message
+      }
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
     } catch (error) {
+      throw error;
       // setProfileAssignment(error?.response.status || 209);
+    }finally{
+      setLoadingSpinner(false);
     }
   }
 
-  const profileDataUpdate = async (newProfile) => {
-    if (user===null ) {
+  const profileDataUpdate = async (bindProfile) => {
+    if (user === null) {
       return;
     }
-    const token = await getToken(user);
     try {
-      const {data} =await axiosClientLoyalty.patch('/profile',newProfile, config(token))
-      console.log(data)
-      // const mappedData = mapProfileData(data);
-      // setFidelizationData(prevData => mappedData);
+      const token = await getToken(user);
+      setTransitProfile(bindProfile);
+      setLoadingSpinner(true);
+      const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
+      if(data.status==="Error"){
+        throw data.message
+      }
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
     } catch (error) {
+      throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
+    finally{
+      setLoadingSpinner(false);
+    }
   }
-  const getPhotoUrl = () => {
-    return user.photoURL || "src/assets/img/profile.png";
-  }
-
+  
   const value = useMemo(() => ({
-    
-    profileAssignment,
+    loadingProfile,
+    transitProfile, 
     fidelizationData,
-    affiliate,
-    getPhotoUrl,
+    profileDataLoader,
     profileDataCreate,
-    profileDataUpdate
-  }), [profileAssignment, affiliate, fidelizationData]);
+    profileDataUpdate,
+    loadingSpinner,
+    setLoadingSpinner,
+    setFidelizationData,
+    setTransitProfile,
+  }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
+
   return (<LoyaltyContext.Provider value={value} {...props} />);
 }
 
 export const useLoyalty = () => {
-  const context = useContext(AuthContext)
+  const context = useContext(LoyaltyContext)
   if (!context) {
-    throw new Error("useLoyalty debe estar contenida en el provider")
+    throw new Error("useLoyalty debe estar contenida en el provider loyalty")
   }
   return context
 }

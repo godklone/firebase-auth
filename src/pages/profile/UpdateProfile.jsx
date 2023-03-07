@@ -1,9 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import css from '../../assets/styles/pages/profile.module.scss';
-import Alert from "../../components/Alert";
+
 import { useAuth } from "../../context/AuthContext";
-import { replaceDots, validNumber, validWord } from "../../helpers";
 
 const UpdateProfile = ({disabledField}) => {
   const navigate = useNavigate();

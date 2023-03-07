@@ -9,14 +9,13 @@ const AssociateCard = () => {
 
   const handleConfirm = (e) => {
     e.preventDefault();
-    console.log('Confirmando datos');
-  };
+
+  }
 
   const handleCancel = (e) => {
     e.preventDefault();
-    navigate(-1);
-    console.log('Cancelar accion');
-  };
+    navigate(-1)
+  }
   return (
     <div className=''>
       <h2 className='text-2xl font-bold mb-6'>Datos Personales</h2>

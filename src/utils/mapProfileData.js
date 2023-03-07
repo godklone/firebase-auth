@@ -20,7 +20,7 @@ export const mapProfileData = (userData) => {
     };
 
   } catch (error) {
-    console.log(error)
+    throw new Error(error)
   }
   return mappedData;
 

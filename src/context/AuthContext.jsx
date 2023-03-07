@@ -18,7 +18,6 @@ import { mapProfileData } from "../utils/MapProfileData";
 const AuthContext = createContext({
   user: null,
   isLoading: true,
-  affiliate: null,
   webHook: null,
   setAuth: () => { },
   clearAuth: () => { },
@@ -27,15 +26,10 @@ const AuthContext = createContext({
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingProfile, setLoadingProfile] = useState(true);
-  const [profileAssignment, setProfileAssignment] = useState(0);
-  const [affiliate, setAffiliate] = useState(null);
-  const [fidelizationData, setFidelizationData] = useState(null);
-  const [transitProfile, setTransitProfile] = useState(null);
 
   const [webHook, setWebHook] = useState(null);
-  const navigate = useNavigate();
-
+  // const navigate = useNavigate();
+  const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
   const setAuth = () => {
     setUser(user);
   };
@@ -56,7 +50,6 @@ export const AuthProvider = (props) => {
   const logout = async () => {
     await signOut(auth);
     setUser(null);
-    setFidelizationData(null);
   }
 
   const loginWithGoogle = async () => {
@@ -77,80 +70,14 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(prevUser => currentUser);
-      setIsLoading(false);
-      await profileDataLoader(currentUser);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, spinnerTimer);
     });
     return () => unsubuscribe();
   }, [auth]);
 
-  // useEffect(() => {
-  //   console.log(auth.user)
-  //   profileDataLoader(auth.user);
-    
-  // }, [auth.user]);
 
-
-  const profileDataLoader = async (user) => {
-    if (user === null) {
-      return;
-    }
-    const token = await getToken(user);
-    try {
-      setLoadingProfile(true);
-      const { data } = await axiosClientLoyalty("/profile", config(token))
-      if(data.status==="Error"){
-        throw data.message
-      }
-      const mappedData = mapProfileData(data);
-      setFidelizationData(prevData => mappedData);
-      setAffiliate(prevValue => true)
-      setProfileAssignment(200);
-    } catch (error) {
-      throw error;
-      // setProfileAssignment(error?.response.status || 209);
-    }
-    finally{
-      setLoadingProfile(false);
-    }
-  }
-
-  const profileDataCreate = async (newProfile) => {
-    if (user === null) {
-      return;
-    }
-    try {
-      const token = await getToken(user);
-      const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
-      if(data.status==="Error"){
-        throw data.message
-      }
-      const mappedData = mapProfileData(data);
-      console.log(mappedData)
-      setFidelizationData(prevData => mappedData);
-    } catch (error) {
-      throw error;
-      // setProfileAssignment(error?.response.status || 209);
-    }
-  }
-
-  const profileDataUpdate = async (bindProfile) => {
-    if (user === null) {
-      return;
-    }
-    try {
-      const token = await getToken(user);
-      setTransitProfile(bindProfile);
-      const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
-      if(data.status==="Error"){
-        throw data.message
-      }
-      const mappedData = mapProfileData(data);
-      setFidelizationData(prevData => mappedData);
-    } catch (error) {
-      throw error;
-      // setProfileAssignment(error?.response.status || 209);
-    }
-  }
   const getPhotoUrl = () => {
     return user.photoURL || "src/assets/img/profile.png";
   }
@@ -163,19 +90,16 @@ export const AuthProvider = (props) => {
     logout,
     resetPassword,
     user,
-    profileAssignment,
-    fidelizationData,
     webHook,
     setWebHook,
-    affiliate,
     getPhotoUrl,
-    profileDataCreate,
-    profileDataUpdate,
-    transitProfile,
-    setTransitProfile,
-    loadingProfile
+    getToken
 
-  }), [user, isLoading, profileAssignment, webHook, affiliate, fidelizationData, transitProfile]);
+  }), [
+    user, 
+    isLoading, 
+    webHook, 
+  ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }
 

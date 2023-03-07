@@ -1,24 +1,25 @@
+import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigationMachine } from '../../machines/machine';
-import { validEmail } from '../../helpers';
-import Alert from '../../components/Alert';
-import css from '../../assets/styles/pages/loginFlow.module.scss';
+import { useEffect, useRef } from 'react';
 import useError from '../../hooks/useError';
+// import { useNavigationMachine } from '../../machines/machine';
+import Alert from '../../components/Alert';
+import { validEmail } from '../../helpers';
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
-import Swal from 'sweetalert2';
+import css from '../../assets/styles/pages/loginFlow.module.scss';
+import { useLoyalty } from '../../context/LoyaltyContext';
 
 const Signup = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { signIn, loginWithGoogle, profileAssignment, user } =useAuth();
   const [alert, setAlert] = useError();
-  const [current, send] = useNavigationMachine();
+  const { signIn, loginWithGoogle, user } =useAuth();
+  const {setLoadingSpinner } = useLoyalty();
+  // const [current, send] = useNavigationMachine();
   
   useEffect(() => {
-    console.log("Usuario logueado", user);
     if (user) {
       navigate('/home');
     }
@@ -27,7 +28,6 @@ const Signup = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (!validEmail.test(emailRef.current.value)) {
       setAlert((prevAlert) => ({
         typeAlert: 'error',
@@ -37,6 +37,7 @@ const Signup = () => {
     }
     try {
       await signIn(emailRef.current.value, passwordRef.current.value);
+      setLoadingSpinner(true);
     } catch (error) {
       await Swal.fire({
         icon: 'error',
@@ -51,12 +52,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       await loginWithGoogle();
-      if (!profileAssignment) {
-        console.log(
-          'Mostrar popup para informar que el usuario no esta validado'
-        );
-        return;
-      }
+      setLoadingSpinner(true);
       navigate('/home');
     } catch (error) {
       await Swal.fire({

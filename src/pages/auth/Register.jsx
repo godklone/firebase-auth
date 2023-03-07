@@ -1,21 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Alert from '../../components/Alert';
+import { Link, useNavigate } from 'react-router-dom';
+import {  useRef, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { validEmail, validPassword } from '../../helpers';
 import useError from '../../hooks/useError';
-import { useNavigationMachine } from '../../machines/machine';
+import Alert from '../../components/Alert';
+import { validEmail, validPassword } from '../../helpers';
+// import { useNavigationMachine } from '../../machines/machine';
+import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
-import {  getFirebaseAuthError } from '../../utils/mapFirebaseError';
 
 const Register = () => {
+  const [isDisabled, setIsDisabled] = useState(true);
   const emailRef = useRef();
   const passwordRef = useRef();
   const rePasswordRef = useRef();
   const navigate = useNavigate();
 
-  const [current, send] = useNavigationMachine();
+  // const [current, send] = useNavigationMachine();
 
   const { signup } = useAuth();
   const [alert, setAlert, resetAlert] = useError();
@@ -61,14 +62,14 @@ const Register = () => {
         confirmButtonText: 'Continuar...',
       });
 
-      send('home');
+      // send('home');
       navigate('/home');
     } catch (error) {
 
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text:   getFirebaseAuthError(error.code),
+        text: getFirebaseAuthError(error.code),
         confirmButtonText: 'Entendido',
       });
     }
@@ -88,14 +89,14 @@ const Register = () => {
   };
 
   const verifyRePasswd = () => {
-    if (passwordRef !== rePasswordRef) {
+    if (passwordRef.current.value !== rePasswordRef.current.value ) {
       setAlert((prevAlert) => ({
         typeAlert: 'error',
         message: 'Ambos password deben ser iguales',
       }));
       return;
     }
-
+    setIsDisabled(prevValue=>false);
   };
 
   const verifyEmail = () => {
@@ -106,6 +107,7 @@ const Register = () => {
       }));
       return;
     }
+    setIsDisabled(prevValue=>false);
   };
 
   return (
@@ -134,7 +136,6 @@ const Register = () => {
             type='password'
             id='password'
             ref={passwordRef}
-            onBlur={verifyPasswd}
             placeholder='Contraseña'
           />
           <label htmlFor='password'>Password</label>
@@ -153,7 +154,11 @@ const Register = () => {
           <Alert typeAlert={alert.typeAlert} message={alert.message} />
         )}
         <div className={css.contentBtn}>
-          <button onClick={handleRegister} className='btn__primary'>
+          <button
+            onClick={handleRegister}
+            className={`btn__primary ${isDisabled ? "btn__disabled" : ""}`}
+            disabled={isDisabled}
+          >
             Continuar
           </button>
 

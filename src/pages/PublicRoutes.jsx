@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ForgotPasswd from './auth/ForgotPasswd';
 import Register from './auth/Register';

@@ -30,6 +30,9 @@ $buttons: 'primary', 'secondary', 'tertiary', 'warning';
 
 .btn {
   @include btn;
+  &__disabled{
+    cursor: not-allowed;
+  }
 
   &__primary {
     background-color: $primary;

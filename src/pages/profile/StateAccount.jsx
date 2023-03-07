@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import css from '../../assets/styles/pages/stateAccount.module.scss';
+import { useLoyalty } from "../../context/LoyaltyContext";
+
 import { BiLogOut } from 'react-icons/bi';
+import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
-  const { fidelizationData, webHook, getPhotoUrl, logout } = useAuth();
+  const { webHook, getPhotoUrl, logout } = useAuth();
+  const {setFidelizationData, fidelizationData, setLoadingSpinner } = useLoyalty();
   const navigate = useNavigate();
 
   const {
@@ -29,9 +32,12 @@ const StateAccount = () => {
 
   const handleLogout = async (e) => {
     e.preventDefault();
+    setLoadingSpinner(true)
+    setFidelizationData(null);
     await logout();
-    navigate(`/?webhook=${webHook}`);
-  };
+    navigate(`/?webhook=${webHook}`)
+   
+  }
 
   return (
     <div className={css.content__account}>

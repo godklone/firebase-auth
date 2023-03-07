@@ -1,20 +1,16 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../../context/AuthContext';
-import {
-  validNumber,
-  validDniNumber,
-  replaceDots,
-  removeEmptyValues,
-} from '../../helpers';
-import css from '../../assets/styles/pages/profile.module.scss';
-import Alert from '../../components/Alert';
-import Swal from 'sweetalert2';
+import { useAuth } from "../../context/AuthContext";
+import { validNumber, validDniNumber, replaceDots, removeEmptyValues } from "../../helpers";
+import css from '../../assets/styles/pages/profile.module.scss'
+import Alert from "../../components/Alert";
+import Swal from "sweetalert2";
+import { useLoyalty } from "../../context/LoyaltyContext";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  const { profileDataUpdate, setTransitProfile } = useAuth();
+  const { profileDataUpdate, setTransitProfile } = useLoyalty();
   const dniRef = useRef();
   const credentialRef = useRef();
   const codeRef = useRef();
@@ -40,28 +36,17 @@ const AssociateCardData = () => {
 
     const validAttribToBind = removeEmptyValues(currentProfile);
 
-    if (
-      Object.keys(validAttribToBind).length === 1 &&
-      'code' in validAttribToBind
-    ) {
-      console.log('only code');
-      newErrors.code =
-        'Para realizar la asociacion debe estar presente el numero de credencial';
+    if (Object.keys(validAttribToBind).length === 1 && 'code' in validAttribToBind) {
+      newErrors.code = 'Para realizar la asociacion debe estar presente el numero de credencial';
       return false;
     }
 
-    if (
-      currentProfile?.dni &&
-      (currentProfile.dni.length < minDniLen ||
-        currentProfile.dni.length > maxDniLen)
-    ) {
-      console.log('error si esta el Dni');
+    if (currentProfile?.dni && (currentProfile.dni.length < minDniLen || currentProfile.dni.length > maxDniLen)) {
       newErrors.dni = 'El Valor para el numero del DNI no es valido.';
       return false;
     }
 
     if (currentProfile?.credential && currentProfile.credential.length < 5) {
-      console.log('error si esta la credencial:');
       newErrors.names = 'El Numero de credential no es valido';
       return false;
     }
@@ -76,7 +61,6 @@ const AssociateCardData = () => {
   const handleConfirm = async (e) => {
     e.preventDefault();
     if (!dataIsValid()) {
-      console.log('datos invalidos');
       return;
     }
 
@@ -97,7 +81,6 @@ const AssociateCardData = () => {
 
       navigate('associate-data/update-profile');
     } catch (error) {
-      console.log(error);
       await Swal.fire({
         title: 'Ha ocurrido un error.',
         text: error,

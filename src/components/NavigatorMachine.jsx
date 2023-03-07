@@ -18,7 +18,7 @@ export default function NavigatorMachine() {
     if(!current.value) {
       return;
     }
-    console.log(current.value)
+    log(current.value)
     objNavigate[current.value]();
       
   }, [current.value]);

@@ -14,7 +14,7 @@ const MainLayout = (props) => {
   
   useEffect(() => {
     if (!webHook) {
-      navigate("404")
+      navigate("/login")
     }
   }, [])
   

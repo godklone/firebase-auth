@@ -71,7 +71,7 @@ export const AuthProvider = (props) => {
       }, spinnerTimer);
     });
     return () => unsubuscribe();
-  }, [auth]);
+  }, []);
 
 
   const getPhotoUrl = () => {
@@ -80,17 +80,16 @@ export const AuthProvider = (props) => {
 
   const value = useMemo(() => ({
     isLoading,
+    user,
     signup,
     signIn,
     loginWithGoogle,
     logout,
     resetPassword,
-    user,
-    webHook,
     setWebHook,
     getPhotoUrl,
-    getToken
-
+    getToken,
+    webHook,
   }), [
     user,
     isLoading,
@@ -102,7 +101,7 @@ export const AuthProvider = (props) => {
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
-    throw new Error("useAuth debe estar contenida en el provider")
+    throw new Error("useAuth debe estar contenida en AuthProvider")
   }
   return context
 }

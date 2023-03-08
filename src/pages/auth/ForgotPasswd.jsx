@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Alert from '../../components/Alert';
-import Modal from '../../components/Modal';
 import { useAuth } from '../../context/AuthContext';
 import { validEmail } from '../../helpers';
 import useError from '../../hooks/useError';
@@ -12,8 +11,6 @@ import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 
 const ForgotPasswd = () => {
   const emailRef = useRef();
-  const [viewModal, setViewModal] = useState(false);
-  const [animate, setAnimate] = useState(false);
   const [alert, setAlert] = useError();
   const navigate = useNavigate();
   const { resetPassword } = useAuth();
@@ -83,15 +80,6 @@ const ForgotPasswd = () => {
           </div>
         </form>
       </div>
-
-      {viewModal && (
-        <Modal
-          setViewModal={setViewModal}
-          setAnimate={setAnimate}
-          animate={animate}
-        />
-      )}
-      {/* <PasswordRestore /> */}
     </div>
   );
 };

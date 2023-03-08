@@ -7,7 +7,7 @@ import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout } = useAuth();
-  const {setFidelizationData, fidelizationData, setLoadingSpinner } = useLoyalty();
+  const { setFidelizationData, fidelizationData, setLoadingSpinner } = useLoyalty();
   const navigate = useNavigate();
 
   const {
@@ -36,15 +36,17 @@ const StateAccount = () => {
     setFidelizationData(null);
     await logout();
     navigate(`/?webhook=${webHook}`)
-   
+
   }
 
   return (
     <div className={css.content__account}>
       <div className={css.btnHeader}>
-        <a className='btn__primary' href={webHook}>
-          Continuar al sitio Principal
-        </a>
+        {
+          webHook && <a className='btn__primary' href={webHook}>
+            Continuar al sitio Principal
+          </a>
+        }
         <button className='btn_logout' onClick={handleLogout}>
           <BiLogOut />
         </button>

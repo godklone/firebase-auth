@@ -72,7 +72,7 @@ export const LoyaltyProvider = (props) => {
     }
     try {
       const token = await getToken(user);
-      setTransitProfile(bindProfile);
+      setTransitProfile(bindProfile); //TODO: REVISAR ESTA ASIGNACION
       setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
       if(data.status==="Error"){

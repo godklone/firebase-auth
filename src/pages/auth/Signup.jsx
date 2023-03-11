@@ -15,7 +15,7 @@ const Signup = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [alert, setAlert] = useError();
-  const { signIn, loginWithGoogle, user, setAuthError } =useAuth();
+  const { signIn, loginWithGoogle, user } =useAuth();
   const {setLoadingSpinner,     setFidelizationData } = useLoyalty();
   // const [current, send] = useNavigationMachine();
   
@@ -46,7 +46,8 @@ const Signup = () => {
         icon: 'error',
         title: 'Error en el registro',
         text:   error,
-        confirmButtonText: 'Entendido',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar...',
       });
     }
   };
@@ -61,7 +62,8 @@ const Signup = () => {
         icon: 'error',
         title: 'Error en el registro',
         text:   getFirebaseAuthError(error.code),
-        confirmButtonText: 'Entendido',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar...',
       });
     }
   };

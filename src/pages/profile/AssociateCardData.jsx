@@ -75,18 +75,18 @@ const AssociateCardData = () => {
       await Swal.fire({
         icon: 'success',
         title: 'Actualizacion exitosa.',
-        showConfirmButton: false,
-        timer: 2000,
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar...',
       });
 
       navigate('associate-data/update-profile');
     } catch (error) {
       await Swal.fire({
         title: 'Ha ocurrido un error.',
-        text: error,
+        text: error?.error,
         icon: 'error',
-        showConfirmButton: false,
-        timer: 2200,
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar...',
       });
     }
   };

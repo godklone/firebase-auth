@@ -66,17 +66,16 @@ const TransitProfile = (props) => {
       await Swal.fire({
         icon: 'success',
         title: 'Registro exitoso',
-        showConfirmButton: false,
-        timer: 2000,
+        confirmButtonText: 'Continuar...',
       });
       navigate('/home');
     } catch (error) {
+      console.log(error)
       await Swal.fire({
         title: 'Ha ocurrido un error.',
         text: error,
         icon: 'error',
-        showConfirmButton: false,
-        timer: 2000,
+        confirmButtonText: 'Continuar...',
       });
     }
   };

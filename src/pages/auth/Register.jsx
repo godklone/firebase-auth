@@ -52,7 +52,6 @@ const Register = () => {
         title: 'Registro exitoso',
         text: 'Revisa tu correo y valida tu cuenta.',
         showConfirmButton: true,
-        showCloseButton: true,
         confirmButtonText: 'Continuar...',
       });
       // send('home');
@@ -62,7 +61,8 @@ const Register = () => {
         icon: 'error',
         title: 'Error en el registro',
         text: getFirebaseAuthError(error.code),
-        confirmButtonText: 'Entendido',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar...',
       });
     }
   };

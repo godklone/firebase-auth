@@ -52,14 +52,15 @@ export const LoyaltyProvider = (props) => {
     }
     try {
       const token = await getToken(user);
-      // setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
-      if (data.status === "Error") {
-        throw data.message
-      }
+      setLoadingSpinner(true);
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
+      if (error?.response?.data?.status === "Error") {
+        throw error?.response?.data?.message
+      }
+      // console.log(error)
       throw error;
       // setProfileAssignment(error?.response.status || 209);
     } finally {

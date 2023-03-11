@@ -19,7 +19,6 @@ const AssociateCard = () => {
   return (
     <div className=''>
       <h2 className='text-2xl font-bold mb-6'>Datos Personales</h2>
-
       <form className=''>
         {alert.message && (
           <Alert typeAlert={alert.typeAlert} message={alert.message} />

@@ -50,22 +50,14 @@ const Register = () => {
       await Swal.fire({
         icon: 'success',
         title: 'Registro exitoso',
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      await Swal.fire({
-        title: 'Revisa tu correo y valida tu cuenta.',
-        text: 'Body del mensaje emergente',
-        icon: 'warning',
+        text: 'Revisa tu correo y valida tu cuenta.',
         showConfirmButton: true,
         showCloseButton: true,
         confirmButtonText: 'Continuar...',
       });
-
       // send('home');
       navigate('/home');
     } catch (error) {
-
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
@@ -74,7 +66,6 @@ const Register = () => {
       });
     }
   };
-
 
   const verifyPasswd = () => {
     if (!validPassword.test(passwordRef.current.value)) {

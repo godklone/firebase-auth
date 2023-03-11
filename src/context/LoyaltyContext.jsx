@@ -10,15 +10,17 @@ export const LoyaltyProvider = (props) => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
   const [transitProfile, setTransitProfile] = useState(null);
-  const {user, getToken} = useAuth();
+  const { user, getToken } = useAuth();
+  const maxRetryCount = import.meta.VITE_MAX_RETRY_COUNT;
+  const maxWaitTime = import.meta.VITE_MAX_WAIT_TIME;
 
   useEffect(() => {
-    if (user===null ) {
+    if (user === null) {
       return;
     }
     profileDataLoader(user);
     setLoadingProfile(true);
-    
+
   }, [user])
 
   const profileDataLoader = async (user) => {
@@ -29,7 +31,7 @@ export const LoyaltyProvider = (props) => {
     try {
       setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty("/profile", config(token))
-      if(data.status==="Error"){
+      if (data.status === "Error") {
         throw data.message
       }
       const mappedData = mapProfileData(data);
@@ -38,7 +40,7 @@ export const LoyaltyProvider = (props) => {
       // throw error;
       // setProfileAssignment(error?.response.status || 209);
     }
-    finally{
+    finally {
       setLoadingProfile(false);
       setLoadingSpinner(false);
     }
@@ -52,7 +54,7 @@ export const LoyaltyProvider = (props) => {
       const token = await getToken(user);
       // setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
-      if(data.status==="Error"){
+      if (data.status === "Error") {
         throw data.message
       }
       const mappedData = mapProfileData(data);
@@ -60,12 +62,12 @@ export const LoyaltyProvider = (props) => {
     } catch (error) {
       throw error;
       // setProfileAssignment(error?.response.status || 209);
-    }finally{
+    } finally {
       setLoadingSpinner(false);
     }
   }
 
-  const profileDataUpdate = async (bindProfile) => {
+  const profileDataUpdate = async (bindProfile, retryCount = 0) => {
     if (user === null) {
       return;
     }
@@ -73,25 +75,41 @@ export const LoyaltyProvider = (props) => {
       const token = await getToken(user);
       setTransitProfile(bindProfile); //TODO: REVISAR ESTA ASIGNACION
       setLoadingSpinner(true);
-      console.log(bindProfile)
-      const { data } = await axiosClientLoyalty.put('profile/bind', bindProfile, config(token))
-      if(data.status==="Error"){
+
+      const { data } = await axiosClientLoyalty.put(
+        '/profile/bind',
+        bindProfile,
+        { timeout: maxWaitTime, ...config(token) }
+      );
+
+      if (data.status === "Error") {
         throw data.message
       }
+
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
-      throw error;
+      if (error.response && error.response.status === 404) {
+        console.log("El recurso solicitado no fue encontrado.");
+        throw error;
+      } else if (retryCount < maxRetryCount) {
+        await new Promise(resolve => setTimeout(resolve, (maxWaitTime/4)));
+        return makeRequest(bindProfile, retryCount + 1);
+      } else {
+        throw error;
+      }
       // setProfileAssignment(error?.response.status || 209);
     }
-    finally{
+    finally {
       setLoadingSpinner(false);
     }
   }
-  
+
+
+
   const value = useMemo(() => ({
     loadingProfile,
-    transitProfile, 
+    transitProfile,
     fidelizationData,
     profileDataLoader,
     profileDataCreate,

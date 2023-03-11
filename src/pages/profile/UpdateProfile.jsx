@@ -1,14 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { useAuth } from "../../context/AuthContext";
+import { useLoyalty } from "../../context/LoyaltyContext";
 
 const UpdateProfile = ({disabledField}) => {
   const navigate = useNavigate();
   const dniRef = useRef();
   const nameRef = useRef();
   const lastNameRef = useRef();
-  const { fidelizationData } = useAuth();
+  const { fidelizationData } = useLoyalty();
 
   useEffect(() => {
     if (!fidelizationData?.identification) {

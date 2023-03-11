@@ -65,11 +65,11 @@ const AssociateCardData = () => {
     }
 
     try {
-      const bindProfile = removeEmptyValues({
-        identificacion: replaceDots(dniRef.current.value),
-        credential: credentialRef.current.value,
+      const bindProfile = {
+        identification: replaceDots(dniRef.current.value),
+        number: credentialRef.current.value,
         code: codeRef.current.value,
-      });
+      };
 
       await profileDataUpdate(bindProfile);
       await Swal.fire({

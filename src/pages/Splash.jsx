@@ -12,15 +12,24 @@ const Splash = () => {
   const [searchParams,] = useSearchParams();
 
   useEffect(() => {
-    const webhook = searchParams.get("webhook");
+    let webhook = searchParams.get("webhook");
     if (!webhook) {
       signOut();
-      navigate('/404');
+    } else {
+      try {
+        const newUrl = new URL(`${webhook}`);
+      } catch (e) {
+        webhook = "invalid"
+        navigate('/404');
+      } finally {
+        setWebHook(webhook);
+      }
     }
-    setWebHook(webhook);
+
   }, [])
 
   useEffect(() => {
+
     if (!isLoading) {
       if (user) {
         navigate('/home');

@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../config/firebase";
+import { getFirebaseAuthError } from "../utils/mapFirebaseError";
 
 const AuthContext = createContext({
   user: null,
@@ -24,6 +25,7 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [webHook, setWebHook] = useState(null);
+  
   const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
 
   const setAuth = () => {
@@ -40,7 +42,15 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    return await signInWithEmailAndPassword(auth, email, password);
+    try {
+      setIsLoading(true);
+      return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      throw new Error(getFirebaseAuthError(error.code))
+    }
+    finally{
+      setIsLoading(false);
+    }
   };
 
   const logout = async () => {
@@ -54,7 +64,7 @@ export const AuthProvider = (props) => {
   };
 
   const resetPassword = async (email) => {
-      return await sendPasswordResetEmail(auth, email);
+    return await sendPasswordResetEmail(auth, email);
   }
 
   const getToken = async (user) => {
@@ -71,7 +81,7 @@ export const AuthProvider = (props) => {
       }, spinnerTimer);
     });
     return () => unsubuscribe();
-  }, [auth]);
+  }, []);
 
 
   const getPhotoUrl = () => {
@@ -80,21 +90,21 @@ export const AuthProvider = (props) => {
 
   const value = useMemo(() => ({
     isLoading,
+    user,
     signup,
     signIn,
     loginWithGoogle,
     logout,
     resetPassword,
-    user,
-    webHook,
     setWebHook,
     getPhotoUrl,
-    getToken
+    getToken,
+    webHook,
 
   }), [
     user,
     isLoading,
-    webHook,
+    webHook
   ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }
@@ -102,7 +112,7 @@ export const AuthProvider = (props) => {
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
-    throw new Error("useAuth debe estar contenida en el provider")
+    throw new Error("useAuth debe estar contenida en AuthProvider")
   }
   return context
 }

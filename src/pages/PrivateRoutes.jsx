@@ -10,12 +10,13 @@ import UpdateProfile from "./profile/UpdateProfile";
 import LastMovement from "./profile/LastMovement";
 import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
+import Spinner from "../components/Spinner";
 
 
 
 const PrivateRoutes = () => {
-  const { user } = useAuth();
-  const { fidelizationData } = useLoyalty();
+  const { user, isLoading } = useAuth();
+  const { fidelizationData, loadingSpinner } = useLoyalty();
   const navigate = useNavigate();
   const affiliate = "";
 
@@ -24,6 +25,10 @@ const PrivateRoutes = () => {
       navigate("/");
     }
   }, [])
+
+  if (isLoading || loadingSpinner) {
+    return <Spinner />
+  }
 
   return (
     <Routes>

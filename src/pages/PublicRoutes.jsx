@@ -8,15 +8,15 @@ const PublicRoutes = () => {
   const { webHook } = useAuth();
   return (
     <Routes>
-      {!webHook ? (
+      {/* {!webHook ? (
         <Route path='/404' />
       ) : (
-        <>
+        <> */}
           <Route index element={<Signup />} />
           <Route path='register' element={<Register />} />
           <Route path='forgoten-password' element={<ForgotPasswd />} />
-        </>
-      )}
+        {/* </>
+      )} */}
     </Routes>
   );
 };

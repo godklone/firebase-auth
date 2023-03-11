@@ -7,7 +7,7 @@ import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout } = useAuth();
-  const { setFidelizationData, fidelizationData, setLoadingSpinner } = useLoyalty();
+  const { setFidelizationData, fidelizationData, setLoadingSpinner , setTransitProfile} = useLoyalty();
   const navigate = useNavigate();
 
   const {
@@ -34,6 +34,7 @@ const StateAccount = () => {
     e.preventDefault();
     setLoadingSpinner(true)
     setFidelizationData(null);
+    setTransitProfile(null)
     await logout();
     navigate(`/?webhook=${webHook}`)
 

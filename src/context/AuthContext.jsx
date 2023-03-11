@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../config/firebase";
+import { getFirebaseAuthError } from "../utils/mapFirebaseError";
 
 const AuthContext = createContext({
   user: null,
@@ -24,6 +25,7 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [webHook, setWebHook] = useState(null);
+  
   const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
 
   const setAuth = () => {
@@ -40,7 +42,15 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    return await signInWithEmailAndPassword(auth, email, password);
+    try {
+      setIsLoading(true);
+      return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      throw new Error(getFirebaseAuthError(error.code))
+    }
+    finally{
+      setIsLoading(false);
+    }
   };
 
   const logout = async () => {
@@ -54,7 +64,7 @@ export const AuthProvider = (props) => {
   };
 
   const resetPassword = async (email) => {
-      return await sendPasswordResetEmail(auth, email);
+    return await sendPasswordResetEmail(auth, email);
   }
 
   const getToken = async (user) => {
@@ -90,10 +100,11 @@ export const AuthProvider = (props) => {
     getPhotoUrl,
     getToken,
     webHook,
+
   }), [
     user,
     isLoading,
-    webHook,
+    webHook
   ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }

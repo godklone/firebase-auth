@@ -15,8 +15,8 @@ const Signup = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [alert, setAlert] = useError();
-  const { signIn, loginWithGoogle, user } =useAuth();
-  const {setLoadingSpinner } = useLoyalty();
+  const { signIn, loginWithGoogle, user, setAuthError } =useAuth();
+  const {setLoadingSpinner,     setFidelizationData } = useLoyalty();
   // const [current, send] = useNavigationMachine();
   
   useEffect(() => {
@@ -25,6 +25,10 @@ const Signup = () => {
     }
     // return ()=>navigate('/home');
   }, [user]);
+
+  useEffect(() => {
+    setFidelizationData(null);
+  }, [])
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,12 +41,11 @@ const Signup = () => {
     }
     try {
       await signIn(emailRef.current.value, passwordRef.current.value);
-      setLoadingSpinner(true);
     } catch (error) {
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text:   getFirebaseAuthError(error.code),
+        text:   error,
         confirmButtonText: 'Entendido',
       });
     }
@@ -52,7 +55,6 @@ const Signup = () => {
     e.preventDefault();
     try {
       await loginWithGoogle();
-      setLoadingSpinner(true);
       navigate('/home');
     } catch (error) {
       await Swal.fire({

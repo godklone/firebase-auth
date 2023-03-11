@@ -43,7 +43,7 @@ const StateAccount = () => {
     <div className={css.content__account}>
       <div className={css.btnHeader}>
         {
-          webHook && <a className='btn__primary' href={webHook}>
+          !!webHook &&  webHook !== "invalid" && <a className='btn__primary' href={webHook}>
             Continuar al sitio Principal
           </a>
         }

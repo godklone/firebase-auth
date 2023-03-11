@@ -21,7 +21,6 @@ export const LoyaltyProvider = (props) => {
     
   }, [user])
 
-  
   const profileDataLoader = async (user) => {
     if (user === null) {
       return;
@@ -74,7 +73,8 @@ export const LoyaltyProvider = (props) => {
       const token = await getToken(user);
       setTransitProfile(bindProfile); //TODO: REVISAR ESTA ASIGNACION
       setLoadingSpinner(true);
-      const { data } = await axiosClientLoyalty.put('/bind', bindProfile, config(token))
+      console.log(bindProfile)
+      const { data } = await axiosClientLoyalty.put('profile/bind', bindProfile, config(token))
       if(data.status==="Error"){
         throw data.message
       }

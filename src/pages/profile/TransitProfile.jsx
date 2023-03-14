@@ -9,7 +9,7 @@ import { replaceDots, validDniNumber, validWord } from "../../helpers";
 
 const TransitProfile = (props) => {
   const navigate = useNavigate();
-  const { profileDataCreate, transitProfile } = useLoyalty();
+  const { profileDataCreate, transitProfile , loadingSpinner} = useLoyalty();
   const dniRef = useRef();
   const nameRef = useRef();
   const lastNameRef = useRef();
@@ -20,6 +20,9 @@ const TransitProfile = (props) => {
 
   const handleConfirm = async (e) => {
     e.preventDefault();
+    if (loadingSpinner) {
+      return;
+    }
     const newErrors = {};
     const [dni, name, lastName] = [
       dniRef.current.value.trim(),

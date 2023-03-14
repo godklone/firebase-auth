@@ -1,4 +1,5 @@
 import { createContext, useMemo, useContext, useState, useEffect } from "react";
+import pictureProfile from "../assets/img/profile.png"
 
 import {
   createUserWithEmailAndPassword,
@@ -85,7 +86,8 @@ export const AuthProvider = (props) => {
 
 
   const getPhotoUrl = () => {
-    return user.photoURL || "src/assets/img/profile.png";
+    
+    return user.photoURL || pictureProfile;
   }
 
   const value = useMemo(() => ({

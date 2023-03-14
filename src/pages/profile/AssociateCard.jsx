@@ -9,7 +9,6 @@ const AssociateCard = () => {
 
   const handleConfirm = (e) => {
     e.preventDefault();
-
   }
 
   const handleCancel = (e) => {

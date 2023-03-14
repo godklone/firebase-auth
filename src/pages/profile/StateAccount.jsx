@@ -6,7 +6,7 @@ import { BiLogOut } from 'react-icons/bi';
 import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
-  const { webHook, getPhotoUrl, logout } = useAuth();
+  const { webHook, getPhotoUrl, logout, getToken } = useAuth();
   const { setFidelizationData, fidelizationData, setLoadingSpinner , setTransitProfile} = useLoyalty();
   const navigate = useNavigate();
 

@@ -27,9 +27,7 @@ const UpdateProfile = ({disabledField}) => {
     navigate("/home");
   }
 
-
   return (
-
     <div className="content__general">
       <h4 className="heading">Perfil de la cuenta</h4>
       <p className="paragraph">

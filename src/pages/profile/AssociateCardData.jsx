@@ -10,7 +10,7 @@ import { useLoyalty } from "../../context/LoyaltyContext";
 
 const AssociateCardData = () => {
   const navigate = useNavigate();
-  const { profileDataUpdate, setTransitProfile } = useLoyalty();
+  const { profileDataUpdate, setTransitProfile,loadingSpinner } = useLoyalty();
   const dniRef = useRef();
   const credentialRef = useRef();
   const codeRef = useRef();
@@ -60,6 +60,10 @@ const AssociateCardData = () => {
 
   const handleConfirm = async (e) => {
     e.preventDefault();
+    if (loadingSpinner) {
+      return;
+    }
+
     if (!dataIsValid()) {
       return;
     }
@@ -115,7 +119,9 @@ const AssociateCardData = () => {
 
   const handleTransitProfile = (e) => {
     e.preventDefault();
-
+    if (loadingSpinner) {
+      return;
+    }
     const transitProfile = {
       transit: true,
       dni: replaceDots(dniRef.current.value),

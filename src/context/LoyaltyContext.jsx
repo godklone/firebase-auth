@@ -10,6 +10,8 @@ export const LoyaltyProvider = (props) => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
   const [transitProfile, setTransitProfile] = useState(null);
+
+
   const { user, getToken } = useAuth();
   const maxRetryCount = import.meta.VITE_MAX_RETRY_COUNT;
   const maxWaitTime = import.meta.VITE_MAX_WAIT_TIME;
@@ -24,13 +26,18 @@ export const LoyaltyProvider = (props) => {
   }, [user])
 
   const profileDataLoader = async (user) => {
-    if (user === null) {
+    if (user === null  || loadingSpinner) {
       return;
     }
     const token = await getToken(user);
     try {
       setLoadingSpinner(true);
-      const { data } = await axiosClientLoyalty("/profile", config(token))
+      const { data } = await axiosClientLoyalty(
+        "/profile", 
+        {
+          cancelToken: newCancelTokenSource.token, 
+          ...config(token)}
+        )
       if (data.status === "Error") {
         throw data.message
       }
@@ -47,12 +54,16 @@ export const LoyaltyProvider = (props) => {
   }
 
   const profileDataCreate = async (newProfile) => {
-    if (user === null) {
+    if (user === null || loadingSpinner) {
       return;
     }
     try {
       const token = await getToken(user);
-      const { data } = await axiosClientLoyalty.post('/profile', newProfile, config(token))
+      const { data } = await axiosClientLoyalty.post(
+        '/profile', 
+        newProfile,
+        config(token)
+      )
       setLoadingSpinner(true);
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
@@ -69,7 +80,7 @@ export const LoyaltyProvider = (props) => {
   }
 
   const profileDataUpdate = async (bindProfile, retryCount = 0) => {
-    if (user === null) {
+    if (user === null || loadingSpinner) {
       return;
     }
     try {
@@ -94,7 +105,7 @@ export const LoyaltyProvider = (props) => {
         console.log("El recurso solicitado no fue encontrado.");
         throw error;
       } else if (retryCount < maxRetryCount) {
-        await new Promise(resolve => setTimeout(resolve, (maxWaitTime/4)));
+        await new Promise(resolve => setTimeout(resolve, (maxWaitTime / 4)));
         return makeRequest(bindProfile, retryCount + 1);
       } else {
         throw error;
@@ -105,8 +116,6 @@ export const LoyaltyProvider = (props) => {
       setLoadingSpinner(false);
     }
   }
-
-
 
   const value = useMemo(() => ({
     loadingProfile,
@@ -119,6 +128,7 @@ export const LoyaltyProvider = (props) => {
     setLoadingSpinner,
     setFidelizationData,
     setTransitProfile,
+  
   }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);

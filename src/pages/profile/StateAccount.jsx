@@ -36,7 +36,7 @@ const StateAccount = () => {
     setFidelizationData(null);
     setTransitProfile(null)
     await logout();
-    navigate(`/?webhook=${webHook}`)
+    navigate(`/ ${webHook}? "?webhook="${webHook}:""`)
 
   }
 
@@ -75,6 +75,21 @@ const StateAccount = () => {
         <span className={css.title}>Siempre Beneficios</span>
         <span className={css.number}>N°: {credencial.number}</span>
         <span className={css.cod}>Cód. Seg: {credencial.code}</span>
+      </div>
+      <div className={css.groupBtn}>
+        {/* <button
+          onClick={handlePersonalData}
+          className=""
+        >
+          Datos Personales
+        </button>
+
+        <button
+          onClick={handleLastMovement}
+          className=""
+        >
+          Ultimos Movimientos
+        </button> */}
       </div>
     </div>
   );

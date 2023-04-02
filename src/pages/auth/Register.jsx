@@ -1,50 +1,23 @@
 import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
-import {  useRef, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import useError from '../../hooks/useError';
-import Alert from '../../components/Alert';
-import { validEmail, validPassword } from '../../helpers';
-// import { useNavigationMachine } from '../../machines/machine';
+import { useFormik } from "formik";
+
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
+import { validationRegisterSchema } from '../../validation';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
 
+
 const Register = () => {
-  const [isDisabled, setIsDisabled] = useState(true);
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const rePasswordRef = useRef();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
-  // const [current, send] = useNavigationMachine();
-
-  const { signup } = useAuth();
-  const [alert, setAlert, resetAlert] = useError();
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    resetAlert();
-    if (!validEmail.test(emailRef.current.value)) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message: 'Please enter a valid email',
-      }));
-      return;
-    }
-
-    if (!validPassword.test(passwordRef.current.value)) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message:
-          'el password debe contener letras mayusculas, minusculas y caracteres numericos. La longitud debe tener entre 6 a 15 caracteres. ',
-      }));
-      return;
-    }
-
+  const onSubmit = async (values, { setSubmitting }) => {
     try {
       await signup(
-        emailRef.current.value,
-        passwordRef.current.value
+        values.email,
+        values.password
       );
 
       await Swal.fire({
@@ -54,7 +27,6 @@ const Register = () => {
         showConfirmButton: true,
         confirmButtonText: 'Continuar...',
       });
-      // send('home');
       navigate('/home');
     } catch (error) {
       await Swal.fire({
@@ -64,41 +36,25 @@ const Register = () => {
         showConfirmButton: true,
         confirmButtonText: 'Continuar...',
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const verifyPasswd = () => {
-    if (!validPassword.test(passwordRef.current.value)) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message:
-          'La contrasenia debe contener letras mayusculas, minusculas y caracteres numericos. La longitud debe tener entre 6 a 15 caracteres.',
-      }));
-      return;
-    }
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      repeatPassword: "",
+    },
+    validationSchema: validationRegisterSchema,
+    onSubmit
+  });
 
-  };
+  const { signup } = useAuth();
 
-  const verifyRePasswd = () => {
-    if (passwordRef.current.value !== rePasswordRef.current.value ) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message: 'Ambos password deben ser iguales',
-      }));
-      return;
-    }
-    setIsDisabled(prevValue=>false);
-  };
-
-  const verifyEmail = () => {
-    if (!validEmail.test(emailRef.current.value)) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message: 'Please enter a valid email',
-      }));
-      return;
-    }
-    setIsDisabled(prevValue=>false);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -110,49 +66,70 @@ const Register = () => {
         credenciales para ingresar.
       </p>
 
-      <form autoComplete='off'>
-
+      <form onSubmit={formik.handleSubmit}>
         <div className='textfield'>
           <input
-            type='email'
-            id='email'
-            ref={emailRef}
-            onBlur={verifyEmail}
+            id="email"
+            name="email"
+            type="email"
             placeholder='Email'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
           />
-          <label htmlFor='email'>Email</label>
+          <label htmlFor="email">Email</label>
         </div>
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
+        ) : null}
         <div className='textfield'>
           <input
-            type='password'
-            id='password'
-            ref={passwordRef}
-            placeholder='Contraseña'
+            id="password"
+            name="password"
+            placeholder='Password'
+            type={showPassword ? "text" : "password"}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
           />
-          <label htmlFor='password'>Password</label>
+          <label htmlFor="password">Password</label>
         </div>
+        {formik.touched.password && formik.errors.password ? (
+          <div>{formik.errors.password}</div>
+        ) : null}
         <div className='textfield'>
           <input
-            type='password'
-            id='repassword'
-            ref={rePasswordRef}
-            onBlur={verifyRePasswd}
-            placeholder='Verifica tu Password'
+            id="repeatPassword"
+            name="repeatPassword"
+            type={showPassword ? "text" : "password"}
+            placeholder='Repita su password'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.repeatPassword}
           />
-          <label htmlFor='repassword'>Verificar Password</label>
+          <label htmlFor="repeatPassword">Repita su password</label>
         </div>
-        {alert.message && (
-          <Alert typeAlert={alert.typeAlert} message={alert.message} />
-        )}
+        {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
+          <div>{formik.errors.repeatPassword}</div>
+        ) : null}
+
+        <div className=''>
+          <input
+            type="checkbox"
+            id="showPassword"
+            name="showPassword"
+            checked={showPassword}
+            onChange={handleShowPassword}
+          />
+          <label htmlFor="showPassword">Show password</label>
+        </div>
+
         <div className={css.contentBtn}>
           <button
-            onClick={handleRegister}
-            className={`btn__primary ${isDisabled ? "btn__disabled" : ""}`}
-            disabled={isDisabled}
-          >
-            Continuar
-          </button>
-
+            type="submit"
+            className="btn__primary"
+            disabled={formik.isSubmitting}
+          >Continuar</button>
           <p className='paragraph'>
             Ya tenes una cuenta creada?{' '}
             <Link to='/login' className={css.login}>

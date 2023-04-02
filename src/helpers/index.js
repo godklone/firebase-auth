@@ -14,12 +14,6 @@ const validWord = (value, ref) => {
 
 }
 
-const onlyNumber = (value) => value.replace(/\D/g, "");
-
-const validNumber = (value, ref) => {
-  ref.current.value =onlyNumber(value);
-}
-
 const validDniNumber = (value, ref) => {
   const formattedValueWithDots = onlyNumber(value).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   ref.current.value = formattedValueWithDots;
@@ -42,6 +36,46 @@ const debounce = (func, time)=>{
   }
 }
 
+const formatDni = (value) => {
+  // Eliminamos los puntos que haya en el valor actual
+  const rawValue = value.replace(/\./g, '');
+  if(!value) return '';
+  // Insertamos puntos para separar miles
+  return new Intl.NumberFormat().format(rawValue);
+};
+
+const formatCredential = (value) => {
+  const unmaskedValue = value.replace(/ /g, '');
+  const regex = /(\d{1,4})/g;
+  const maskedValue = unmaskedValue.match(regex)?.join(' ');
+  return maskedValue || '';
+};
+
+const validNumber = (event, setFieldValue) => {
+  const { name, value } = event.target;
+  if ( /^[0-9\b]+$/.test(value) || value === '' ) {
+    setFieldValue(name, value);
+  }
+}
+
+const onlyNumber = (value) => value.replace(/\D/g, "");
+
+const validNumberInputChange = (event, setFieldValue) => {
+  const { name, value } = event.target;
+  const rawValue = value.replace(/\./g, '');
+  if (/^[0-9\b]+$/.test(rawValue) || rawValue === '') {
+    setFieldValue(name, formatDni(rawValue));
+  }
+};
+
+const validNumberCredentialInputChange = (event, setFieldValue) => {
+  const { name, value } = event.target;
+  const rawValue = value.replace(/ /g, '');
+  if (/^[0-9\b]+$/.test(rawValue) || rawValue === '') {
+    setFieldValue(name, formatCredential(rawValue));
+  }
+};
+
 export {
   validEmail,
   validPassword,
@@ -50,6 +84,9 @@ export {
   validDniNumber,
   replaceDots,
   debounce,
-  removeEmptyValues
+  removeEmptyValues,
+  validNumberInputChange,
+  validNumberCredentialInputChange,
+  onlyNumber
 
 }

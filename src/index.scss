@@ -22,3 +22,67 @@ a {
   text-decoration: none;
   background-color: transparent;
 }
+
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.mt {
+  &__2 {
+    margin-top: 2rem;
+  }
+
+  &__5 {
+    margin-top: 5rem;
+  }
+}
+
+.mb {
+  &__1 {
+    margin-bottom: 1rem;
+  }
+
+  &__5 {
+    margin-top: 5rem;
+  }
+}
+
+
+select {
+  width: calc(70% + 3rem);
+  font-size: 14px;
+  font-weight: 600;
+  color: #261d1d;
+  background-color: #e1e1e1;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  height: 3rem;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+
+select option {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}

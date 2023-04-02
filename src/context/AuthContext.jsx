@@ -26,7 +26,6 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [webHook, setWebHook] = useState(null);
-  
   const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
 
   const setAuth = () => {
@@ -101,12 +100,12 @@ export const AuthProvider = (props) => {
     setWebHook,
     getPhotoUrl,
     getToken,
-    webHook,
+    webHook
 
   }), [
     user,
     isLoading,
-    webHook
+    webHook, 
   ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }

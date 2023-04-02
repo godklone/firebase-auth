@@ -8,26 +8,34 @@ import NotFound from './pages/NotFound';
 import MainLayout from './layout/MainLayout';
 import PublicRoutes from './pages/PublicRoutes';
 import PrivateRoutes from './pages/PrivateRoutes';
+// import AnimatedRoutes from './components/AnimateRoutes';
+
+// import { useTransition, animated } from "react-spring";
+import AnimatedPage from './components/AnimatedPage';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <LoyaltyProvider>
-          <Routes>
-            <Route path="/" >
-              <Route index element={<Splash />} />
-              <Route element={<MainLayout />}>
-                <Route path="login/*" element={<PublicRoutes />} />
-                <Route path="home/*" element={<PrivateRoutes />} />
+        
+            <Routes>
+              <Route path="/" >
+                <Route index element={<Splash />} />
+                <Route element={<MainLayout />}>
+                  <Route path="login/*" element={<PublicRoutes />} />
+                  <Route path="home/*" element={<PrivateRoutes />} />
+                </Route>
+                <Route path="*" element={<Navigate to="/404" />} />
+                <Route path="404" element={<NotFound />} />
               </Route>
-              <Route path="*" element={<Navigate to="/404" />} />
-              <Route path="404" element={<NotFound />} />
-            </Route>
-          </Routes>
+            </Routes>
+     
         </LoyaltyProvider>
       </AuthProvider>
     </BrowserRouter >
   );
 }
+
+
 export default App;

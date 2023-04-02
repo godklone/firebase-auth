@@ -1,24 +1,20 @@
 import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect, useRef } from 'react';
-import useError from '../../hooks/useError';
-// import { useNavigationMachine } from '../../machines/machine';
-import Alert from '../../components/Alert';
-import { validEmail } from '../../helpers';
+import { useEffect, useState } from 'react';
+
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
 import { useLoyalty } from '../../context/LoyaltyContext';
+import { validationSignupSchema } from '../../validation';
+import { useFormik } from 'formik';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const [alert, setAlert] = useError();
-  const { signIn, loginWithGoogle, user } =useAuth();
-  const {setLoadingSpinner,     setFidelizationData } = useLoyalty();
-  // const [current, send] = useNavigationMachine();
-  
+  const { signIn, loginWithGoogle, user } = useAuth();
+  const { setLoadingSpinner, setFidelizationData } = useLoyalty();
+  const [togglePasswd, setTogglePasswd] = useState(false);
+
   useEffect(() => {
     if (user) {
       navigate('/home');
@@ -30,22 +26,14 @@ const Signup = () => {
     setFidelizationData(null);
   }, [])
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!validEmail.test(emailRef.current.value)) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message: 'Please enter a valid email',
-      }));
-      return;
-    }
+  const handleLogin = async (values) => {
     try {
-      await signIn(emailRef.current.value, passwordRef.current.value);
+      await signIn(values.email, values.password);
     } catch (error) {
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text:   error,
+        text: error,
         showConfirmButton: true,
         confirmButtonText: 'Continuar...',
       });
@@ -61,7 +49,7 @@ const Signup = () => {
       await Swal.fire({
         icon: 'error',
         title: 'Error en el registro',
-        text:   getFirebaseAuthError(error.code),
+        text: getFirebaseAuthError(error.code),
         showConfirmButton: true,
         confirmButtonText: 'Continuar...',
       });
@@ -73,6 +61,15 @@ const Signup = () => {
     navigate('register');
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: ""
+    },
+    validationSchema: validationSignupSchema,
+    onSubmit: handleLogin
+  });
+
   return (
     <div className={css.content__signup}>
       <h4 className='heading'>Bienvenido</h4>
@@ -82,45 +79,62 @@ const Signup = () => {
         crear una nueva cuenta. También puedes acceder con las redes sociales
       </p>
 
-      <form autoComplete='off'>
+      <form autoComplete='off' onSubmit={formik.handleSubmit}>
         <div className='textfield'>
           <input
-            type='email'
-            id='email'
-            ref={emailRef}
+            id="email"
+            name="email"
+            type="email"
             placeholder='Email'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
           />
-          <label htmlFor='email'>Email</label>
+          <label htmlFor="email">Email</label>
         </div>
+        {formik.touched.email && formik.errors.email ? (
+          <div className='alert__error'>{formik.errors.email}</div>
+        ) : null}
         <div className='textfield'>
           <input
-            type='password'
-            id='password'
-            ref={passwordRef}
+            type={!togglePasswd ? "password" : "text"}
+            name='password'
             placeholder='Contraseña'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
           />
-          <label htmlFor='password'>Password</label>
+          <label htmlFor='password'>Contraseña</label>
         </div>
-        {alert.message && (
-          <Alert typeAlert={alert.typeAlert} message={alert.message} />
-        )}
+        {formik.touched.password && formik.errors.password ? (
+          <div className='alert__error'>{formik.errors.password}</div>
+        ) : null}
+        <div>
+          <label>
+            <input
+              type='checkbox'
+              onClick={() => setTogglePasswd(prev => !prev)}
+            />
+            {!togglePasswd ? "Mostrar Password" : "Ocultar Password"}
+          </label>
+        </div>
 
         <p className={css.forgoten_password}>
           <Link to='forgoten-password'>Olvide el password</Link>
         </p>
 
         <div className={css.contentBtn}>
-          <button onClick={handleLogin} className='btn__primary'>
+          <button
+            type="submit"
+            className="btn__primary"
+            disabled={formik.isSubmitting}
+          >
             Continuar
           </button>
 
           <button onClick={handleGoogleSignin} className='btn__google'>
             Ingresar con Google
           </button>
-
-          {/* <button onClick={handleGoogleSignin} className='btn__facebook'>
-            Ingresar con Facebook
-          </button> */}
 
           <button onClick={handleRegister} className='btn__secondary'>
             Crear una cuenta

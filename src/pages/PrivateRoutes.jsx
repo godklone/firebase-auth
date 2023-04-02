@@ -11,6 +11,7 @@ import LastMovement from "./profile/LastMovement";
 import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
 import Spinner from "../components/Spinner";
+import { AffiliationPage } from "./profile/affiliationPage";
 
 
 
@@ -40,13 +41,16 @@ const PrivateRoutes = () => {
 
       /************************************************************************/
       <Route path="profile" >
-        <Route index element={<AssociateCardData />} />
+        {/* <Route index element={<AffiliationPage  />} /> */}
+        <Route index element={<PersonalData />} />
+        
         <Route path="associate-data/associate-transit-data"
           element={<TransitProfile affiliate={affiliate} />}
         />
         <Route path="associate-data/update-profile"
           element={<UpdateProfile disabledField={true} />}
         />
+ 
         <Route path="associate-transit-data"
           element={<TransitProfile affiliate={affiliate} />}
         />

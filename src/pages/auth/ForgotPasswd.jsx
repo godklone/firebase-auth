@@ -1,17 +1,13 @@
-import { useRef, useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Alert from '../../components/Alert';
 import { useAuth } from '../../context/AuthContext';
-import { validEmail } from '../../helpers';
-import useError from '../../hooks/useError';
-
-import css from '../../assets/styles/pages/loginFlow.module.scss';
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
+import { useFormik } from 'formik';
+import { validationEmailSchema } from '../../validation';
+import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 const ForgotPasswd = () => {
-  const emailRef = useRef();
-  const [alert, setAlert] = useError();
   const navigate = useNavigate();
   const { resetPassword } = useAuth();
 
@@ -20,18 +16,10 @@ const ForgotPasswd = () => {
     navigate(-1);
   };
 
-  const handleRestoreEmail = async (e) => {
-    e.preventDefault();
-    if (!validEmail.test(emailRef.current.value)) {
-      setAlert((prevAlert) => ({
-        typeAlert: 'error',
-        message: 'Please enter a valid email',
-      }));
-      return;
-    }
+  const onSubmit = async (values) => {
     try {
-      setAlert({});
-      await resetPassword(emailRef.current.value);
+      // setAlert({});
+      await resetPassword(values.email);
       await Swal.fire({
         title: 'Correo enviado de forma exitosa.',
         text: 'Revisa tu correo y sigue las instrucciones para completar el proceso.',
@@ -52,8 +40,16 @@ const ForgotPasswd = () => {
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: validationEmailSchema,
+    onSubmit
+  });
+
   return (
-    <div className={viewModal ? 'fijar' : ''}>
+    <div className="">
       <div className={css.content__forgot__passwd}>
         <h4 className='heading'>Recuperar Password</h4>
         <p className='paragraph'>
@@ -61,17 +57,28 @@ const ForgotPasswd = () => {
           email con un link para que lo puedas resetear.
         </p>
 
-        <form autoComplete='off'>
+        <form autoComplete='off' onSubmit={formik.handleSubmit}>
           <div className='textfield'>
-            <input type='email' id='email' ref={emailRef} placeholder='Email' />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              placeholder='Email' />
             <label htmlFor='email'>Email</label>
           </div>
-          {alert.message && (
-            <Alert typeAlert={alert.typeAlert} message={alert.message} />
-          )}
+          {formik.touched.email && formik.errors.email ? (
+            <div>{formik.errors.email}</div>
+          ) : null}
 
           <div className={css.contentBtn}>
-            <button onClick={handleRestoreEmail} className='btn__primary'>
+            <button
+              type="submit"
+              className="btn__primary"
+              disabled={formik.isSubmitting}
+            >
               Recuperar
             </button>
             <button onClick={handleCancel} className='btn__warning'>

@@ -1,16 +1,15 @@
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import SideBar from "../components/SideBar"
 import css from "../assets/styles/components/mainLayout.module.scss"
 
 const MainLayout = (props) => {
-
   return (
     <>
       <main className={css.main}>
         <div className={css.container}>
           <SideBar />
           <div className={css.content}>
-            <Outlet />
+              <Outlet />
           </div>
         </div>
       </main>

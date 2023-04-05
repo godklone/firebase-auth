@@ -69,9 +69,10 @@ const ForgotPasswd = () => {
               placeholder='Email' />
             <label htmlFor='email'>Email</label>
           </div>
+          <div className="alert__error">
           {formik.touched.email && formik.errors.email ? (
-            <div>{formik.errors.email}</div>
-          ) : null}
+            formik.errors.email
+          ) : null}</div>
 
           <div className={css.contentBtn}>
             <button

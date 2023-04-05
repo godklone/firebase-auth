@@ -43,6 +43,9 @@ a {
 }
 
 .mt {
+  &__1 {
+    margin-top: 1rem;
+  }
   &__2 {
     margin-top: 2rem;
   }
@@ -85,4 +88,26 @@ select option {
   font-weight: 400;
   border: none;
   border-bottom: 1px solid #ccc;
+}
+
+.marquee-container {
+  height: 50px; /* Altura del contenedor */
+  overflow: hidden; /* Para ocultar el texto que se sale del contenedor */
+}
+
+.marquee {
+  margin: 0; /* Para que no haya espacios en blanco alrededor */
+  padding: 0;
+  display: inline-block;
+  white-space: nowrap; /* Para que el texto no se divida en varias líneas */
+  animation: marquee 10s linear infinite; /* Animación de la marquesina */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }

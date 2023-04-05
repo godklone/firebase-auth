@@ -92,9 +92,11 @@ const Signup = () => {
           />
           <label htmlFor="email">Email</label>
         </div>
-        {formik.touched.email && formik.errors.email ? (
-          <div className='alert__error'>{formik.errors.email}</div>
-        ) : null}
+        <div className="alert__error">
+          {formik.touched.email && formik.errors.email ? (
+            formik.errors.email
+          ) : null}
+        </div>
         <div className='textfield'>
           <input
             type={!togglePasswd ? "password" : "text"}
@@ -106,9 +108,11 @@ const Signup = () => {
           />
           <label htmlFor='password'>Contraseña</label>
         </div>
-        {formik.touched.password && formik.errors.password ? (
-          <div className='alert__error'>{formik.errors.password}</div>
-        ) : null}
+        <div className="alert__error">
+          {formik.touched.password && formik.errors.password ? (
+            formik.errors.password
+          ) : null}
+        </div>
         <div>
           <label>
             <input

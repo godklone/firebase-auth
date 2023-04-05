@@ -16,9 +16,11 @@ const DniAffiliationForm = ({ formik }) => {
         />
         <label htmlFor="dni">Número de DNI:</label>
       </div>
+      <div className="alert__error">
       {formik.touched.dni && formik.errors.dni ? (
-        <div className="alert__error">{formik.errors.dni}</div>
+        formik.errors.dni
       ) : null}
+      </div>
     </div>
   );
 };

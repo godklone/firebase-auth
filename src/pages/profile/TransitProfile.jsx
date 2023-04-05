@@ -15,7 +15,7 @@ const TransitProfile = (props) => {
     try {
       const profile = {
         transit: transitProfile.transit,
-        identification: values.identification.replace(/\./g, ''),
+        identification: values.identification.replace(/[\.,]/g, ''),
         name: values.name,
         surename: values.surename,
       };
@@ -56,7 +56,7 @@ const TransitProfile = (props) => {
   });
 
   return (
-    <div className={css.content__profile}>
+    <div  className='content__general'>
       <h4 className='heading'>Perfil de la cuenta.</h4>
       {transitProfile?.newClient && (
         <p className='paragraph'>
@@ -78,9 +78,11 @@ const TransitProfile = (props) => {
             />
             <label htmlFor="surename">Apellidos:</label>
           </div>
+          <div className="alert__error">
           {formik.touched.surename && formik.errors.surename ? (
-            <div className="alert__error">{formik.errors.surename}</div>
+            formik.errors.surename
           ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -93,9 +95,11 @@ const TransitProfile = (props) => {
             />
             <label htmlFor="name">Nombres:</label>
           </div>
+          <div className="alert__error">
           {formik.touched.name && formik.errors.name ? (
-            <div className="alert__error">{formik.errors.name}</div>
+            formik.errors.name
           ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -110,9 +114,11 @@ const TransitProfile = (props) => {
             />
             <label htmlFor="identification">Número de DNI:</label>
           </div>
+          <div className="alert__error">
           {formik.touched.identification && formik.errors.identification ? (
-            <div className="alert__error">{formik.errors.identification}</div>
+            formik.errors.identification
           ) : null}
+          </div>
         </>
 
         <div className={css.contentBtn}>

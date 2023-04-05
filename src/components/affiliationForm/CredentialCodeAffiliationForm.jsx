@@ -16,9 +16,11 @@ const CredentialCodeAffiliationForm = ({ formik }) => {
           />
           <label htmlFor="credentialNumber">Numero de credencial:</label>
         </div>
-        {formik.touched.credentialNumber && formik.errors.credentialNumber ? (
-          <div className="alert__error">{formik.errors.credentialNumber}</div>
-        ) : null}
+        <div className="alert__error">
+          {formik.touched.credentialNumber && formik.errors.credentialNumber ? (
+            formik.errors.credentialNumber
+          ) : null}
+        </div>
       </>
       <>
         <div className='textfield'>
@@ -28,14 +30,16 @@ const CredentialCodeAffiliationForm = ({ formik }) => {
             placeholder="Código de seguridad"
             maxLength={3}
             value={formik.values.securityCode}
-            onChange={(e)=>validNumber(e, formik.setFieldValue)}
+            onChange={(e) => validNumber(e, formik.setFieldValue)}
             onBlur={formik.handleBlur}
           />
           <label htmlFor="securityCode">Código de seguridad:</label>
         </div>
-        {formik.touched.securityCode && formik.errors.securityCode ? (
-          <div className="alert__error">{formik.errors.securityCode}</div>
-        ) : null}
+        <div className="alert__error">
+          {formik.touched.securityCode && formik.errors.securityCode ? (
+            formik.errors.securityCode
+          ) : null}
+        </div>
       </>
     </div>
   );

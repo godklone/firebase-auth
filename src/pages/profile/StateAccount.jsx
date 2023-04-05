@@ -37,7 +37,6 @@ const StateAccount = () => {
     setTransitProfile(null)
     await logout();
     navigate(`/ ${webHook}? "?webhook="${webHook}:""`)
-
   }
 
   return (

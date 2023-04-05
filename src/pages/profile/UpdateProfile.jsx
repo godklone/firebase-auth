@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoyalty } from "../../context/LoyaltyContext";
 
-const UpdateProfile = ({disabledField}) => {
+const UpdateProfile = ({ disabledField }) => {
   const navigate = useNavigate();
   const { fidelizationData } = useLoyalty();
 
@@ -15,7 +15,7 @@ const UpdateProfile = ({disabledField}) => {
         surename: fidelizationData.surename,
         name: fidelizationData.name,
         birthday: fidelizationData.birthday,
-        identification: fidelizationData.identification,
+        identification: fidelizationData.identification.replace(/[\.,]/g, ''),
         gender: fidelizationData.gender,
       });
     } catch (error) {
@@ -48,7 +48,7 @@ const UpdateProfile = ({disabledField}) => {
         Datos en el perfil de Siempre Beneficios.
         Si estos son tus datos correctos puedes continuar para finalizar el registro.       </p>
 
-        <form
+      <form
         onSubmit={formik.handleSubmit}
       >
         <>
@@ -58,14 +58,16 @@ const UpdateProfile = ({disabledField}) => {
               id="surename"
               name="surename"
               placeholder="Apellidos"
-              disabled = {disabledField}
+              disabled={disabledField}
               {...formik.getFieldProps('surename')}
             />
             <label htmlFor="surename">Apellidos:</label>
           </div>
-          {formik.touched.surename && formik.errors.surename ? (
-            <div className="alert__error">{formik.errors.surename}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.surename && formik.errors.surename ? (
+              formik.errors.surename
+            ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -74,14 +76,15 @@ const UpdateProfile = ({disabledField}) => {
               id="name"
               name="name"
               placeholder="Nombres"
-              disabled = {disabledField}
+              disabled={disabledField}
               {...formik.getFieldProps('name')}
             />
             <label htmlFor="name">Nombres:</label>
           </div>
-          {formik.touched.name && formik.errors.name ? (
-            <div className="alert__error">{formik.errors.name}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.name && formik.errors.name ? (
+              formik.errors.name
+            ) : null}</div>
         </>
         <>
           <div className='textfield'>
@@ -93,13 +96,15 @@ const UpdateProfile = ({disabledField}) => {
               value={formik.values.identification}
               onChange={(e) => validNumberInputChange(e, formik.setFieldValue)}
               onBlur={formik.handleBlur}
-              disabled = {disabledField}
+              disabled={disabledField}
             />
             <label htmlFor="identification">Número de DNI:</label>
           </div>
-          {formik.touched.identification && formik.errors.identification ? (
-            <div className="alert__error">{formik.errors.identification}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.identification && formik.errors.identification ? (
+              formik.errors.identification
+            ) : null}
+          </div>
         </>
 
         <div className={css.contentBtn}>
@@ -108,7 +113,7 @@ const UpdateProfile = ({disabledField}) => {
             disabled={formik.isSubmitting}
             className='btn__primary'
           >
-             Continuar
+            Continuar
           </button>
           <button
             onClick={handleCancel}
@@ -118,7 +123,6 @@ const UpdateProfile = ({disabledField}) => {
           </button>
         </div>
       </form>
-
     </div>
   )
 }

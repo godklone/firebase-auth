@@ -1,0 +1,146 @@
+{
+  "ESTADO": 1,
+  "MENSAJE": "CONTACTOS ENCONTRADOS.",
+  "DATA": [
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-955560",
+      "FEC_EMISION": "2023-03-30",
+      "SUCURSAL": "SUCURSAL VIRTUAL",
+      "PUNTOS": "3"
+    },
+    {
+      "TIPOPUNTO": "CANJE",
+      "NRO_COMPROBANTE": "113320",
+      "FEC_EMISION": "2023-03-30",
+      "SUCURSAL": "SUCURSAL VIRTUAL",
+      "PUNTOS": "-70"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-955565",
+      "FEC_EMISION": "2023-03-30",
+      "SUCURSAL": "SUCURSAL VIRTUAL",
+      "PUNTOS": "80"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-955564",
+      "FEC_EMISION": "2023-03-30",
+      "SUCURSAL": "SUCURSAL VIRTUAL",
+      "PUNTOS": "30"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-793881",
+      "FEC_EMISION": "2019-02-01",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "95"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-790888",
+      "FEC_EMISION": "2019-01-28",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "97"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-790887",
+      "FEC_EMISION": "2019-01-28",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "59"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-787785",
+      "FEC_EMISION": "2019-01-24",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "114"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-785862",
+      "FEC_EMISION": "2019-01-21",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "125"
+    },
+    {
+      "TIPOPUNTO": "CANJE",
+      "NRO_COMPROBANTE": "TK-785861",
+      "FEC_EMISION": "2019-01-21",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "-5"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-777586",
+      "FEC_EMISION": "2019-01-11",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "69"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-771528",
+      "FEC_EMISION": "2019-01-05",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "880"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-631229",
+      "FEC_EMISION": "2018-12-28",
+      "SUCURSAL": "FARMACIA CENTRAL",
+      "PUNTOS": "76"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-631228",
+      "FEC_EMISION": "2018-12-28",
+      "SUCURSAL": "FARMACIA CENTRAL",
+      "PUNTOS": "261"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-758673",
+      "FEC_EMISION": "2018-12-22",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "69"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-758672",
+      "FEC_EMISION": "2018-12-22",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "112"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-757886",
+      "FEC_EMISION": "2018-12-22",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "222"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-753849",
+      "FEC_EMISION": "2018-12-17",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "139"
+    },
+    {
+      "TIPOPUNTO": "CANJE",
+      "NRO_COMPROBANTE": "TK-753845",
+      "FEC_EMISION": "2018-12-17",
+      "SUCURSAL": "FARMACIA DEL CENTRO",
+      "PUNTOS": "-760"
+    },
+    {
+      "TIPOPUNTO": "VENTA",
+      "NRO_COMPROBANTE": "TK-624701",
+      "FEC_EMISION": "2018-12-17",
+      "SUCURSAL": "FARMACIA CENTRAL",
+      "PUNTOS": "108"
+    }
+  ]
+}

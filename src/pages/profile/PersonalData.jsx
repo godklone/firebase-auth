@@ -14,6 +14,7 @@ const PersonalData = () => {
   useEffect(() => {
     if (fidelizationData) {
       try {
+        //Cargar objeto de genero desde la api de fidelizacion
         formik.setValues({
           surename: fidelizationData.surename,
           name: fidelizationData.name,
@@ -33,13 +34,12 @@ const PersonalData = () => {
         surename: values.surename,
         name: values.name,
         birthday: values.birthday,
-        identification: values.identification.replace(/\./g, ''),
+        identification: values.identification.replace(/[\.,]/g, ''),
         gender: JSON.parse(values.gender),
         localization: null // este valor debe ser agregado a la implementación final
       };
 
       await profileDataUpdate(dtoProfile);
-
       await Swal.fire({
         icon: 'success',
         title: 'Actualizacion exitosa',
@@ -50,7 +50,7 @@ const PersonalData = () => {
       navigate(-1);
 
     } catch (error) {
-       await swal.fire({
+      await swal.fire({
         icon: 'error',
         title: 'Error en el registro',
         text: error,
@@ -64,7 +64,6 @@ const PersonalData = () => {
     e.preventDefault();
     navigate(-1)
   }
-
 
   const initialValues = {
     surename: '',
@@ -99,10 +98,11 @@ const PersonalData = () => {
             />
             <label htmlFor="surename">Apellidos:</label>
           </div>
-          {formik.touched.surename && formik.errors.surename ? (
-            <div className="alert__error">{formik.errors.surename}</div>
-          ) : null}
-
+          <div className="alert__error">
+            {formik.touched.surename && formik.errors.surename ? (
+              formik.errors.surename
+            ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -115,9 +115,11 @@ const PersonalData = () => {
             />
             <label htmlFor="name">Nombres:</label>
           </div>
-          {formik.touched.name && formik.errors.name ? (
-            <div className="alert__error">{formik.errors.name}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.name && formik.errors.name ? (
+              formik.errors.name
+            ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -132,9 +134,11 @@ const PersonalData = () => {
             />
             <label htmlFor="identification">Número de DNI:</label>
           </div>
-          {formik.touched.identification && formik.errors.identification ? (
-            <div className="alert__error">{formik.errors.identification}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.identification && formik.errors.identification ? (
+              formik.errors.identification
+            ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -147,9 +151,11 @@ const PersonalData = () => {
             />
             <label htmlFor="birthday">Fecha de Nacimiento:</label>
           </div>
-          {formik.touched.birthday && formik.errors.birthday ? (
-            <div className="alert__error">{formik.errors.birthday}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.birthday && formik.errors.birthday ? (
+              formik.errors.birthday
+            ) : null}
+          </div>
         </>
         <>
           <div className='textfield'>
@@ -164,12 +170,12 @@ const PersonalData = () => {
               })}
             </select>
           </div>
-          {formik.touched.gender && formik.errors.gender ? (
-            <div className="alert__error">{formik.errors.gender}</div>
-          ) : null}
+          <div className="alert__error">
+            {formik.touched.gender && formik.errors.gender ? (
+              formik.errors.gender
+            ) : null}</div>
         </>
-
-        <div className={css.contentBtn}>
+        <div className="contentBtn">
           <button
             type="submit"
             disabled={formik.isSubmitting}

@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import { useLoyalty } from "../context/LoyaltyContext";
 
 import CredentialAssign from "./profile/CredentialAsign";
-import AssociateCardData from "./profile/AssociateCardData";
 import TransitProfile from "./profile/TransitProfile";
 import UpdateProfile from "./profile/UpdateProfile";
 import LastMovement from "./profile/LastMovement";
@@ -12,8 +11,6 @@ import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
 import Spinner from "../components/Spinner";
 import { AffiliationPage } from "./profile/affiliationPage";
-
-
 
 const PrivateRoutes = () => {
   const { user, isLoading } = useAuth();
@@ -41,8 +38,8 @@ const PrivateRoutes = () => {
 
       /************************************************************************/
       <Route path="profile" >
-        {/* <Route index element={<AffiliationPage  />} /> */}
-        <Route index element={<PersonalData />} />
+        <Route index element={<AffiliationPage  />} />
+        {/* <Route index element={<PersonalData />} /> */}
         
         <Route path="associate-data/associate-transit-data"
           element={<TransitProfile affiliate={affiliate} />}

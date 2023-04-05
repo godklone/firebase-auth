@@ -79,9 +79,11 @@ const Register = () => {
           />
           <label htmlFor="email">Email</label>
         </div>
+        <div className="alert__error">
         {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
+          formik.errors.email
         ) : null}
+        </div>
         <div className='textfield'>
           <input
             id="password"
@@ -94,9 +96,11 @@ const Register = () => {
           />
           <label htmlFor="password">Password</label>
         </div>
+        <div className="alert__error">
         {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
+          formik.errors.password
         ) : null}
+        </div>
         <div className='textfield'>
           <input
             id="repeatPassword"
@@ -109,9 +113,11 @@ const Register = () => {
           />
           <label htmlFor="repeatPassword">Repita su password</label>
         </div>
+        <div className="alert__error">
         {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
-          <div>{formik.errors.repeatPassword}</div>
+         formik.errors.repeatPassword
         ) : null}
+        </div>
 
         <div className=''>
           <input

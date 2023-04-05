@@ -79,7 +79,42 @@ export const LoyaltyProvider = (props) => {
     }
   }
 
-  const profileDataUpdate = async (bindProfile, retryCount = 0) => {
+  const profileDataUpdate = async (dataProfile, retryCount = 0) => {
+    if (user === null || loadingSpinner) {
+      return;
+    }
+    try {
+      const token = await getToken(user);
+      setTransitProfile(dataProfile); //TODO: REVISAR ESTA ASIGNACION
+      setLoadingSpinner(true);
+      const { data } = await axiosClientLoyalty.put(
+        '/profile',
+        bindProfile,
+        { timeout: maxWaitTime, ...config(token) }
+      );
+      if (data.status === "Error") {
+        throw data.message
+      }
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log("El recurso solicitado no fue encontrado.");
+        throw error;
+      } else if (retryCount < maxRetryCount) {
+        await new Promise(resolve => setTimeout(resolve, (maxWaitTime / 4)));
+        return makeRequest(bindProfile, retryCount + 1);
+      } else {
+        throw error;
+      }
+      // setProfileAssignment(error?.response.status || 209);
+    }
+    finally {
+      setLoadingSpinner(false);
+    }
+  }
+
+  const bindProfileDataUpdate = async (bindProfile, retryCount = 0) => {
     if (user === null || loadingSpinner) {
       return;
     }
@@ -93,11 +128,9 @@ export const LoyaltyProvider = (props) => {
         bindProfile,
         { timeout: maxWaitTime, ...config(token) }
       );
-
       if (data.status === "Error") {
         throw data.message
       }
-
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
@@ -128,7 +161,7 @@ export const LoyaltyProvider = (props) => {
     setLoadingSpinner,
     setFidelizationData,
     setTransitProfile,
-  
+    bindProfileDataUpdate
   }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);

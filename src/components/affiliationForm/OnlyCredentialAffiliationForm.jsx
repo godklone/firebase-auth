@@ -15,9 +15,11 @@ const OnlyCredentialAffiliationForm = ({ formik }) => {
         />
         <label htmlFor="credentialNumber">Número de credencial:</label>
       </div>
-      {formik.touched.credentialNumber && formik.errors.credentialNumber ? (
-        <div className="alert__error">{formik.errors.credentialNumber}</div>
-      ) : null}
+      <div className="alert__error">
+        {formik.touched.credentialNumber && formik.errors.credentialNumber ? (
+          formik.errors.credentialNumber
+        ) : null}
+      </div>
     </div>
   );
 };

@@ -3,6 +3,9 @@ import { axiosClientLoyalty, config } from "../config/axiosClient";
 import { mapProfileData } from "../utils/MapProfileData";
 import { useAuth } from "./AuthContext";
 
+import dataBD from '../db.json';
+import { mapLastMovements, TAGS } from "../utils/mapLastMovements";
+
 const LoyaltyContext = createContext();
 
 export const LoyaltyProvider = (props) => {
@@ -10,7 +13,7 @@ export const LoyaltyProvider = (props) => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
   const [transitProfile, setTransitProfile] = useState(null);
-
+  const [lastMovents, setLastMovents] = useState(null);
 
   const { user, getToken } = useAuth();
   const maxRetryCount = import.meta.VITE_MAX_RETRY_COUNT;
@@ -26,18 +29,20 @@ export const LoyaltyProvider = (props) => {
   }, [user])
 
   const profileDataLoader = async (user) => {
-    if (user === null  || loadingSpinner) {
+    if (user === null || loadingSpinner) {
       return;
     }
     const token = await getToken(user);
     try {
       setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty(
-        "/profile", 
+        "/profile",
         {
-          cancelToken: newCancelTokenSource.token, 
-          ...config(token)}
-        )
+          cancelToken: newCancelTokenSource.token,
+          ...config(token)
+        }
+      )
+
       if (data.status === "Error") {
         throw data.message
       }
@@ -60,7 +65,7 @@ export const LoyaltyProvider = (props) => {
     try {
       const token = await getToken(user);
       const { data } = await axiosClientLoyalty.post(
-        '/profile', 
+        '/profile',
         newProfile,
         config(token)
       )
@@ -150,6 +155,48 @@ export const LoyaltyProvider = (props) => {
     }
   }
 
+
+  const getLastMovements = async (identification, retryCount = 0) => {
+    if (user === null || loadingSpinner) {
+      return;
+    }
+    try {
+      const token = await getToken(user);
+      const movements = mapLastMovements(dataBD.DATA);
+    
+      //   setTransitProfile(bindProfile); //TODO: REVISAR ESTA ASIGNACION
+      //   setLoadingSpinner(true);
+
+      //   const { data } = await axiosClientLoyalty(
+      //     '/profile/lasmovements',
+      //     identification,
+      //     { timeout: maxWaitTime, ...config(token) }
+      //   );
+      //   if (data.status === "Error") {
+      //     throw data.message
+      //   }
+      //   const movements = mapMovementsData(data);
+      setLastMovents({
+        TAGS,
+        movements
+      })
+
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log("El recurso solicitado no fue encontrado.");
+        throw error;
+      } else if (retryCount < maxRetryCount) {
+        await new Promise(resolve => setTimeout(resolve, (maxWaitTime / 4)));
+        return makeRequest(bindProfile, retryCount + 1);
+      } else {
+        throw error;
+      }
+    }
+    finally {
+      setLoadingSpinner(false);
+    }
+  }
+
   const value = useMemo(() => ({
     loadingProfile,
     transitProfile,
@@ -161,8 +208,10 @@ export const LoyaltyProvider = (props) => {
     setLoadingSpinner,
     setFidelizationData,
     setTransitProfile,
-    bindProfileDataUpdate
-  }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
+    bindProfileDataUpdate,
+    lastMovents,
+    getLastMovements
+  }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner, lastMovents]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);
 }

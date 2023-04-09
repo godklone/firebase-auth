@@ -59,7 +59,7 @@ const TransitProfile = (props) => {
     <div  className='content__general'>
       <h4 className='heading'>Perfil de la cuenta.</h4>
       {transitProfile?.newClient && (
-        <p className='paragraph'>
+        <p className='paragraph mb-1'>
           Vamos a crear un nuevo perfil en fidelización y quedara asociado con
           tu email.
         </p>

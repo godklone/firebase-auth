@@ -83,7 +83,7 @@ const PersonalData = () => {
     <div
       className='content__general'
     >
-      <h2 className="">Datos Personales</h2>
+      <h4 className='heading'>Datos Personales</h4>
       <form
         onSubmit={formik.handleSubmit}
       >
@@ -175,7 +175,7 @@ const PersonalData = () => {
               formik.errors.gender
             ) : null}</div>
         </>
-        <div className="contentBtn">
+        <div className={css.contentBtn}>
           <button
             type="submit"
             disabled={formik.isSubmitting}

@@ -6,10 +6,16 @@ import { BiLogOut } from 'react-icons/bi';
 import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
-  const { webHook, getPhotoUrl, logout, getToken } = useAuth();
-  const { setFidelizationData, fidelizationData, setLoadingSpinner , setTransitProfile} = useLoyalty();
+  const { webHook, getPhotoUrl, logout } = useAuth();
   const navigate = useNavigate();
-
+  const {
+    getLastMovements,
+    setFidelizationData,
+    fidelizationData,
+    setLoadingSpinner,
+    setTransitProfile
+  } = useLoyalty();
+  
   const {
     fullName,
     fidelization: {
@@ -20,14 +26,16 @@ const StateAccount = () => {
     },
   } = fidelizationData;
 
-  const handleLastMovement = (e) => {
-    e.preventDefault();
-    navigate('state-account/last-movement');
-  };
 
   const handlePersonalData = (e) => {
     e.preventDefault();
     navigate('state-account/personal-data');
+  };
+
+  const handleLastMovement = async (e) => {
+    e.preventDefault();
+    await getLastMovements("11968864");
+    navigate('last-movement');
   };
 
   const handleLogout = async (e) => {
@@ -43,7 +51,7 @@ const StateAccount = () => {
     <div className={css.content__account}>
       <div className={css.btnHeader}>
         {
-          !!webHook &&  webHook !== "invalid" && <a className='btn__primary' href={webHook}>
+          !!webHook && webHook !== "invalid" && <a className='btn__primary' href={webHook}>
             Continuar al sitio Principal
           </a>
         }
@@ -75,20 +83,20 @@ const StateAccount = () => {
         <span className={css.number}>N°: {credencial.number}</span>
         <span className={css.cod}>Cód. Seg: {credencial.code}</span>
       </div>
-      <div className={css.groupBtn}>
-        {/* <button
+      <div className={css.conten__btn}>
+        <button
           onClick={handlePersonalData}
-          className=""
+          className="btn__primary"
         >
           Datos Personales
         </button>
 
         <button
           onClick={handleLastMovement}
-          className=""
+          className="btn__secondary"
         >
           Ultimos Movimientos
-        </button> */}
+        </button>
       </div>
     </div>
   );

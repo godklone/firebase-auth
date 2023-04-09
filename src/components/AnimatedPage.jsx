@@ -1,18 +1,23 @@
-import { useTransition, animated, config } from 'react-spring'
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 function AnimatedPage({ children }) {
-  const transitions = useTransition(children, {
-    from: { opacity: 0.5 },
-    enter: { opacity: 1 },
-    // leave: { opacity: 1 },  
-    config: { duration: 500, easing: t => t * t },
-  })
+  const [isMounted, setIsMounted] = useState(false);
 
-  return transitions((props, item) => (
-    <animated.div style={props}>
-      {item}
-    </animated.div>
-  ))
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  return (
+    <motion.div
+      initial={isMounted ? { opacity: 0.5 } : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
-export default AnimatedPage
+export default AnimatedPage;

@@ -11,6 +11,7 @@ import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
 import Spinner from "../components/Spinner";
 import { AffiliationPage } from "./profile/affiliationPage";
+import MainLayout from "../layout/MainLayout";
 
 const PrivateRoutes = () => {
   const { user, isLoading } = useAuth();
@@ -30,24 +31,23 @@ const PrivateRoutes = () => {
 
   return (
     <Routes>
-      <Route index element={fidelizationData ? <StateAccount /> : <CredentialAssign />} />
-      <Route path="state-account">
-        <Route path="personal-data" element={<PersonalData />} />
-        <Route path="last-movement" element={<LastMovement />} />
+      <Route element={<MainLayout />}>
+        <Route index element={fidelizationData!==null ? <StateAccount /> : <CredentialAssign />} />
+        <Route path="state-account">
+          <Route path="personal-data" element={<PersonalData />} />
+        </Route>
       </Route>
-
+      <Route path="/last-movement" element={<LastMovement />} />
       /************************************************************************/
-      <Route path="profile" >
+      <Route path="profile" element={<MainLayout />}>
         <Route index element={<AffiliationPage  />} />
-        {/* <Route index element={<PersonalData />} /> */}
-        
         <Route path="associate-data/associate-transit-data"
           element={<TransitProfile affiliate={affiliate} />}
         />
         <Route path="associate-data/update-profile"
           element={<UpdateProfile disabledField={true} />}
         />
- 
+
         <Route path="associate-transit-data"
           element={<TransitProfile affiliate={affiliate} />}
         />

@@ -74,7 +74,7 @@ const Signup = () => {
     <div className={css.content__signup}>
       <h4 className='heading'>Bienvenido</h4>
 
-      <p className='paragraph'>
+      <p className='paragraph mb__1'>
         Club Siempre Beneficios, si tienes una cuenta puedes Ingresar, o puedes
         crear una nueva cuenta. También puedes acceder con las redes sociales
       </p>

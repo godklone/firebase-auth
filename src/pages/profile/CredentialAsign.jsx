@@ -26,7 +26,7 @@ const CredentialAssign = () => {
       <h4 className='heading'>
         Vincular con mi credencial de Siempre Beneficios
       </h4>
-      <p className='paragraph'>
+      <p className='paragraph mb__1'>
         Si ya tienes una tarjeta de Siempre Beneficios, puedes vincularla con la
         cuenta que estás creando en la app y acceder a todo tu historial de
         compras y puntos.

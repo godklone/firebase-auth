@@ -32,28 +32,25 @@ const PrivateRoutes = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route index element={fidelizationData!==null ? <StateAccount /> : <CredentialAssign />} />
+        <Route index element={fidelizationData !== null ? <StateAccount /> : <CredentialAssign />} />
         <Route path="state-account">
           <Route path="personal-data" element={<PersonalData />} />
         </Route>
+        <Route path="profile" >
+          <Route index element={<AffiliationPage />} />
+          <Route path="associate-data/associate-transit-data"
+            element={<TransitProfile affiliate={affiliate} />}
+          />
+          <Route path="associate-data/update-profile"
+            element={<UpdateProfile disabledField={true} />}
+          />
+          <Route path="associate-transit-data"
+            element={<TransitProfile affiliate={affiliate} />}
+          />
+          {/* <Route path="state-account/last-movement" element={<LastMovement />} /> */}
+        </Route>
       </Route>
       <Route path="/last-movement" element={<LastMovement />} />
-      /************************************************************************/
-      <Route path="profile" element={<MainLayout />}>
-        <Route index element={<AffiliationPage  />} />
-        <Route path="associate-data/associate-transit-data"
-          element={<TransitProfile affiliate={affiliate} />}
-        />
-        <Route path="associate-data/update-profile"
-          element={<UpdateProfile disabledField={true} />}
-        />
-
-        <Route path="associate-transit-data"
-          element={<TransitProfile affiliate={affiliate} />}
-        />
-        <Route path="state-account/last-movement" element={<LastMovement />} />
-      </Route>
-      /************************************************************************/
     </Routes>
   )
 }

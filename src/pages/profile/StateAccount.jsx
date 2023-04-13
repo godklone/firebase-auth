@@ -15,7 +15,7 @@ const StateAccount = () => {
     setLoadingSpinner,
     setTransitProfile
   } = useLoyalty();
-  
+
   const {
     fullName,
     fidelization: {
@@ -25,7 +25,7 @@ const StateAccount = () => {
       credencial,
     },
   } = fidelizationData;
-
+  
 
   const handlePersonalData = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const StateAccount = () => {
 
   const handleLastMovement = async (e) => {
     e.preventDefault();
-    await getLastMovements("11968864");
+    await getLastMovements();
     navigate('last-movement');
   };
 

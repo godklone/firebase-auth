@@ -3,8 +3,6 @@ import { useLoyalty } from "../../context/LoyaltyContext";
 
 import css from '../../assets/styles/pages/lastMovements.module.scss';
 
-
-
 function LastMovement() {
   const navigate = useNavigate();
   const {lastMovents:{TAGS, movements}}= useLoyalty();
@@ -19,24 +17,30 @@ function LastMovement() {
       <div className={css.container}>
         <div className={css.content}>
           <h2 className={css.title}>Ultimos Movimientos</h2>
-          <ul className={css.list}>
-            <li className={`${css.row} ${css.rowHeader}`}>
-              {TAGS.map((tag) => (
-                <div className={`${css.cell} ${css.headerCell}`} key={tag}>
-                  {tag.toUpperCase()}
-                </div>
-              ))}
-            </li>
-            {movements.map((movement) => (
-              <li className={css.row} key={movement.comprobante}>
-                {TAGS.map((tag) => (
-                  <div className={`${css.cell} ${css.cellValue}`} key={tag}>
-                    {movement[tag.toLowerCase()]}
-                  </div>
+          <div className={css.tableContainer}>
+            <table className={css.table}>
+              <thead className={css.header}>
+                <tr className={css.row}>
+                  {TAGS.map((tag) => (
+                    <th className={css.cell} key={tag}>
+                      {tag.toUpperCase()}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className={css.body}>
+                {movements.map((movement) => (
+                  <tr className={css.row} key={movement.comprobante}>
+                    {TAGS.map((tag) => (
+                      <td className={css.cell} key={tag}>
+                        {movement[tag.toLowerCase()]}
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </li>
-            ))}
-          </ul>
+              </tbody>
+            </table>
+          </div>
           <div className={css.contentBtn}>
             <button
               onClick={handleBack}

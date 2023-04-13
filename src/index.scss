@@ -66,30 +66,6 @@ a {
 }
 
 
-select {
-  width: calc(70% + 3rem);
-  font-size: 14px;
-  font-weight: 600;
-  color: #261d1d;
-  background-color: #e1e1e1;
-  border: none;
-  border-radius: 5px;
-  padding: 5px;
-  height: 3rem;
-  letter-spacing: .4px;
-  text-transform: uppercase;
-}
-
-select option {
-  background-color: #f2f2f2;
-  color: #333;
-  padding: 10px;
-  font-size: 18px;
-  font-weight: 400;
-  border: none;
-  border-bottom: 1px solid #ccc;
-}
-
 .marquee-container {
   height: 50px; /* Altura del contenedor */
   overflow: hidden; /* Para ocultar el texto que se sale del contenedor */

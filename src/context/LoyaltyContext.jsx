@@ -5,6 +5,7 @@ import { useAuth } from "./AuthContext";
 
 import dataBD from '../db.json';
 import { mapLastMovements, TAGS } from "../utils/mapLastMovements";
+import { formatDate } from "../helpers";
 
 const LoyaltyContext = createContext();
 
@@ -29,6 +30,30 @@ export const LoyaltyProvider = (props) => {
   }, [user])
 
   const profileDataLoader = async (user) => {
+
+    // setFidelizationData({
+    //   fullName: "carlos",
+    //   name: "carlos",
+    //   surename: "Brito",
+    //   identification: "95971507",
+    //   birthday: formatDate("1975-01-03"),
+    //   gender: JSON.stringify({
+    //     "id": 2,
+    //     "description": "Masculino"
+    //   }),
+    //   localization: null,
+    //   fidelization: {
+    //     accumulatedPoints: 1450,
+    //     expirationPoints: 456,
+    //     expirationDate: "22/11/2023",
+    //     credencial: {
+    //       number: 123456,
+    //       code: 123,
+    //       // identificacion: 95971507,
+    //     },
+    //   }
+    // });
+
     if (user === null || loadingSpinner) {
       return;
     }
@@ -156,15 +181,14 @@ export const LoyaltyProvider = (props) => {
   }
 
 
-  const getLastMovements = async (identification, retryCount = 0) => {
+  const getLastMovements = async (retryCount = 0) => {
     if (user === null || loadingSpinner) {
       return;
     }
     try {
       const token = await getToken(user);
       const movements = mapLastMovements(dataBD.DATA);
-    
-      //   setTransitProfile(bindProfile); //TODO: REVISAR ESTA ASIGNACION
+
       //   setLoadingSpinner(true);
 
       //   const { data } = await axiosClientLoyalty(

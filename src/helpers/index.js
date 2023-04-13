@@ -22,24 +22,24 @@ const validDniNumber = (value, ref) => {
 
 const replaceDots = (value, byChr = "") => value.replace(/\./g, byChr);
 
-const debounce = (func, time)=>{
+const debounce = (func, time) => {
   let timeOutId;
-  return function(){
-      if(timeOutId){
-          clearTimeout(timeOutId);
-      }
-      const context = this;
-      const args = arguments;
-      timeOutId =setTimeout(()=>{
-          func.apply(context, args)
-      },time)
+  return function () {
+    if (timeOutId) {
+      clearTimeout(timeOutId);
+    }
+    const context = this;
+    const args = arguments;
+    timeOutId = setTimeout(() => {
+      func.apply(context, args)
+    }, time)
   }
 }
 
 const formatDni = (value) => {
   // Eliminamos los puntos que haya en el valor actual
   const rawValue = value.replace(/\./g, '');
-  if(!value) return '';
+  if (!value) return '';
   // Insertamos puntos para separar miles
   return new Intl.NumberFormat().format(rawValue);
 };
@@ -53,7 +53,7 @@ const formatCredential = (value) => {
 
 const validNumber = (event, setFieldValue) => {
   const { name, value } = event.target;
-  if ( /^[0-9\b]+$/.test(value) || value === '' ) {
+  if (/^[0-9\b]+$/.test(value) || value === '') {
     setFieldValue(name, value);
   }
 }
@@ -76,6 +76,15 @@ const validNumberCredentialInputChange = (event, setFieldValue) => {
   }
 };
 
+function formatDate(dateString) {
+  const date = new Date("1975-01-03");
+  date.setUTCHours(0, 0, 0, 0); // Establece la hora UTC a las 00:00:00.000
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 export {
   validEmail,
   validPassword,
@@ -87,6 +96,7 @@ export {
   removeEmptyValues,
   validNumberInputChange,
   validNumberCredentialInputChange,
-  onlyNumber
+  onlyNumber,
+  formatDate
 
 }

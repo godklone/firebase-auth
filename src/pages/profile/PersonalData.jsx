@@ -6,6 +6,7 @@ import { genders, validationPersonalDataSchema } from '../../validation';
 import { validNumberInputChange } from '../../helpers';
 
 import css from '../../assets/styles/pages/profile.module.scss';
+import Swal from 'sweetalert2';
 
 const PersonalData = () => {
   const navigate = useNavigate();
@@ -15,12 +16,21 @@ const PersonalData = () => {
     if (fidelizationData) {
       try {
         //Cargar objeto de genero desde la api de fidelizacion
-        formik.setValues({
-          surename: fidelizationData.surename,
-          name: fidelizationData.name,
-          birthday: fidelizationData.birthday,
-          identification: fidelizationData.identification,
-          gender: fidelizationData.gender,
+        // formik.setValues({
+        //   surename: fidelizationData.surename,
+        //   name: fidelizationData.name,
+        //   birthday: fidelizationData.birthday,
+        //   identification: fidelizationData.identification,
+        //   gender: fidelizationData.gender,
+        // });
+        formik.resetForm({
+          values: {
+            surename: fidelizationData.surename,
+            name: fidelizationData.name,
+            birthday: fidelizationData.birthday,
+            identification: fidelizationData.identification,
+            gender: fidelizationData.gender,
+          },
         });
       } catch (error) {
         console.error('Error al cargar los datos del usuario', error);
@@ -29,6 +39,11 @@ const PersonalData = () => {
   }, [])
 
   const handleConfirm = async (values) => {
+
+    if (!formik.dirty) {
+      return;
+    }
+
     try {
       const dtoProfile = {
         surename: values.surename,
@@ -76,7 +91,7 @@ const PersonalData = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: validationPersonalDataSchema,
-    onSubmit: handleConfirm,
+    onSubmit: handleConfirm
   });
 
   return (

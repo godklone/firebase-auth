@@ -31,28 +31,28 @@ export const LoyaltyProvider = (props) => {
 
   const profileDataLoader = async (user) => {
 
-    // setFidelizationData({
-    //   fullName: "carlos",
-    //   name: "carlos",
-    //   surename: "Brito",
-    //   identification: "95971507",
-    //   birthday: formatDate("1975-01-03"),
-    //   gender: JSON.stringify({
-    //     "id": 2,
-    //     "description": "Masculino"
-    //   }),
-    //   localization: null,
-    //   fidelization: {
-    //     accumulatedPoints: 1450,
-    //     expirationPoints: 456,
-    //     expirationDate: "22/11/2023",
-    //     credencial: {
-    //       number: 123456,
-    //       code: 123,
-    //       // identificacion: 95971507,
-    //     },
-    //   }
-    // });
+    setFidelizationData({
+      fullName: "carlos",
+      name: "carlos",
+      surename: "Brito",
+      identification: "95971507",
+      birthday: formatDate("1975-01-03"),
+      gender: JSON.stringify({
+        "id": 2,
+        "description": "Masculino"
+      }),
+      localization: null,
+      fidelization: {
+        accumulatedPoints: 1450,
+        expirationPoints: 456,
+        expirationDate: "22/11/2023",
+        credencial: {
+          number: 123456,
+          code: 123,
+          // identificacion: 95971507,
+        },
+      }
+    });
 
     if (user === null || loadingSpinner) {
       return;

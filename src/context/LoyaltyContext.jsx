@@ -31,28 +31,28 @@ export const LoyaltyProvider = (props) => {
 
   const profileDataLoader = async (user) => {
 
-    setFidelizationData({
-      fullName: "carlos",
-      name: "carlos",
-      surename: "Brito",
-      identification: "95971507",
-      birthday: formatDate("1975-01-03"),
-      gender: JSON.stringify({
-        "id": 2,
-        "description": "Masculino"
-      }),
-      localization: null,
-      fidelization: {
-        accumulatedPoints: 1450,
-        expirationPoints: 456,
-        expirationDate: "22/11/2023",
-        credencial: {
-          number: 123456,
-          code: 123,
-          // identificacion: 95971507,
-        },
-      }
-    });
+    // setFidelizationData({
+    //   fullName: "carlos",
+    //   name: "carlos",
+    //   surename: "Brito",
+    //   identification: "95971507",
+    //   birthday: formatDate("1975-01-03"),
+    //   gender: JSON.stringify({
+    //     "id": 2,
+    //     "description": "Masculino"
+    //   }),
+    //   localization: null,
+    //   fidelization: {
+    //     accumulatedPoints: 1450,
+    //     expirationPoints: 456,
+    //     expirationDate: "22/11/2023",
+    //     credencial: {
+    //       number: 123456,
+    //       code: 123,
+    //       // identificacion: 95971507,
+    //     },
+    //   }
+    // });
 
     if (user === null || loadingSpinner) {
       return;
@@ -67,7 +67,6 @@ export const LoyaltyProvider = (props) => {
           ...config(token)
         }
       )
-
       if (data.status === "Error") {
         throw data.message
       }
@@ -75,7 +74,6 @@ export const LoyaltyProvider = (props) => {
       setFidelizationData(prevData => mappedData);
     } catch (error) {
       // throw error;
-      // setProfileAssignment(error?.response.status || 209);
     }
     finally {
       setLoadingProfile(false);
@@ -101,9 +99,7 @@ export const LoyaltyProvider = (props) => {
       if (error?.response?.data?.status === "Error") {
         throw error?.response?.data?.message
       }
-      // console.log(error)
       throw error;
-      // setProfileAssignment(error?.response.status || 209);
     } finally {
       setLoadingSpinner(false);
     }
@@ -137,7 +133,6 @@ export const LoyaltyProvider = (props) => {
       } else {
         throw error;
       }
-      // setProfileAssignment(error?.response.status || 209);
     }
     finally {
       setLoadingSpinner(false);
@@ -173,7 +168,6 @@ export const LoyaltyProvider = (props) => {
       } else {
         throw error;
       }
-      // setProfileAssignment(error?.response.status || 209);
     }
     finally {
       setLoadingSpinner(false);

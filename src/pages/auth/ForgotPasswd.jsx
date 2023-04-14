@@ -18,7 +18,6 @@ const ForgotPasswd = () => {
 
   const onSubmit = async (values) => {
     try {
-      // setAlert({});
       await resetPassword(values.email);
       await Swal.fire({
         title: 'Correo enviado de forma exitosa.',
@@ -28,7 +27,6 @@ const ForgotPasswd = () => {
         showCloseButton: true,
         confirmButtonText: 'Continuar...',
       });
-      // send("login");
       navigate('/login');
     } catch (err) {
       await Swal.fire({

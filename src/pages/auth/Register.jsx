@@ -8,7 +8,6 @@ import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 import { validationRegisterSchema } from '../../validation';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
 
-
 const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);

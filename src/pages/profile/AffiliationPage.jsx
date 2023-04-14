@@ -15,6 +15,7 @@ export const AffiliationPage = () => {
   const { bindProfileDataUpdate, setTransitProfile, loadingSpinner } = useLoyalty();
 
   const handleConfirm = async (values) => {
+
     try {
       const bindProfile = {
         identification: values.dni.replace(/[\.,]/g, ''),

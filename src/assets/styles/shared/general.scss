@@ -15,6 +15,10 @@ $shadow: 0 0.625rem 2.125rem -0.9375rem rgba(0, 0, 0, 0.24);
     padding: 1.5625rem;
   }
 
+  .content_right{
+    display: flex;
+    justify-content: flex-end;
+  }
   .conten__btn {
     display: flex;
     flex-direction: column;

@@ -41,7 +41,7 @@ const PersonalData = () => {
   const handleConfirm = async (values) => {
 
     if (!formik.dirty) {
-      return;
+      navigate(-1);
     }
 
     try {

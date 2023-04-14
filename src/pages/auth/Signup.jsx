@@ -19,7 +19,6 @@ const Signup = () => {
     if (user) {
       navigate('/home');
     }
-    // return ()=>navigate('/home');
   }, [user]);
 
   useEffect(() => {
@@ -27,6 +26,7 @@ const Signup = () => {
   }, [])
 
   const handleLogin = async (values) => {
+
     try {
       await signIn(values.email, values.password);
     } catch (error) {

@@ -26,7 +26,8 @@ const CarouselText = ({ children }) => {
           </div>
         ))}
       </div>
-      <div className={css.buttonContainer}>
+      <div className="content_right">
+        {/* rome-ignore lint/a11y/useValidAnchor: <explanation> */}
         <a href="#" onClick={onNextTextClick}>
           Ver más
         </a>

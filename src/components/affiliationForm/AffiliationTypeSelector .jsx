@@ -8,7 +8,7 @@ export const AffiliationTypeSelector = (props) => {
   return (
     <>
       <h5 className='mt__1 mb__1'>Elige tu forma de vincular:</h5>
-      <div className='mb__1'>
+      <div className='textfield mb__1'>
         <select
           name="affiliationType"
           value={formik.values.affiliationType}

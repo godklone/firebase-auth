@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   padding: 0.9375rem 0;
+
   .container {
     align-items: stretch;
     background: $white;
@@ -13,7 +14,6 @@
     box-shadow: $shadow;
     -moz-box-shadow: $shadow;
     -webkit-box-shadow: $shadow;
-
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -21,6 +21,24 @@
     margin: auto;
     overflow: hidden;
     width: calc(100% - 1rem);
+    position: relative;
+
+    .whatsApp {
+      position: absolute;
+      bottom: -5px;
+      right: 2px;
+   
+      .whatsappLink {
+        display: block;
+        padding: 0.5rem;
+      }
+      .whatsappIcon {
+        color: #fff; /* Color del icono en blanco */
+        background-color: #25D366; /* Color del fondo verde */
+        border-radius: 50%; /* Añadir borde redondeado para que se vea como un círculo */
+        padding: 6px; /* Añadir un poco de espacio alrededor del icono para que se vea mejor */
+      }
+    }
 
     @media (min-width: $tablet) {
       max-width: calc($tablet - 6.25rem);
@@ -47,13 +65,15 @@
       padding-right: 1rem;
       width: 100%;
       overflow-y: scroll;
-
+      position: relative;
+     
       @media (min-width: $laptop) {
         height: 42.5rem;
       }
     }
 
     @media (min-width: $laptop) {
+
       aside,
       .content {
         width: 50%;

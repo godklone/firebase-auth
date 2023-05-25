@@ -2,10 +2,8 @@ import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { axiosClientLoyalty, config } from "../config/axiosClient";
 import { mapProfileData } from "../utils/MapProfileData";
 import { useAuth } from "./AuthContext";
-
-import dataBD from '../db.json';
 import { mapLastMovements, TAGS } from "../utils/mapLastMovements";
-import { formatDate } from "../helpers";
+
 
 const LoyaltyContext = createContext();
 
@@ -53,7 +51,6 @@ export const LoyaltyProvider = (props) => {
     //     },
     //   }
     // });
-
     if (user === null || loadingSpinner) {
       return;
     }
@@ -63,17 +60,17 @@ export const LoyaltyProvider = (props) => {
       const { data } = await axiosClientLoyalty(
         "/profile",
         {
-          cancelToken: newCancelTokenSource.token,
           ...config(token)
         }
-      )
+        )
+        console.log(data)
       if (data.status === "Error") {
         throw data.message
       }
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
-      // throw error;
+       throw error;
     }
     finally {
       setLoadingProfile(false);
@@ -181,19 +178,17 @@ export const LoyaltyProvider = (props) => {
     }
     try {
       const token = await getToken(user);
-      const movements = mapLastMovements(dataBD.DATA);
+      // const movements = mapLastMovements(dataBD.DATA);
 
-      //   setLoadingSpinner(true);
-
-      //   const { data } = await axiosClientLoyalty(
-      //     '/profile/lasmovements',
-      //     identification,
-      //     { timeout: maxWaitTime, ...config(token) }
-      //   );
-      //   if (data.status === "Error") {
-      //     throw data.message
-      //   }
-      //   const movements = mapMovementsData(data);
+      setLoadingSpinner(true);
+      const { data } = await axiosClientLoyalty(
+        '/profile/lastmovements',
+        { timeout: maxWaitTime, ...config(token) }
+      );
+      if (data.status === "Error") {
+        throw data.message
+      }
+      const movements = mapLastMovements(data.data);
       setLastMovents({
         TAGS,
         movements

@@ -4,10 +4,10 @@ import { useAuth } from '../../context/AuthContext';
 import { useEffect, useState } from 'react';
 
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
-import css from '../../assets/styles/pages/loginFlow.module.scss';
 import { useLoyalty } from '../../context/LoyaltyContext';
 import { validationSignupSchema } from '../../validation';
 import { useFormik } from 'formik';
+import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -143,6 +143,10 @@ const Signup = () => {
           <button onClick={handleRegister} className='btn__secondary'>
             Crear una cuenta
           </button>
+          <div className={css.politicas}>
+            <p>Al registra una cuenta, estás de acuerdo con nuestros</p>
+            <span><a href="#">Terminos de Servicios</a> y <a href="#">Políticas de privacidad</a></span>
+          </div>
         </div>
       </form>
     </div>

@@ -6,7 +6,8 @@ import { BiLogOut } from 'react-icons/bi';
 import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
-  const { webHook, getPhotoUrl, logout } = useAuth();
+  const { webHook, getPhotoUrl, logout, token } = useAuth();
+  const webToken = webHook ? `${webHook}?token=${token}`:''
   const navigate = useNavigate();
   const {
     getLastMovements,
@@ -51,7 +52,7 @@ const StateAccount = () => {
     <div className={css.content__account}>
       <div className={css.btnHeader}>
         {
-          !!webHook && webHook !== "invalid" && <a className='btn__primary' href={webHook}>
+          !!webHook && webHook !== "invalid" && <a className='btn__primary' href={webToken}>
             Continuar al sitio Principal
           </a>
         }

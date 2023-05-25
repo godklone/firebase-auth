@@ -37,6 +37,19 @@
       }
     }
   }
+  .politicas{
+
+    a {
+      color: #2210c7; /* Cambiar el color del texto del enlace */
+      text-decoration: none; /* Eliminar el subrayado predeterminado */
+      transition: color 0.2s ease-in-out; /* Agregar una transición suave al color */
+    }
+    
+    a:hover {
+      color: #a30bc5f0; /* Cambiar el color del texto del enlace al pasar el cursor por encima */
+    }
+
+  }
  
 
 }

@@ -18,12 +18,14 @@ const AuthContext = createContext({
   user: null,
   isLoading: true,
   webHook: null,
+  token:null,
   setAuth: () => { },
   clearAuth: () => { },
 });
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [webHook, setWebHook] = useState(null);
   const spinnerTimer = import.meta.VITE_TIMER_SPINNER || 1000
@@ -70,12 +72,14 @@ export const AuthProvider = (props) => {
   const getToken = async (user) => {
     if (!user) return null;
     const token = await user.getIdToken();
+    setToken(prevToken=>token)
     return token;
   };
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(prevUser => currentUser);
+      await getToken()
       setTimeout(() => {
         setIsLoading(false);
       }, spinnerTimer);
@@ -85,7 +89,6 @@ export const AuthProvider = (props) => {
 
 
   const getPhotoUrl = () => {
-    
     return user.photoURL || pictureProfile;
   }
 
@@ -100,7 +103,8 @@ export const AuthProvider = (props) => {
     setWebHook,
     getPhotoUrl,
     getToken,
-    webHook
+    webHook,
+    token
 
   }), [
     user,

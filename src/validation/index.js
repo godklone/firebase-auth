@@ -50,7 +50,7 @@ const validationAffiliationSchema = Yup.object().shape({
     then: (currentValue) =>
       (currentValue) ?
         Yup.string()
-          .test("isNumber", "El campo debe ser un número válido",
+          .test("isNumber", "La credencial debe ser un número válido",
             (val) => {
               if (!val) return;
               const validate = val.replace(/ /g, '');

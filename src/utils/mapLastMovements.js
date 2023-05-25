@@ -3,13 +3,14 @@ const TAGS = ["tipo", "comprobante", "emision", "suc", "puntos"];
 const mapLastMovements = (apiLastMovements) => {
   const arrayTransformado = [];
 
+
   apiLastMovements.forEach(movement => {
     const objetoTransformado = {
-      tipo: movement.TIPOPUNTO,
-      comprobante: movement.NRO_COMPROBANTE,
-      emision: movement.FEC_EMISION,
-      suc: movement.SUCURSAL,
-      puntos: movement.PUNTOS
+      tipo: movement.type,
+      comprobante: movement.id_voucher,
+      emision: movement.date,
+      suc: movement.sucursal,
+      puntos: movement.points
     };
     arrayTransformado.push(objetoTransformado);
   });

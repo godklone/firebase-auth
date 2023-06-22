@@ -2,6 +2,8 @@ import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { axiosClientLoyalty, config } from "../config/axiosClient";
 import { mapProfileData } from "../utils/MapProfileData";
 import { useAuth } from "./AuthContext";
+import { mapLastMovements, TAGS } from "../utils/mapLastMovements";
+
 
 const LoyaltyContext = createContext();
 
@@ -10,7 +12,7 @@ export const LoyaltyProvider = (props) => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [fidelizationData, setFidelizationData] = useState(null);
   const [transitProfile, setTransitProfile] = useState(null);
-
+  const [lastMovents, setLastMovents] = useState(null);
 
   const { user, getToken } = useAuth();
   const maxRetryCount = import.meta.VITE_MAX_RETRY_COUNT;
@@ -26,26 +28,49 @@ export const LoyaltyProvider = (props) => {
   }, [user])
 
   const profileDataLoader = async (user) => {
-    if (user === null  || loadingSpinner) {
+
+    // setFidelizationData({
+    //   fullName: "carlos",
+    //   name: "carlos",
+    //   surename: "Brito",
+    //   identification: "95971507",
+    //   birthday: formatDate("1975-01-03"),
+    //   gender: JSON.stringify({
+    //     "id": 2,
+    //     "description": "Masculino"
+    //   }),
+    //   localization: null,
+    //   fidelization: {
+    //     accumulatedPoints: 1450,
+    //     expirationPoints: 456,
+    //     expirationDate: "22/11/2023",
+    //     credencial: {
+    //       number: 123456,
+    //       code: 123,
+    //       // identificacion: 95971507,
+    //     },
+    //   }
+    // });
+    if (user === null || loadingSpinner) {
       return;
     }
     const token = await getToken(user);
     try {
       setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty(
-        "/profile", 
+        "/profile",
         {
-          cancelToken: newCancelTokenSource.token, 
-          ...config(token)}
+          ...config(token)
+        }
         )
+        console.log(data)
       if (data.status === "Error") {
         throw data.message
       }
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
-      // throw error;
-      // setProfileAssignment(error?.response.status || 209);
+       throw error;
     }
     finally {
       setLoadingProfile(false);
@@ -60,7 +85,7 @@ export const LoyaltyProvider = (props) => {
     try {
       const token = await getToken(user);
       const { data } = await axiosClientLoyalty.post(
-        '/profile', 
+        '/profile',
         newProfile,
         config(token)
       )
@@ -71,15 +96,47 @@ export const LoyaltyProvider = (props) => {
       if (error?.response?.data?.status === "Error") {
         throw error?.response?.data?.message
       }
-      // console.log(error)
       throw error;
-      // setProfileAssignment(error?.response.status || 209);
     } finally {
       setLoadingSpinner(false);
     }
   }
 
-  const profileDataUpdate = async (bindProfile, retryCount = 0) => {
+  const profileDataUpdate = async (dataProfile, retryCount = 0) => {
+    if (user === null || loadingSpinner) {
+      return;
+    }
+    try {
+      const token = await getToken(user);
+      setTransitProfile(dataProfile); //TODO: REVISAR ESTA ASIGNACION
+      setLoadingSpinner(true);
+      const { data } = await axiosClientLoyalty.put(
+        '/profile',
+        bindProfile,
+        { timeout: maxWaitTime, ...config(token) }
+      );
+      if (data.status === "Error") {
+        throw data.message
+      }
+      const mappedData = mapProfileData(data);
+      setFidelizationData(prevData => mappedData);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log("El recurso solicitado no fue encontrado.");
+        throw error;
+      } else if (retryCount < maxRetryCount) {
+        await new Promise(resolve => setTimeout(resolve, (maxWaitTime / 4)));
+        return makeRequest(bindProfile, retryCount + 1);
+      } else {
+        throw error;
+      }
+    }
+    finally {
+      setLoadingSpinner(false);
+    }
+  }
+
+  const bindProfileDataUpdate = async (bindProfile, retryCount = 0) => {
     if (user === null || loadingSpinner) {
       return;
     }
@@ -93,11 +150,9 @@ export const LoyaltyProvider = (props) => {
         bindProfile,
         { timeout: maxWaitTime, ...config(token) }
       );
-
       if (data.status === "Error") {
         throw data.message
       }
-
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
@@ -110,7 +165,45 @@ export const LoyaltyProvider = (props) => {
       } else {
         throw error;
       }
-      // setProfileAssignment(error?.response.status || 209);
+    }
+    finally {
+      setLoadingSpinner(false);
+    }
+  }
+
+
+  const getLastMovements = async (retryCount = 0) => {
+    if (user === null || loadingSpinner) {
+      return;
+    }
+    try {
+      const token = await getToken(user);
+      // const movements = mapLastMovements(dataBD.DATA);
+
+      setLoadingSpinner(true);
+      const { data } = await axiosClientLoyalty(
+        '/profile/lastmovements',
+        { timeout: maxWaitTime, ...config(token) }
+      );
+      if (data.status === "Error") {
+        throw data.message
+      }
+      const movements = mapLastMovements(data.data);
+      setLastMovents({
+        TAGS,
+        movements
+      })
+
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log("El recurso solicitado no fue encontrado.");
+        throw error;
+      } else if (retryCount < maxRetryCount) {
+        await new Promise(resolve => setTimeout(resolve, (maxWaitTime / 4)));
+        return makeRequest(bindProfile, retryCount + 1);
+      } else {
+        throw error;
+      }
     }
     finally {
       setLoadingSpinner(false);
@@ -128,8 +221,10 @@ export const LoyaltyProvider = (props) => {
     setLoadingSpinner,
     setFidelizationData,
     setTransitProfile,
-  
-  }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner]);
+    bindProfileDataUpdate,
+    lastMovents,
+    getLastMovements
+  }), [loadingProfile, transitProfile, fidelizationData, loadingSpinner, lastMovents]);
 
   return (<LoyaltyContext.Provider value={value} {...props} />);
 }

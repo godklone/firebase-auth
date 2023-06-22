@@ -10,7 +10,7 @@ form {
 
   .textfield {
     position: relative;
-    margin: $f 0 0;
+    // margin: $f 0 0;
 
     label {
       background-color: $background-color_1;
@@ -29,6 +29,31 @@ form {
       transition: 0.1s ease-out;
     }
 
+
+    select {
+      width: 100%;
+      font-size: 14px;
+      font-weight: 600;
+      color: #261d1d;
+      background-color: #e1e1e1;
+      border: none;
+      border-radius: 5px;
+      padding: 5px;
+      height: 3rem;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    select option {
+      background-color: #f2f2f2;
+      color: #333;
+      padding: 10px;
+      font-size: 18px;
+      font-weight: 400;
+      border: none;
+      border-bottom: 1px solid #ccc;
+    }
+
     input {
       font-size: $f;
       outline: none;
@@ -38,20 +63,24 @@ form {
       color: $color_1;
       transition: 0.1s ease-out;
       width: -webkit-fill-available;
+      width: 100%;
 
       &:focus {
         border-color: $color_2;
         color: inherit;
       }
-      &:focus + label {
+
+      &:focus+label {
         color: $color_2;
         top: 0;
         transform: translateY(-50%) scale(0.9);
       }
+
       &:not(:focus)::placeholder {
         color: transparent;
       }
-      &:not(:placeholder-shown) + label {
+
+      &:not(:placeholder-shown)+label {
         top: 0;
         transform: translateY(-50%) scale(0.9);
       }

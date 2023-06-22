@@ -4,15 +4,14 @@ import { useAuth } from "../context/AuthContext";
 import { useLoyalty } from "../context/LoyaltyContext";
 
 import CredentialAssign from "./profile/CredentialAsign";
-import AssociateCardData from "./profile/AssociateCardData";
 import TransitProfile from "./profile/TransitProfile";
 import UpdateProfile from "./profile/UpdateProfile";
 import LastMovement from "./profile/LastMovement";
 import PersonalData from "./profile/PersonalData";
 import StateAccount from "./profile/StateAccount";
 import Spinner from "../components/Spinner";
-
-
+import { AffiliationPage } from "./profile/affiliationPage";
+import MainLayout from "../layout/MainLayout";
 
 const PrivateRoutes = () => {
   const { user, isLoading } = useAuth();
@@ -32,27 +31,26 @@ const PrivateRoutes = () => {
 
   return (
     <Routes>
-      <Route index element={fidelizationData ? <StateAccount /> : <CredentialAssign />} />
-      <Route path="state-account">
-        <Route path="personal-data" element={<PersonalData />} />
-        <Route path="last-movement" element={<LastMovement />} />
+      <Route element={<MainLayout />}>
+        <Route index element={fidelizationData !== null ? <StateAccount /> : <CredentialAssign />} />
+        <Route path="state-account">
+          <Route path="personal-data" element={<PersonalData />} />
+        </Route>
+        <Route path="profile" >
+          <Route index element={<AffiliationPage />} />
+          <Route path="associate-data/associate-transit-data"
+            element={<TransitProfile affiliate={affiliate} />}
+          />
+          <Route path="associate-data/update-profile"
+            element={<UpdateProfile disabledField={true} />}
+          />
+          <Route path="associate-transit-data"
+            element={<TransitProfile affiliate={affiliate} />}
+          />
+          {/* <Route path="state-account/last-movement" element={<LastMovement />} /> */}
+        </Route>
       </Route>
-
-      /************************************************************************/
-      <Route path="profile" >
-        <Route index element={<AssociateCardData />} />
-        <Route path="associate-data/associate-transit-data"
-          element={<TransitProfile affiliate={affiliate} />}
-        />
-        <Route path="associate-data/update-profile"
-          element={<UpdateProfile disabledField={true} />}
-        />
-        <Route path="associate-transit-data"
-          element={<TransitProfile affiliate={affiliate} />}
-        />
-        <Route path="state-account/last-movement" element={<LastMovement />} />
-      </Route>
-      /************************************************************************/
+      <Route path="/last-movement" element={<LastMovement />} />
     </Routes>
   )
 }

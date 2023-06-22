@@ -25,11 +25,9 @@ const Splash = () => {
         setWebHook(webhook);
       }
     }
-
   }, [])
 
   useEffect(() => {
-
     if (!isLoading) {
       if (user) {
         navigate('/home');

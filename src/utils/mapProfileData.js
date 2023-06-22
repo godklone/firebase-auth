@@ -1,11 +1,16 @@
+import { formatDate } from "../helpers";
+
 export const mapProfileData = (userData) => {
-  const { name, surename,identification, fidelization } = userData.data;
+  const { name, surename,identification,birthday,gender, localization, fidelization } = userData.data;
   let mappedData = {};
   try {
     mappedData = {
       name,
       surename,
       identification,
+      birthday:formatDate(birthday),
+      gender:JSON.stringify(gender),
+      localization,
       fullName: `${name} ${surename}`,
       fidelization: {
         accumulatedPoints: fidelization?.accumulated_points,

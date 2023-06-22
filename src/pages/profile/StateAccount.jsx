@@ -6,9 +6,16 @@ import { BiLogOut } from 'react-icons/bi';
 import css from '../../assets/styles/pages/stateAccount.module.scss';
 
 const StateAccount = () => {
-  const { webHook, getPhotoUrl, logout, getToken } = useAuth();
-  const { setFidelizationData, fidelizationData, setLoadingSpinner , setTransitProfile} = useLoyalty();
+  const { webHook, getPhotoUrl, logout, token } = useAuth();
+  const webToken = webHook ? `${webHook}?token=${token}`:''
   const navigate = useNavigate();
+  const {
+    getLastMovements,
+    setFidelizationData,
+    fidelizationData,
+    setLoadingSpinner,
+    setTransitProfile
+  } = useLoyalty();
 
   const {
     fullName,
@@ -19,15 +26,17 @@ const StateAccount = () => {
       credencial,
     },
   } = fidelizationData;
-
-  const handleLastMovement = (e) => {
-    e.preventDefault();
-    navigate('state-account/last-movement');
-  };
+  
 
   const handlePersonalData = (e) => {
     e.preventDefault();
     navigate('state-account/personal-data');
+  };
+
+  const handleLastMovement = async (e) => {
+    e.preventDefault();
+    await getLastMovements();
+    navigate('last-movement');
   };
 
   const handleLogout = async (e) => {
@@ -36,15 +45,14 @@ const StateAccount = () => {
     setFidelizationData(null);
     setTransitProfile(null)
     await logout();
-    navigate(`/?webhook=${webHook}`)
-
+    navigate(`/ ${webHook}? "?webhook="${webHook}:""`)
   }
 
   return (
     <div className={css.content__account}>
       <div className={css.btnHeader}>
         {
-          !!webHook &&  webHook !== "invalid" && <a className='btn__primary' href={webHook}>
+          !!webHook && webHook !== "invalid" && <a className='btn__primary' href={webToken}>
             Continuar al sitio Principal
           </a>
         }
@@ -75,6 +83,21 @@ const StateAccount = () => {
         <span className={css.title}>Siempre Beneficios</span>
         <span className={css.number}>N°: {credencial.number}</span>
         <span className={css.cod}>Cód. Seg: {credencial.code}</span>
+      </div>
+      <div className={css.conten__btn}>
+        <button
+          onClick={handlePersonalData}
+          className="btn__primary"
+        >
+          Datos Personales
+        </button>
+
+        <button
+          onClick={handleLastMovement}
+          className="btn__secondary"
+        >
+          Ultimos Movimientos
+        </button>
       </div>
     </div>
   );

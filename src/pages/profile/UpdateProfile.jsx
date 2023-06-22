@@ -1,12 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoyalty } from "../../context/LoyaltyContext";
 
-const UpdateProfile = ({disabledField}) => {
+const UpdateProfile = ({ disabledField }) => {
   const navigate = useNavigate();
-  const dniRef = useRef();
-  const nameRef = useRef();
-  const lastNameRef = useRef();
   const { fidelizationData } = useLoyalty();
 
   useEffect(() => {
@@ -14,18 +11,35 @@ const UpdateProfile = ({disabledField}) => {
       return;
     }
     try {
-      const { name, surename, identification, } = fidelizationData;
-      dniRef.current.value = identification
-      nameRef.current.value = name
-      lastNameRef.current.value = surename
+      formik.setValues({
+        surename: fidelizationData.surename,
+        name: fidelizationData.name,
+        birthday: fidelizationData.birthday,
+        identification: fidelizationData.identification.replace(/[\.,]/g, ''),
+        gender: fidelizationData.gender,
+      });
     } catch (error) {
+      console.error('Error al cargar los datos del usuario', error);
     }
+
   }, [fidelizationData])
 
   const handleConfirm = (e) => {
     e.preventDefault();
     navigate("/home");
   }
+
+  const initialValues = {
+    surename: '',
+    name: '',
+    identification: '',
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationProfileSchema,
+    onSubmit: handleConfirm,
+  });
 
   return (
     <div className="content__general">
@@ -34,50 +48,78 @@ const UpdateProfile = ({disabledField}) => {
         Datos en el perfil de Siempre Beneficios.
         Si estos son tus datos correctos puedes continuar para finalizar el registro.       </p>
 
-      <form autoComplete='off'>
-        <div className="">
-          <div className="textfield">
+      <form
+        onSubmit={formik.handleSubmit}
+      >
+        <>
+          <div className='textfield'>
+            <input
+              type="text"
+              id="surename"
+              name="surename"
+              placeholder="Apellidos"
+              disabled={disabledField}
+              {...formik.getFieldProps('surename')}
+            />
+            <label htmlFor="surename">Apellidos:</label>
+          </div>
+          <div className="alert__error">
+            {formik.touched.surename && formik.errors.surename ? (
+              formik.errors.surename
+            ) : null}
+          </div>
+        </>
+        <>
+          <div className='textfield'>
             <input
               type="text"
               id="name"
-              ref={nameRef}
-              placeholder="Nro Credencial"
-              className=""
-              disabled = {disabledField}
+              name="name"
+              placeholder="Nombres"
+              disabled={disabledField}
+              {...formik.getFieldProps('name')}
             />
-            <label htmlFor="name">Nombre</label>
+            <label htmlFor="name">Nombres:</label>
           </div>
-
-          <div className="textfield">
+          <div className="alert__error">
+            {formik.touched.name && formik.errors.name ? (
+              formik.errors.name
+            ) : null}</div>
+        </>
+        <>
+          <div className='textfield'>
             <input
               type="text"
-              id="lastname"
-              ref={lastNameRef}
-              placeholder="Cod Seg"
-              className=""
-              disabled = {disabledField}
+              name="identification"
+              placeholder="Ingrese su DNI"
+              maxLength="11"
+              value={formik.values.identification}
+              onChange={(e) => validNumberInputChange(e, formik.setFieldValue)}
+              onBlur={formik.handleBlur}
+              disabled={disabledField}
             />
-            <label htmlFor="lastname">Apellido</label>
+            <label htmlFor="identification">Número de DNI:</label>
           </div>
-        </div>
-        <div className="textfield">
-          <input
-            type="text"
-            id="dni"
-            ref={dniRef}
-            placeholder="DNI"
-            className=""
-            disabled = {disabledField}
-          />
-          <label htmlFor="dni">DNI</label>
-        </div>
+          <div className="alert__error">
+            {formik.touched.identification && formik.errors.identification ? (
+              formik.errors.identification
+            ) : null}
+          </div>
+        </>
 
-        <div className="css.contentBtn">
+        <div className={css.contentBtn}>
           <button
-            onClick={handleConfirm}
-            className="btn__primary"
+            type="submit"
+            disabled={formik.isSubmitting}
+            className='btn__primary'
           >
             Continuar
+          </button>
+          <button
+            onClick={handleCancel}
+            className='btn__secondary'
+          >
+            Cancelar
           </button>
         </div>
       </form>
@@ -86,3 +128,6 @@ const UpdateProfile = ({disabledField}) => {
 }
 
 export default UpdateProfile
+
+
+

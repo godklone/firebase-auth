@@ -90,4 +90,22 @@
       }
     }
   }
+  .conten__btn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0rem;
+
+    button {
+      margin: 0.5rem 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }

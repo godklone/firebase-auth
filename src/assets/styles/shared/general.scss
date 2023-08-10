@@ -4,18 +4,31 @@
 @import 'inputs';
 @import 'button';
 @import 'alert';
+@import 'olul';
 
-$shadow: 0 0.625rem 2.125rem -0.9375rem rgba(0, 0, 0, 0.24);
-
+@mixin box_line {
+  -moz-box-shadow: $shadow;
+  -webkit-box-shadow: $shadow;
+  border-radius: 0.3125rem;
+  box-shadow: $shadow;
+}
 .content__general {
-  padding: 0.9375rem;
+  @include box_line;
+  overflow: hidden;
+  padding: 0 1.5rem;
   width: 100%;
+  background: $white;
 
+  @media (max-width: $tablet) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
   @media (min-width: $tablet) {
-    padding: 1.5625rem;
+    padding: 0;
+    margin-bottom: 2rem;
   }
 
-  .content_right{
+  .content_right {
     display: flex;
     justify-content: flex-end;
   }
@@ -36,5 +49,78 @@ $shadow: 0 0.625rem 2.125rem -0.9375rem rgba(0, 0, 0, 0.24);
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.container_aux {
+  margin: 0;
+  padding: auto;
+  background-color: transparent;
+}
+
+p,
+span {
+  color: $black;
+}
+
+h5.option {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.375rem;
+  margin: 0 0 0.5rem;
+  @media (min-width: $tablet) {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    margin: 0 auto 1rem;
+  }
+}
+
+.arrow {
+  &_down {
+    position: relative;
+    &::after {
+      background-image: url('assets/img/Icono_flecha.png');
+      background-repeat: no-repeat;
+      background-size: 100%;
+      content: '';
+      display: block;
+      height: 0.625rem;
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      width: 0.625rem;
+      @media (min-width: $tablet) {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+  }
+}
+
+.options {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.heading {
+  background-color: $white;
+  color: $black;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 31.02px;
+  margin: 0;
+  padding-bottom: 1.38rem;
+  text-align: center;
+  text-transform: uppercase;
+
+  @media (max-width: $tablet) {
+    @include box_line;
+    border-radius: 0;
+  }
+  @media (min-width: $tablet) {
+    background-color: $bg;
+    font-size: 44px;
+    line-height: 52.49px;
+    padding-bottom: 1.75rem;
   }
 }

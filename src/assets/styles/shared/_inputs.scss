@@ -1,88 +1,66 @@
-$color_1: $gray;
-$color_2: $secondary;
-$background-color_1: $white;
-$border-color_1: $secondary;
-$f: 1rem;
-
 form {
   display: flex;
   flex-direction: column;
 
   .textfield {
-    position: relative;
-    // margin: $f 0 0;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.13rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
     label {
-      background-color: $background-color_1;
-      color: $color_1;
-      font-size: $f;
-      line-height: initial;
-      border-radius: 0.625rem;
-      left: 0;
-      margin: 0 0.5rem;
-      padding: 0 0.3rem;
-      pointer-events: none;
-      position: absolute;
-      top: 50%;
-      transform-origin: left top;
-      transform: translateY(-50%);
-      transition: 0.1s ease-out;
-    }
-
-
-    select {
-      width: 100%;
-      font-size: 14px;
+      order: 0;
+      font-size: 0.875rem;
+      font-style: normal;
       font-weight: 600;
-      color: #261d1d;
-      background-color: #e1e1e1;
-      border: none;
-      border-radius: 5px;
-      padding: 5px;
-      height: 3rem;
-      letter-spacing: .4px;
-      text-transform: uppercase;
+      line-height: normal;
+
+      @media (min-width: $tablet) {
+        font-size: 1.5625rem;
+        font-style: normal;
+        font-weight: 300;
+      }
     }
 
-    select option {
-      background-color: #f2f2f2;
-      color: #333;
-      padding: 10px;
-      font-size: 18px;
+    select,
+    select option,
+    input,
+    input:-webkit-autofill,
+    input:-internal-autofill-selected,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px $bgInput inset;
+      -webkit-text-fill-color: $black;
+      background-color: $bgInput !important;
+      border-radius: 0.3125rem;
+      border: 0.0625rem solid transparent;
+      color: $black !important;
+      font-size: 0.625rem;
       font-weight: 400;
-      border: none;
-      border-bottom: 1px solid #ccc;
+      height: 2.5rem;
+      line-height: normal;
+      margin: 0.56rem 0 0;
+      order: 1;
+      padding: 0 0.95rem;
+
+      &:focus-visible {
+        outline-color: lighten($black, 40%);
+      }
+
+      @media (min-width: $tablet) {
+        font-size: 1.25rem;
+        font-weight: 300;
+        height: 4rem;
+      }
     }
-
-    input {
-      font-size: $f;
-      outline: none;
-      border: 0.0625rem solid $color_1;
-      border-radius: 0.25rem;
-      padding: calc($f - 0.25rem) 0.625rem;
-      color: $color_1;
-      transition: 0.1s ease-out;
-      width: -webkit-fill-available;
-      width: 100%;
-
-      &:focus {
-        border-color: $color_2;
-        color: inherit;
-      }
-
-      &:focus+label {
-        color: $color_2;
-        top: 0;
-        transform: translateY(-50%) scale(0.9);
-      }
-
-      &:not(:focus)::placeholder {
-        color: transparent;
-      }
-
-      &:not(:placeholder-shown)+label {
-        top: 0;
-        transform: translateY(-50%) scale(0.9);
+    .alert__error {
+      order: 3;
+      font-size: 0.625rem;
+      @media (min-width: $tablet) {
+        font-size: 1rem;
       }
     }
   }

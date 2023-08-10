@@ -1,0 +1,35 @@
+@mixin list {
+  padding: 0;
+  list-style: none;
+  counter-reset: counter;
+  li {
+    counter-increment: counter;
+    &::before {
+      content: counter(counter) ') ';
+      color: $black;
+      font-weight: bold;
+    }
+  }
+}
+
+ol,
+ul {
+  margin: 0;
+  &.parenthesis {
+    @include list;
+    li {
+      &::before {
+        content: counter(counter) ') ';
+      }
+    }
+  }
+
+  &.point {
+    @include list;
+    li {
+      &::before {
+        content: counter(counter) '. ';
+      }
+    }
+  }
+}

@@ -7,19 +7,18 @@ export const AffiliationTypeSelector = (props) => {
 
   return (
     <>
-      <h5 className='mt__1 mb__1'>Elige tu forma de vincular:</h5>
-      <div className='textfield mb__1'>
+      <div className='textfield arrow_down options'>
         <select
-          name="affiliationType"
+          name='affiliationType'
           value={formik.values.affiliationType}
           onChange={handleSelectChange}
           onBlur={formik.handleBlur}
         >
-          <option value="dni">DNI</option>
-          <option value="credentialNumber">Credencial</option>
-          <option value="credentialAndCode">
-            Credential y Codigo de Securidad
+          <option value='dni'>Con mi Nº de DNI</option>
+          <option value='credentialAndCode'>
+            N° Credencial y cod. de seguridad
           </option>
+          <option value='credentialNumber'>Solo N° Credencial</option>
         </select>
       </div>
     </>

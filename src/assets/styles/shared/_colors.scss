@@ -1,14 +1,27 @@
-$primary: #7eba00;
-$secondary: #0099b9;
-$tertiary: #d4d4d4;
+$primary: #95165e;
+$secondary: #037f83;
+$tertiary: #1d1d1d;
+$quaternary: #fd5901;
 
-$bg: #f8f9fd;
+$bg: #e3e3e3;
 $warning: #b90909;
 $warning-light: lighten($warning, 20%);
 
 $black: #000;
-$white: #fff;
+$white: #f3f3f3;
 $gray: lighten($black, 60%);
 
 $google: #d85040;
 $facebook: #415993;
+
+$link: #1a70ef;
+$link_hover: #0b4bca;
+
+// buttons
+$wbutton: #f8f7f7;
+
+//Inputs
+$bgInput: #d9d9d9;
+$textInput: rgba(0, 0, 0, 0.6);
+
+$shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.25);

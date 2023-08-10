@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useFormik } from "formik";
+import { useFormik } from 'formik';
 
 import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
 import { validationRegisterSchema } from '../../validation';
@@ -14,17 +14,14 @@ const Register = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      await signup(
-        values.email,
-        values.password
-      );
+      await signup(values.email, values.password);
 
       await Swal.fire({
         icon: 'success',
         title: 'Registro exitoso',
         text: 'Revisa tu correo y valida tu cuenta.',
         showConfirmButton: true,
-        confirmButtonText: 'Continuar...',
+        confirmButtonText: 'Continuar',
       });
       navigate('/home');
     } catch (error) {
@@ -33,21 +30,29 @@ const Register = () => {
         title: 'Error en el registro',
         text: getFirebaseAuthError(error.code),
         showConfirmButton: true,
-        confirmButtonText: 'Continuar...',
+        confirmButtonText: 'Continuar',
       });
     } finally {
       setSubmitting(false);
     }
   };
 
+  // customClass: {
+  //   container: 'my-swal-container',
+  //   title: 'my-swal-title',
+  //   content: 'my-swal-content',
+  //   confirmButton: 'my-swal-confirm-button',
+  //   cancelButton: 'my-swal-cancel-button',
+  //   closeButton: 'my-swal-close-button',
+  // },
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      repeatPassword: "",
+      email: '',
+      password: '',
+      repeatPassword: '',
     },
     validationSchema: validationRegisterSchema,
-    onSubmit
+    onSubmit,
   });
 
   const { signup } = useAuth();
@@ -57,96 +62,101 @@ const Register = () => {
   };
 
   return (
-    <div className={css.content__register}>
-      <h4 className='heading'>Crear Cuenta</h4>
+    <div className='container_aux'>
+      <h4 className='heading'>Regístrate con tu email</h4>
+      <div className={css.content__register}>
+        <form onSubmit={formik.handleSubmit} className={css.form}>
+          <div className='textfields'>
+            <div className='textfield'>
+              <input
+                id='email'
+                name='email'
+                type='email'
+                placeholder='Ingresa tu mail'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+              <label htmlFor='email'>Email</label>
+              <div className='alert__error'>
+                {formik.touched.email && formik.errors.email
+                  ? formik.errors.email
+                  : null}
+              </div>
+            </div>
 
-      <p className='paragraph'>
-        Vamos a crear una cuenta con un email y clave. Estas serán tus
-        credenciales para ingresar.
-      </p>
+            <div className='textfield'>
+              <input
+                id='password'
+                name='password'
+                placeholder='Ingresa tu contraseña'
+                type={showPassword ? 'text' : 'password'}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+              />
+              <label htmlFor='password'>Elige una contraseña</label>
+              <div className='alert__error'>
+                {formik.touched.password && formik.errors.password
+                  ? formik.errors.password
+                  : null}
+              </div>
+            </div>
 
-      <form onSubmit={formik.handleSubmit}>
-        <div className='textfield'>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder='Email'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          <label htmlFor="email">Email</label>
-        </div>
-        <div className="alert__error">
-        {formik.touched.email && formik.errors.email ? (
-          formik.errors.email
-        ) : null}
-        </div>
-        <div className='textfield'>
-          <input
-            id="password"
-            name="password"
-            placeholder='Password'
-            type={showPassword ? "text" : "password"}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
-          <label htmlFor="password">Password</label>
-        </div>
-        <div className="alert__error">
-        {formik.touched.password && formik.errors.password ? (
-          formik.errors.password
-        ) : null}
-        </div>
-        <div className='textfield'>
-          <input
-            id="repeatPassword"
-            name="repeatPassword"
-            type={showPassword ? "text" : "password"}
-            placeholder='Repita su password'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.repeatPassword}
-          />
-          <label htmlFor="repeatPassword">Repita su password</label>
-        </div>
-        <div className="alert__error">
-        {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
-         formik.errors.repeatPassword
-        ) : null}
-        </div>
+            <div className='textfield'>
+              <input
+                id='repeatPassword'
+                name='repeatPassword'
+                type={showPassword ? 'text' : 'password'}
+                placeholder='Ingresa tu contraseña'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.repeatPassword}
+              />
+              <label htmlFor='repeatPassword'>Repite la contraseña</label>
+              <div className='alert__error'>
+                {formik.touched.repeatPassword && formik.errors.repeatPassword
+                  ? formik.errors.repeatPassword
+                  : null}
+              </div>
+            </div>
+          </div>
 
-        <div className=''>
-          <input
-            type="checkbox"
-            id="showPassword"
-            name="showPassword"
-            checked={showPassword}
-            onChange={handleShowPassword}
-          />
-          <label htmlFor="showPassword">Show password</label>
-        </div>
-
-        <div className={css.contentBtn}>
-          <button
-            type="submit"
-            className="btn__primary"
-            disabled={formik.isSubmitting}
-          >Continuar</button>
-          <p className='paragraph'>
-            Ya tenes una cuenta creada?{' '}
-            <Link to='/login' className={css.login}>
-              Ingresar
+          {/* <div className=''>
+            <input
+              type='checkbox'
+              id='showPassword'
+              name='showPassword'
+              checked={showPassword}
+              onChange={handleShowPassword}
+            />
+            <label htmlFor='showPassword'>Show password</label>
+          </div> */}
+          <p className={css.goLogin}>
+            <Link to='/login' className='link'>
+              ¿Tienes cuenta? Ingresa aca
             </Link>
           </p>
-          <p className='paragraph'>
-            Al registra una cuenta, estás de acuerdo con nuestros Terminos de
-            Servicios y Políticas de privacidad
-          </p>
-        </div>
-      </form>
+
+          <div className={css.contentBtn}>
+            <button
+              type='submit'
+              className='btn__primary'
+              disabled={formik.isSubmitting}
+            >
+              Crear cuenta
+            </button>
+
+            <p className={css.note}>Recibirás un mail para validar tu cuenta</p>
+          </div>
+          <div className={css.politicas}>
+            <p>Al registrarme, declaro que soy mayor</p>
+            <p>
+              de edad y acepto los <a href='#'>términos y condiciones</a>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

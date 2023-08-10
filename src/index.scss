@@ -1,6 +1,6 @@
 @import './assets/styles/shared/general.scss';
 
-$font: 'Lato', Arial, sans-serif;
+$font: 'Montserrat', 'Lato', Arial, sans-serif;
 
 * {
   box-sizing: border-box;
@@ -17,12 +17,19 @@ body {
   padding: 0;
 }
 
+p {
+  margin: 0;
+}
+
+span {
+  font-weight: 600;
+}
+
 a {
   color: inherit;
   text-decoration: none;
   background-color: transparent;
 }
-
 
 .fade-enter {
   opacity: 0;
@@ -42,29 +49,15 @@ a {
   transition: opacity 300ms ease-in-out;
 }
 
-.mt {
-  &__1 {
-    margin-top: 1rem;
+@for $i from 0 through 5 {
+  $m: $i * 1rem;
+  .mt__#{$i} {
+    margin-top: $m !important;
   }
-  &__2 {
-    margin-top: 2rem;
-  }
-
-  &__5 {
-    margin-top: 5rem;
+  .mb__#{$i} {
+    margin-bottom: $m !important;
   }
 }
-
-.mb {
-  &__1 {
-    margin-bottom: 1rem;
-  }
-
-  &__5 {
-    margin-top: 5rem;
-  }
-}
-
 
 .marquee-container {
   height: 50px; /* Altura del contenedor */

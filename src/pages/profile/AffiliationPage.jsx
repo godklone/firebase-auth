@@ -4,18 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { AffiliationFormFields } from '../../components/affiliationForm/AffiliationFormFields';
 import { AffiliationTypeSelector } from '../../components/affiliationForm/AffiliationTypeSelector ';
 import { useLoyalty } from '../../context/LoyaltyContext';
-import CarouselText from '../../components/CarouselText ';
 
-import { affiliationInitialValues, validationAffiliationSchema } from '../../validation'
+import {
+  affiliationInitialValues,
+  validationAffiliationSchema,
+} from '../../validation';
 
-import css from '../../assets/styles/pages/profile.module.scss'
+import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 export const AffiliationPage = () => {
   const navigate = useNavigate();
-  const { bindProfileDataUpdate, setTransitProfile, loadingSpinner } = useLoyalty();
+  const { bindProfileDataUpdate, setTransitProfile, loadingSpinner } =
+    useLoyalty();
 
   const handleConfirm = async (values) => {
-
     try {
       const bindProfile = {
         identification: values.dni.replace(/[\.,]/g, ''),
@@ -25,19 +27,20 @@ export const AffiliationPage = () => {
       await bindProfileDataUpdate(bindProfile);
       await Swal.fire({
         icon: 'success',
-        title: 'Actualizacion exitosa.',
+        title: 'Felicidades!',
+        text: 'Vinculación exitosa',
         showConfirmButton: true,
-        confirmButtonText: 'Continuar...',
+        confirmButtonText: 'Continuar',
       });
 
       navigate('associate-data/update-profile');
     } catch (error) {
       await Swal.fire({
         title: 'Ha ocurrido un error.',
-        text: error,
+        text: 'Puedes crearte un perfil nuevo',
         icon: 'error',
         showConfirmButton: true,
-        confirmButtonText: 'Continuar...',
+        confirmButtonText: 'Salir',
       });
     }
   };
@@ -65,56 +68,70 @@ export const AffiliationPage = () => {
   const formik = useFormik({
     initialValues: {
       ...affiliationInitialValues,
-      affiliationType: "dni"
+      affiliationType: 'dni',
     },
     validationSchema: validationAffiliationSchema,
     onSubmit: handleConfirm,
   });
 
   return (
-    <div className='content__general'>
-      <h4 className='heading'>Vincular Perfil de la cuenta</h4>
-      <CarouselText intervalTime={3000}>
-        <span>Debes completar los datos de tu tarjeta Siempre Beneficios, con el
-          número de credencial y código de seguridad. También puedes usar tu DNI.
-        </span>
-        <span>En caso que seas un actual afiliado al plan de Beneficios Siempre, y no
-          cuentas con tu credencial o tu DNI no corresponde a un perfil activo,
-          puedes crear una perfil temporal, y luego presentandote en una sucursal
-          puedes unificar los dos perfiles para recuperar todos los puntos.
-        </span>
-      </CarouselText>
+    <div className='container_aux'>
+      <h4 className='heading'>Vincular mi cuenta con perfil wow</h4>
+      <div className={css.content__affiliation}>
+        <form onSubmit={formik.handleSubmit}>
+          <div className={css.instructions}>
+            <p>
+              Puedes hacerlo de 3 formas: Si no recuerdas tu contraseña no te
+              preocupes. Sigue estos simples pasos:
+            </p>
+            <ul className='parenthesis'>
+              <li>
+                Con tu numero de <span>DNI</span>
+              </li>
+              <li>
+                Con tu <span>N° de Credencial y Cod. Seguridad</span>
+              </li>
+              <li>
+                Solo <span>N° Credencial</span>, para credenciales con
+                numeración
+                {' <'}50.000.000
+              </li>
+            </ul>
+          </div>
+          <div className={css.information}>
+            En caso de que seas socio y no puedas vincular tu perfil de
+            fidelización debido a no tener tu n° credencial o figures con un DNI
+            incorrecto, créate un perfil transitorio. Luego comunícate con
+            nosotros para unificar tus perfiles (el transitorio y el que ya
+            tenias) y asi recuperar tus puntos.
+          </div>
+          <h5 className='option'>Elige tu forma de vincularte:</h5>
 
-      {/* <p className='paragraph'>
-        Debes completar los datos de tu tarjeta Siempre Beneficios, con el
-        número de credencial y código de seguridad. También puedes usar tu DNI.
-        En caso que seas un actual afiliado al plan de Beneficios Siempre, y no
-        cuentas con tu credencial o tu DNI no corresponde a un perfil activo,
-        puedes crear una perfil temporal, y luego presentandote en una sucursal
-        puedes unificar los dos perfiles para recuperar todos los puntos.
-      </p> */}
-      <form onSubmit={formik.handleSubmit}>
-        <AffiliationTypeSelector formik={formik} />
-        <AffiliationFormFields formik={formik} />
-        <div className={css.contentBtn}>
-          <button
-            type="submit"
-            disabled={formik.isSubmitting}
-            className='btn__primary'
-          >
-            Continuar
-          </button>
-          <button
-            onClick={(e) => handleTransitProfile(e, formik.values)}
-            className='btn__secondary'
-          >
-            Crear un perfil en transito
-          </button>
-          <button onClick={handleCancel} className='btn__warning'>
-            Cancelar
-          </button>
-        </div>
-      </form>
+          <div className={css.containerOptions}>
+            <AffiliationTypeSelector formik={formik} />
+            <AffiliationFormFields formik={formik} />
+          </div>
+
+          <div className={css.contentBtn}>
+            <button
+              type='submit'
+              disabled={formik.isSubmitting}
+              className='btn__primary'
+            >
+              Vincular
+            </button>
+            <button
+              onClick={(e) => handleTransitProfile(e, formik.values)}
+              className='btn__quaternary'
+            >
+              Crear un perfil transitorio
+            </button>
+            <button onClick={handleCancel} className='btn__tertiary'>
+              Volver
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

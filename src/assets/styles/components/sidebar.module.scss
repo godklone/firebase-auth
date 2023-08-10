@@ -1,20 +1,31 @@
 @import '../shared/general.scss';
 .sidebar {
-  background: linear-gradient(
-    0deg,
-    rgba(200, 198, 198, 0.5186449579831933) 0%,
-    rgba(0, 0, 0, 0.23573179271708689) 100%
-  );
+  background: $white;
   width: 100%;
   height: auto;
-  min-height: 9.375rem;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
-  h2 {
-    margin: 0;
-    color: $gray;
+  @media (max-width: $tablet) {
+    @include box_line;
+    border-radius: 0.3125rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  @media (min-width: $tablet) {
+    background: $bg;
+  }
+}
+
+.logo {
+  height: 6.22644rem;
+  margin: 1.94rem 0 0.77rem;
+  width: 7.5rem;
+  @media (min-width: $tablet) {
+    height: 7.75rem;
+    margin: 1.31rem 0 0.94rem;
+    width: 10.375rem;
   }
 }

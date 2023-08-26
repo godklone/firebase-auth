@@ -6,6 +6,7 @@ import { validationProfileSchema } from '../../validation';
 import { validNumberInputChange } from '../../helpers';
 
 import css from '../../assets/styles/pages/loginFlow.module.scss';
+import { startTransition } from 'react';
 
 const TransitProfile = (props) => {
   const navigate = useNavigate();
@@ -26,7 +27,9 @@ const TransitProfile = (props) => {
         title: 'Registro exitoso',
         confirmButtonText: 'Continuar',
       });
-      navigate('/home');
+      startTransition(() => {
+        navigate('/home');
+      });
     } catch (error) {
       console.log(error);
       await Swal.fire({

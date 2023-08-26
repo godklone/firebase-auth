@@ -85,6 +85,17 @@ function formatDate(dateString) {
   return `${year}-${month}-${day}`;
 }
 
+function validarURL(url) {
+  const pattern = new RegExp('^(https?:\\/\\/)?' + // Protocolo (opcional)
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // Dominio
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // O también podría ser una dirección IP
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // Puerto y ruta
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // Consulta
+    '(\\#[-a-z\\d_]*)?$', 'i'); // Fragmento
+
+  return pattern.test(url);
+}
+
 export {
   validEmail,
   validPassword,
@@ -97,6 +108,7 @@ export {
   validNumberInputChange,
   validNumberCredentialInputChange,
   onlyNumber,
-  formatDate
+  formatDate,
+  validarURL
 
 }

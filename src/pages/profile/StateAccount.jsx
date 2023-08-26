@@ -4,6 +4,7 @@ import { useLoyalty } from '../../context/LoyaltyContext';
 
 import { BiLogOut } from 'react-icons/bi';
 import css from '../../assets/styles/pages/stateAccount.module.scss';
+import { startTransition } from 'react';
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout, token } = useAuth();
@@ -44,7 +45,9 @@ const StateAccount = () => {
     setFidelizationData(null);
     setTransitProfile(null);
     await logout();
-    navigate(`/ ${webHook}? "?webhook="${webHook}:""`);
+    startTransition(() => {
+      navigate(`/ ${webHook}? "?webhook="${webHook}:""`);
+    });
   };
 
   return (

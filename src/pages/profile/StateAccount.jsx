@@ -1,14 +1,15 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useLoyalty } from '../../context/LoyaltyContext';
 
 import { BiLogOut } from 'react-icons/bi';
 import css from '../../assets/styles/pages/stateAccount.module.scss';
-import { startTransition } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout, token } = useAuth();
-  const webToken = webHook ? `${webHook}?token=${token}` : '';
+  const [webToken, setWebToken] = useState(null)
+
   const navigate = useNavigate();
   const {
     getLastMovements,
@@ -28,6 +29,11 @@ const StateAccount = () => {
     },
   } = fidelizationData;
 
+  useEffect(() => {
+    const calculatedWebToken = webHook ? `${webHook}?token=${token}` : '';
+    setWebToken(calculatedWebToken);
+  }, [token]);
+
   const handlePersonalData = (e) => {
     e.preventDefault();
     navigate('state-account/personal-data');
@@ -39,24 +45,28 @@ const StateAccount = () => {
     navigate('last-movement');
   };
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    setLoadingSpinner(true);
-    setFidelizationData(null);
-    setTransitProfile(null);
-    await logout();
-    startTransition(() => {
-      navigate(`/ ${webHook}? "?webhook="${webHook}:""`);
-    });
-  };
+  // const handleLogout = async (e) => {
+  //   e.preventDefault();
+  //   setLoadingSpinner(true);
+  //   setFidelizationData(null);
+  //   setTransitProfile(null);
+  //   await logout();
+  //   startTransition(() => {
+  //     navigate(`/ ${webHook}? "?webhook="${webHook}:""`);
+  //   });
+  // };
 
   return (
     <div className={css.content__account}>
       <div className={css.btnHeader}>
         {!!webHook && webHook !== 'invalid' && (
-          <a className='btn__primary' href={webToken}>
+          <Link to={webToken} className='btn__primary'>
             Continuar al sitio Principal
-          </a>
+          </Link>
+
+          // <a className='btn__primary' href={webToken}>
+          //   Continuar al sitio Principal
+          // </a>
         )}
         {/* <button className='btn_logout' onClick={handleLogout}>
           <BiLogOut />

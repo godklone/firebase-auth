@@ -68,9 +68,7 @@ const StateAccount = () => {
           //   Continuar al sitio Principal
           // </a>
         )}
-        {/* <button className='btn_logout' onClick={handleLogout}>
-          <BiLogOut />
-        </button> */}
+       
       </div>
 
       <div className={css.avatarMobile}>

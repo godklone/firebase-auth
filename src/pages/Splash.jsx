@@ -1,9 +1,10 @@
-import { useEffect } from "react"
+import { startTransition, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 // import { useNavigationMachine } from "../machines/machine";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Spinner from "../components/Spinner";
+import { validarURL } from "../helpers";
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -16,12 +17,12 @@ const Splash = () => {
     if (!webhook) {
       signOut();
     } else {
-      try {
-        const newUrl = new URL(`${webhook}`);
-      } catch (e) {
+      if (!validarURL(webhook)) {
         webhook = "invalid"
-        navigate('/404');
-      } finally {
+        startTransition(() => {
+          navigate('/404');
+        });
+      } else {
         setWebHook(webhook);
       }
     }
@@ -30,7 +31,9 @@ const Splash = () => {
   useEffect(() => {
     if (!isLoading) {
       if (user) {
-        navigate('/home');
+        startTransition(() => {
+          navigate('/home');
+        });
       } else {
         navigate('/login');
       }

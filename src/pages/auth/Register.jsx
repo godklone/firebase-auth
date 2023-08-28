@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { startTransition, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useFormik } from 'formik';
 
@@ -9,6 +9,7 @@ import { validationRegisterSchema } from '../../validation';
 import css from '../../assets/styles/pages/loginFlow.module.scss';
 
 const Register = () => {
+  const { signup } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,7 +24,10 @@ const Register = () => {
         showConfirmButton: true,
         confirmButtonText: 'Continuar',
       });
-      navigate('/home');
+
+      startTransition(() => {
+        navigate('/home');
+      });
     } catch (error) {
       await Swal.fire({
         icon: 'error',
@@ -55,7 +59,7 @@ const Register = () => {
     onSubmit,
   });
 
-  const { signup } = useAuth();
+
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);

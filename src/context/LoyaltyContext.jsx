@@ -51,26 +51,30 @@ export const LoyaltyProvider = (props) => {
     //     },
     //   }
     // });
+
     if (user === null || loadingSpinner) {
       return;
     }
     const token = await getToken(user);
     try {
+
       setLoadingSpinner(true);
       const { data } = await axiosClientLoyalty(
         "/profile",
         {
           ...config(token)
         }
-        )
-        console.log(data)
-      if (data.status === "Error") {
-        throw data.message
+      )
+      if (data?.status === "Error") {
+        //throw data.message
       }
       const mappedData = mapProfileData(data);
       setFidelizationData(prevData => mappedData);
     } catch (error) {
-       throw error;
+      if(error.response.status ===409) {
+        console.log(error.response.status)
+      }
+      // throw error;
     }
     finally {
       setLoadingProfile(false);

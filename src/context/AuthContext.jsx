@@ -109,7 +109,8 @@ export const AuthProvider = (props) => {
   }), [
     user,
     isLoading,
-    webHook, 
+    webHook,
+    token
   ]);
   return (<AuthContext.Provider value={value} {...props} />);
 }

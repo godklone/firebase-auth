@@ -1,14 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { useLoyalty } from '../../context/LoyaltyContext';
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useLoyalty } from "../../context/LoyaltyContext";
 
-import { BiLogOut } from 'react-icons/bi';
-import css from '../../assets/styles/pages/stateAccount.module.scss';
-import { startTransition, useEffect, useState } from 'react';
+import { BiLogOut } from "react-icons/bi";
+import css from "../../assets/styles/pages/stateAccount.module.scss";
+import { startTransition, useEffect, useState } from "react";
 
 const StateAccount = () => {
   const { webHook, getPhotoUrl, logout, token } = useAuth();
-  const [webToken, setWebToken] = useState(null)
+  const [webToken, setWebToken] = useState(null);
 
   const navigate = useNavigate();
   const {
@@ -30,19 +30,19 @@ const StateAccount = () => {
   } = fidelizationData;
 
   useEffect(() => {
-    const calculatedWebToken = webHook ? `${webHook}?token=${token}` : '';
+    const calculatedWebToken = webHook ? `${webHook}?token=${token}` : "";
     setWebToken(calculatedWebToken);
   }, [token]);
 
   const handlePersonalData = (e) => {
     e.preventDefault();
-    navigate('state-account/personal-data');
+    navigate("state-account/personal-data");
   };
 
   const handleLastMovement = async (e) => {
     e.preventDefault();
     await getLastMovements();
-    navigate('last-movement');
+    navigate("last-movement");
   };
 
   // const handleLogout = async (e) => {
@@ -59,8 +59,8 @@ const StateAccount = () => {
   return (
     <div className={css.content__account}>
       <div className={css.btnHeader}>
-        {!!webHook && webHook !== 'invalid' && (
-          <Link to={webToken} className='btn__primary'>
+        {!!webHook && webHook !== "invalid" && (
+          <Link to={webToken} className="btn__primary">
             Continuar al sitio Principal
           </Link>
 
@@ -68,11 +68,10 @@ const StateAccount = () => {
           //   Continuar al sitio Principal
           // </a>
         )}
-       
       </div>
 
       <div className={css.avatarMobile}>
-        <img src={getPhotoUrl()} alt='imagen del profile' />
+        <img src={getPhotoUrl()} alt="imagen del profile" />
         <span className={css.name}>{fullName}</span>
       </div>
 
@@ -82,27 +81,32 @@ const StateAccount = () => {
 
       <div className={css.points}>
         <div className={css.acumulate}>
-          <p className=''>Puntos acumulados:</p>
-          <p className=''>{accumulatedPoints}</p>
+          <p className="">Puntos acumulados:</p>
+          <p className="">{accumulatedPoints}</p>
         </div>
         <div className={css.acumulate}>
-          <p className=''>Puntos por vencer:</p>
-          <p className=''>{expirationPoints}</p>
+          <p className="">Puntos por vencer:</p>
+          <p className="">{expirationPoints}</p>
         </div>
       </div>
 
       <div className={css.credential}>
-        <span className={css.title}>Siempre Beneficios</span>
-        <span className={css.number}>N°: {credencial.number}</span>
-        <span className={css.cod}>Cód. Seg: {credencial.code}</span>
+        <div></div>
+        <span className={css.title}>Credencial</span>
+        <span className={css.number}>{credencial.number}</span>
+        <span className={css.cod}>Cód. Seguridad: {credencial.code}</span>
       </div>
       <div className={css.conten__btn}>
-        <button onClick={handlePersonalData} className='btn__primary'>
+        <button onClick={handleLastMovement} className="btn__secondary">
+          Regresar a la tienda
+        </button>
+
+        <button onClick={handlePersonalData} className="btn__tertiary">
           Datos Personales
         </button>
 
-        <button onClick={handleLastMovement} className='btn__secondary'>
-          Ultimos Movimientos
+        <button onClick={handlePersonalData} className="btn__tertiary">
+          Mi historial de puntos
         </button>
       </div>
     </div>

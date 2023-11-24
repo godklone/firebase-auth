@@ -1,13 +1,13 @@
-import Swal from 'sweetalert2';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { useEffect, useState } from 'react';
+import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
 
-import { getFirebaseAuthError } from '../../utils/mapFirebaseError';
-import { useLoyalty } from '../../context/LoyaltyContext';
-import { validationSignupSchema } from '../../validation';
-import { useFormik } from 'formik';
-import css from '../../assets/styles/pages/loginFlow.module.scss';
+import { getFirebaseAuthError } from "../../utils/mapFirebaseError";
+import { useLoyalty } from "../../context/LoyaltyContext";
+import { validationSignupSchema } from "../../validation";
+import { useFormik } from "formik";
+import css from "../../assets/styles/pages/loginFlow.module.scss";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/home');
+      navigate("/home");
     }
   }, [user]);
 
@@ -30,11 +30,11 @@ const Signup = () => {
       await signIn(values.email, values.password);
     } catch (error) {
       await Swal.fire({
-        icon: 'error',
-        title: 'Error en el registro',
+        icon: "error",
+        title: "Error en el registro",
         text: error,
         showConfirmButton: true,
-        confirmButtonText: 'Continuar',
+        confirmButtonText: "Continuar",
       });
     }
   };
@@ -43,35 +43,35 @@ const Signup = () => {
     e.preventDefault();
     try {
       await loginWithGoogle();
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
       await Swal.fire({
-        icon: 'error',
-        title: 'Error en el registro',
+        icon: "error",
+        title: "Error en el registro",
         text: getFirebaseAuthError(error.code),
         showConfirmButton: true,
-        confirmButtonText: 'Continuar',
+        confirmButtonText: "Continuar",
       });
     }
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
-    navigate('register');
+    navigate("register");
   };
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: validationSignupSchema,
     onSubmit: handleLogin,
   });
 
   return (
-    <div className='container_aux'>
-      <h4 className='heading'>Bienvenid@ a WOW !</h4>
+    <div className="container_aux">
+      <h4 className="heading">¡ Bienvenid@ a Siempremás !</h4>
       <div className={css.content__signup}>
         <div className={css.paragraph}>
           <p>El programa de fidelización de Siempre</p>
@@ -80,36 +80,36 @@ const Signup = () => {
 
         <form onSubmit={formik.handleSubmit} className={css.form}>
           <p className={css.text_login}>Inicia sesión o regístrate!</p>
-          <div className='textfields'>
-            <div className='textfield'>
+          <div className="textfields">
+            <div className="textfield">
               <input
-                id='email'
-                name='email'
-                type='email'
-                placeholder='Ingresa tu Email'
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Ingresa tu Email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
               />
-              <label htmlFor='email'>Email</label>
-              <div className='alert__error'>
+              <label htmlFor="email">Email</label>
+              <div className="alert__error">
                 {formik.touched.email && formik.errors.email
                   ? formik.errors.email
                   : null}
               </div>
             </div>
 
-            <div className='textfield'>
+            <div className="textfield">
               <input
-                type={!togglePasswd ? 'password' : 'text'}
-                name='password'
-                placeholder='Ingresa tu contraseña'
+                type={!togglePasswd ? "password" : "text"}
+                name="password"
+                placeholder="Ingresa tu contraseña"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
               />
-              <label htmlFor='password'>Contraseña</label>
-              <div className='alert__error'>
+              <label htmlFor="password">Contraseña</label>
+              <div className="alert__error">
                 {formik.touched.password && formik.errors.password
                   ? formik.errors.password
                   : null}
@@ -127,21 +127,21 @@ const Signup = () => {
         </div> */}
 
           <p className={css.forgoten_password}>
-            <Link className='link' to='forgoten-password'>
+            <Link className="link" to="forgoten-password">
               ¿Olvidaste tu contraseña?
             </Link>
           </p>
 
           <div className={css.contentBtn}>
             <button
-              type='submit'
-              className='btn__primary'
+              type="submit"
+              className="btn__primary"
               disabled={formik.isSubmitting}
             >
               Ingresar
             </button>
 
-            <button onClick={handleGoogleSignin} className='btn__google'>
+            <button onClick={handleGoogleSignin} className="btn__google">
               {/* <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='44'
@@ -159,14 +159,14 @@ const Signup = () => {
               Ingresar con Google
             </button>
 
-            <button onClick={handleRegister} className='btn__secondary'>
+            <button onClick={handleRegister} className="btn__secondary">
               Crear una cuenta
             </button>
           </div>
           <div className={css.politicas}>
             <p>Al registrarme, declaro que soy mayor</p>
             <p>
-              de edad y acepto los <a href='#'>términos y condiciones</a>
+              de edad y acepto los <a href="#">términos y condiciones</a>
             </p>
           </div>
         </form>

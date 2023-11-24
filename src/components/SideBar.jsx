@@ -1,10 +1,10 @@
-import css from '../assets/styles/components/sidebar.module.scss';
-import logo from '../assets/img/logo.png';
+import css from "../assets/styles/components/sidebar.module.scss";
+import logo from "../assets/img/logo.png";
 
 const SideBar = () => {
   return (
     <aside className={css.sidebar}>
-      <img src={logo} alt='wow' className={css.logo} />
+      <img src={logo} alt="Siempremás" className={css.logo} />
     </aside>
   );
 };

@@ -1,10 +1,10 @@
-@import 'colors';
-@import 'breackpoint';
-@import 'typography';
-@import 'inputs';
-@import 'button';
-@import 'alert';
-@import 'olul';
+@import "colors";
+@import "breackpoint";
+@import "typography";
+@import "inputs";
+@import "button";
+@import "alert";
+@import "olul";
 
 @mixin box_line {
   -moz-box-shadow: $shadow;
@@ -79,10 +79,10 @@ h5.option {
   &_down {
     position: relative;
     &::after {
-      background-image: url('assets/img/Icono_flecha.png');
+      background-image: url("assets/img/Icono_flecha.png");
       background-repeat: no-repeat;
       background-size: 100%;
-      content: '';
+      content: "";
       display: block;
       height: 0.625rem;
       position: absolute;
@@ -105,9 +105,10 @@ h5.option {
 .heading {
   background-color: $white;
   color: $black;
-  font-size: 26px;
-  font-weight: 600;
-  line-height: 31.02px;
+  font-size: 2.5rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  line-height: normal;
   margin: 0;
   padding-bottom: 1.38rem;
   text-align: center;

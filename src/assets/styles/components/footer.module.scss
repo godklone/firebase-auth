@@ -1,0 +1,44 @@
+@import "../shared/general.scss";
+.ssoFooter {
+  //background: rgba(35, 159, 163, 0.50);
+  background-color: adjust-color($primary, $alpha: -0.5);
+  padding: 0.25rem 2.87rem;
+  width: 100%;
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  div {
+    flex-shrink: 1;
+    &.brand {
+      display: flex;
+      flex-shrink: 1;
+      align-items: center;
+
+      .logo {
+        width: auto;
+        height: 2.3125rem;
+      }
+      .copyright {
+        padding: 0 0.5rem;
+      }
+    }
+
+    &.toc {
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .ssoFooter {
+    flex-direction: column;
+    padding: 0.25rem 1.4rem;
+    .brand {
+      align-items: center;
+    }
+  }
+}

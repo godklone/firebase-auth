@@ -59,6 +59,8 @@ $buttons: 'primary', 'secondary', 'tertiary', 'quaternary', 'warning';
 
   &__tertiary {
     background: $tertiary;
+    border: 1px solid $darkBorder;
+    color: black;
 
     &:hover {
       background-color: darken($tertiary, 10%);
@@ -86,17 +88,21 @@ $buttons: 'primary', 'secondary', 'tertiary', 'quaternary', 'warning';
   }
 
   &__google {
-    background-color: $google;
+    background-color: white;
     @include btn;
-    color: $white;
+    color: $google_gray;
     position: relative;
 
     &:hover {
-      background-color: darken($google, 10%);
+      background-color: darken(white, 10%);
     }
-    svg {
+
+    &::before {
+      content: url('assets/img/google.svg');
+      height: 2rem;
+      width: auto;
       position: absolute;
-      left: 0.51rem;
+      left: 1.12rem;
     }
   }
 

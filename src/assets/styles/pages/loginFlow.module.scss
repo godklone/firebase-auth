@@ -1,4 +1,4 @@
-@import '../shared/general.scss';
+@import "../shared/general.scss";
 
 .content__forgot__passwd,
 .content__register,
@@ -24,13 +24,11 @@
   }
   .paragraph {
     padding: 0 0 0.94rem;
+    //text-align: left !important;
 
     @media (min-width: $tablet) {
       padding: 3.25rem 2.13rem 2.94rem;
       text-align: center;
-      p {
-        font-weight: 600;
-      }
     }
   }
 
@@ -104,10 +102,10 @@
   }
 
   .note {
-    margin: 1rem 0 0;
+    margin: 1rem 0;
     text-align: center;
     @media (min-width: $tablet) {
-      margin: 2rem 0 0;
+      margin: 2rem 0;
     }
   }
 }
@@ -173,8 +171,8 @@
   }
 }
 
-.content__credential__asign,
-.content__affiliation {
+.content__affiliation,
+.content__transit__profile {
   @media (min-width: $tablet) {
     padding-left: 2.25rem;
     padding-right: 2.25rem;
@@ -185,6 +183,10 @@
     button {
       max-width: 26rem;
       width: 100%;
+
+      &:first-child {
+        margin-bottom: 1rem;
+      }
     }
   }
 }
@@ -206,7 +208,7 @@
   }
 
   .information {
-    background-color: $secondary;
+    background-color: $infoBlockBg;
     border-radius: 0.3125rem;
     color: white;
     font-size: 0.75rem;

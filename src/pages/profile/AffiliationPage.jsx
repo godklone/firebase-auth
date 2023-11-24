@@ -1,16 +1,16 @@
-import Swal from 'sweetalert2';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { AffiliationFormFields } from '../../components/affiliationForm/AffiliationFormFields';
-import { AffiliationTypeSelector } from '../../components/affiliationForm/AffiliationTypeSelector ';
-import { useLoyalty } from '../../context/LoyaltyContext';
+import Swal from "sweetalert2";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { AffiliationFormFields } from "../../components/affiliationForm/AffiliationFormFields";
+import { AffiliationTypeSelector } from "../../components/affiliationForm/AffiliationTypeSelector ";
+import { useLoyalty } from "../../context/LoyaltyContext";
 
 import {
   affiliationInitialValues,
   validationAffiliationSchema,
-} from '../../validation';
+} from "../../validation";
 
-import css from '../../assets/styles/pages/loginFlow.module.scss';
+import css from "../../assets/styles/pages/loginFlow.module.scss";
 
 export const AffiliationPage = () => {
   const navigate = useNavigate();
@@ -20,27 +20,27 @@ export const AffiliationPage = () => {
   const handleConfirm = async (values) => {
     try {
       const bindProfile = {
-        identification: values.dni.replace(/[\.,]/g, ''),
-        credential: values.credentialNumber.replace(/ /g, ''),
+        identification: values.dni.replace(/[\.,]/g, ""),
+        credential: values.credentialNumber.replace(/ /g, ""),
         code: values.securityCode,
       };
       await bindProfileDataUpdate(bindProfile);
       await Swal.fire({
-        icon: 'success',
-        title: 'Felicidades!',
-        text: 'Vinculación exitosa',
+        icon: "success",
+        title: "Felicidades!",
+        text: "Vinculación exitosa",
         showConfirmButton: true,
-        confirmButtonText: 'Continuar',
+        confirmButtonText: "Continuar",
       });
 
-      navigate('associate-data/update-profile');
+      navigate("associate-data/update-profile");
     } catch (error) {
       await Swal.fire({
-        title: 'Ha ocurrido un error.',
-        text: 'Puedes crearte un perfil nuevo',
-        icon: 'error',
+        title: "Ha ocurrido un error.",
+        text: "Puedes crearte un perfil nuevo",
+        icon: "error",
         showConfirmButton: true,
-        confirmButtonText: 'Salir',
+        confirmButtonText: "Salir",
       });
     }
   };
@@ -62,31 +62,28 @@ export const AffiliationPage = () => {
       code: values.securityCode,
     };
     setTransitProfile(transitProfile);
-    navigate('associate-transit-data');
+    navigate("associate-transit-data");
   };
 
   const formik = useFormik({
     initialValues: {
       ...affiliationInitialValues,
-      affiliationType: 'dni',
+      affiliationType: "dni",
     },
     validationSchema: validationAffiliationSchema,
     onSubmit: handleConfirm,
   });
 
   return (
-    <div className='container_aux'>
-      <h4 className='heading'>Vincular mi cuenta con perfil wow</h4>
+    <div className="container_aux">
+      <h4 className="heading">Vincular mi cuenta con perfil Siempremás</h4>
       <div className={css.content__affiliation}>
         <form onSubmit={formik.handleSubmit}>
           <div className={css.instructions}>
-            <p>
-              Puedes hacerlo de 3 formas: Si no recuerdas tu contraseña no te
-              preocupes. Sigue estos simples pasos:
-            </p>
-            <ul className='parenthesis'>
+            <p>Puedes hacerlo de 3 formas:</p>
+            <ul className="parenthesis">
               <li>
-                Con tu numero de <span>DNI</span>
+                Con tu número de <span>DNI</span>
               </li>
               <li>
                 Con tu <span>N° de Credencial y Cod. Seguridad</span>
@@ -94,7 +91,7 @@ export const AffiliationPage = () => {
               <li>
                 Solo <span>N° Credencial</span>, para credenciales con
                 numeración
-                {' <'}50.000.000
+                {" <"}50.000.000
               </li>
             </ul>
           </div>
@@ -103,9 +100,9 @@ export const AffiliationPage = () => {
             fidelización debido a no tener tu n° credencial o figures con un DNI
             incorrecto, créate un perfil transitorio. Luego comunícate con
             nosotros para unificar tus perfiles (el transitorio y el que ya
-            tenias) y asi recuperar tus puntos.
+            tenías) y asi recuperar tus puntos.
           </div>
-          <h5 className='option'>Elige tu forma de vincularte:</h5>
+          <h5 className="option">Elige tu forma de vincularte:</h5>
 
           <div className={css.containerOptions}>
             <AffiliationTypeSelector formik={formik} />
@@ -114,19 +111,19 @@ export const AffiliationPage = () => {
 
           <div className={css.contentBtn}>
             <button
-              type='submit'
+              type="submit"
               disabled={formik.isSubmitting}
-              className='btn__primary'
+              className="btn__primary"
             >
               Vincular
             </button>
             <button
               onClick={(e) => handleTransitProfile(e, formik.values)}
-              className='btn__quaternary'
+              className="btn__secondary"
             >
               Crear un perfil transitorio
             </button>
-            <button onClick={handleCancel} className='btn__tertiary'>
+            <button onClick={handleCancel} className="btn__tertiary">
               Volver
             </button>
           </div>
